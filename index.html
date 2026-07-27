@@ -2002,30 +2002,30 @@ async function studentDialog(index) {
             </div>
             <div>
               <label class="label required">${tr('birthDate')}</label>
-              <input id="stBirthDate" type="date" class="input" value="${escapeAttr(dateInputValue(r.BirthDate))}">
+              <input id="stBirthDate" type="date" class="input" value="${escapeAttr(dateInputValue(r.BirthDate))}"><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: BirthDate</p>
             </div>
             <div>
-              <label class="label">Homeroom Teacher</label>
+              <label class="label">ครูประจำชั้น</label>
               <input id="stTeacher" class="input" value="${escapeAttr(r.HomeroomTeacher||'')}">
             </div>
           </div>
         </section>
 
         <section class="rounded-2xl border border-amber-200 bg-amber-50/40 p-4">
-          <p class="font-extrabold text-brand-navy mb-3">ข้อมูลชื่อภาษาไทย</p>
+          <p class="font-extrabold text-brand-navy mb-3">ชื่อ-นามสกุลภาษาไทย</p>
           <div class="grid md:grid-cols-3 gap-3">
-            <div><label class="label">Prefix TH</label><input id="stPth" class="input" value="${escapeAttr(r.PrefixTH||'')}"></div>
-            <div><label class="label">First Name TH</label><input id="stFth" class="input" value="${escapeAttr(r.FirstNameTH||'')}"></div>
-            <div><label class="label">Last Name TH</label><input id="stLth" class="input" value="${escapeAttr(r.LastNameTH||'')}"></div>
+            <div><label class="label">คำนำหน้าชื่อภาษาไทย</label><input id="stPth" class="input" value="${escapeAttr(r.PrefixTH||'')}"></div>
+            <div><label class="label">ชื่อภาษาไทย</label><input id="stFth" class="input" value="${escapeAttr(r.FirstNameTH||'')}"></div>
+            <div><label class="label">นามสกุลภาษาไทย</label><input id="stLth" class="input" value="${escapeAttr(r.LastNameTH||'')}"></div>
           </div>
         </section>
 
         <section class="rounded-2xl border border-indigo-200 bg-indigo-50/40 p-4">
-          <p class="font-extrabold text-brand-navy mb-3">English Name</p>
+          <p class="font-extrabold text-brand-navy mb-3">ชื่อ-นามสกุลภาษาอังกฤษ</p>
           <div class="grid md:grid-cols-3 gap-3">
-            <div><label class="label">Prefix EN</label><input id="stPen" class="input" value="${escapeAttr(r.PrefixEN||'')}"></div>
-            <div><label class="label">First Name EN</label><input id="stFen" class="input" value="${escapeAttr(r.FirstNameEN||'')}"></div>
-            <div><label class="label">Last Name EN</label><input id="stLen" class="input" value="${escapeAttr(r.LastNameEN||'')}"></div>
+            <div><label class="label">คำนำหน้าชื่อภาษาอังกฤษ</label><input id="stPen" class="input" value="${escapeAttr(r.PrefixEN||'')}"></div>
+            <div><label class="label">ชื่อภาษาอังกฤษ</label><input id="stFen" class="input" value="${escapeAttr(r.FirstNameEN||'')}"></div>
+            <div><label class="label">นามสกุลภาษาอังกฤษ</label><input id="stLen" class="input" value="${escapeAttr(r.LastNameEN||'')}"></div>
           </div>
         </section>
 
@@ -2037,65 +2037,65 @@ async function studentDialog(index) {
                 <option value="">-- Select --</option>${classOptions}
               </select>
             </div>
-            <div><label class="label">Grade Level</label><input id="stGrade" class="input" value="${escapeAttr(r.GradeLevel||'')}"></div>
-            <div><label class="label">Room</label><input id="stRoom" class="input" value="${escapeAttr(r.Room||'')}"></div>
+            <div><label class="label">ระดับชั้น</label><input id="stGrade" class="input" value="${escapeAttr(r.GradeLevel||'')}"></div>
+            <div><label class="label">ห้องเรียน</label><input id="stRoom" class="input" value="${escapeAttr(r.Room||'')}"></div>
           </div>
         </section>
 
         <section class="rounded-2xl border border-slate-300 bg-white p-4">
           <div class="flex items-center gap-2 mb-4">
             <i class="fa-solid fa-coins text-amber-600"></i>
-            <p class="font-extrabold text-xl text-brand-navy">${tr('tuitionInformation')}</p>
+            <p class="font-extrabold text-xl text-brand-navy">ข้อมูลค่าธรรมเนียมการศึกษาในชีต Students</p>
           </div>
 
           <div class="grid md:grid-cols-[1fr_1fr_220px] gap-3">
             <div>
-              <label class="label required">Current Fee Label TH</label>
-              <textarea id="stCurrentFeeLabelTH" class="input min-h-24">${escapeHtml(r.CurrentFeeLabelTH||'')}</textarea>
+              <label class="label required">รายการค่าธรรมเนียมปัจจุบัน (ภาษาไทย)</label>
+              <textarea id="stCurrentFeeLabelTH" class="input min-h-24">${escapeHtml(r.CurrentFeeLabelTH||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: CurrentFeeLabelTH</p>
             </div>
             <div>
-              <label class="label">Current Fee Label EN</label>
-              <textarea id="stCurrentFeeLabelEN" class="input min-h-24">${escapeHtml(r.CurrentFeeLabelEN||'')}</textarea>
+              <label class="label">รายการค่าธรรมเนียมปัจจุบัน (ภาษาอังกฤษ)</label>
+              <textarea id="stCurrentFeeLabelEN" class="input min-h-24">${escapeHtml(r.CurrentFeeLabelEN||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: CurrentFeeLabelEN</p>
             </div>
             <div>
-              <label class="label required">Current Fee Amount</label>
-              <input id="stCurrentFeeAmount" inputmode="decimal" class="input" value="${escapeAttr(r.CurrentFeeAmount||'')}">
+              <label class="label required">ค่าธรรมเนียมปัจจุบันต่อภาคเรียน (บาท)</label>
+              <input id="stCurrentFeeAmount" inputmode="decimal" class="input" value="${escapeAttr(r.CurrentFeeAmount||'')}"><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: CurrentFeeAmount</p>
             </div>
           </div>
 
           <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="rounded-xl border border-blue-200 bg-blue-50/40 p-3">
-              <label class="label required">Continue Fee TH</label>
-              <textarea id="stContinueFeeTH" class="input min-h-36" placeholder="ประถมศึกษาปีที่ 1|45100">${escapeHtml(r.ContinueFeeTH||'')}</textarea>
+              <label class="label required">ค่าธรรมเนียมกรณีศึกษาต่อ (ภาษาไทย)</label>
+              <textarea id="stContinueFeeTH" class="input min-h-36" placeholder="ประถมศึกษาปีที่ 1|45100">${escapeHtml(r.ContinueFeeTH||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: ContinueFeeTH</p>
               <p class="text-xs text-slate-500 mt-2">${escapeHtml(feeFormatHelp)}</p>
             </div>
             <div class="rounded-xl border border-blue-200 bg-blue-50/40 p-3">
-              <label class="label">Continue Fee EN</label>
-              <textarea id="stContinueFeeEN" class="input min-h-36" placeholder="Year 1|45100">${escapeHtml(r.ContinueFeeEN||'')}</textarea>
+              <label class="label">ค่าธรรมเนียมกรณีศึกษาต่อ (ภาษาอังกฤษ)</label>
+              <textarea id="stContinueFeeEN" class="input min-h-36" placeholder="Year 1|45100">${escapeHtml(r.ContinueFeeEN||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: ContinueFeeEN</p>
             </div>
           </div>
 
           <div class="grid md:grid-cols-2 gap-4 mt-4">
             <div class="rounded-xl border border-rose-200 bg-rose-50/40 p-3">
-              <label class="label required">Return Fee TH</label>
-              <textarea id="stReturnFeeTH" class="input min-h-36" placeholder="ประถมศึกษาปีที่ 1|47000">${escapeHtml(r.ReturnFeeTH||'')}</textarea>
+              <label class="label required">ค่าธรรมเนียมกรณีลาออกแล้วกลับเข้าศึกษาต่อ (ภาษาไทย)</label>
+              <textarea id="stReturnFeeTH" class="input min-h-36" placeholder="ประถมศึกษาปีที่ 1|47000">${escapeHtml(r.ReturnFeeTH||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: ReturnFeeTH</p>
               <p class="text-xs text-slate-500 mt-2">${escapeHtml(feeFormatHelp)}</p>
             </div>
             <div class="rounded-xl border border-rose-200 bg-rose-50/40 p-3">
-              <label class="label">Return Fee EN</label>
-              <textarea id="stReturnFeeEN" class="input min-h-36" placeholder="Year 1|47000">${escapeHtml(r.ReturnFeeEN||'')}</textarea>
+              <label class="label">ค่าธรรมเนียมกรณีลาออกแล้วกลับเข้าศึกษาต่อ (ภาษาอังกฤษ)</label>
+              <textarea id="stReturnFeeEN" class="input min-h-36" placeholder="Year 1|47000">${escapeHtml(r.ReturnFeeEN||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: ReturnFeeEN</p>
             </div>
           </div>
 
           <div class="grid md:grid-cols-2 gap-4 mt-4">
-            <div><label class="label">Fee Note TH</label><textarea id="stFeeNoteTH" class="input min-h-24">${escapeHtml(r.FeeNoteTH||'')}</textarea></div>
-            <div><label class="label">Fee Note EN</label><textarea id="stFeeNoteEN" class="input min-h-24">${escapeHtml(r.FeeNoteEN||'')}</textarea></div>
+            <div><label class="label">หมายเหตุค่าธรรมเนียม (ภาษาไทย)</label><textarea id="stFeeNoteTH" class="input min-h-24">${escapeHtml(r.FeeNoteTH||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: FeeNoteTH</p></div>
+            <div><label class="label">หมายเหตุค่าธรรมเนียม (ภาษาอังกฤษ)</label><textarea id="stFeeNoteEN" class="input min-h-24">${escapeHtml(r.FeeNoteEN||'')}</textarea><p class="text-xs text-slate-500 mt-1">คอลัมน์ในชีต: FeeNoteEN</p></div>
           </div>
         </section>
 
         <label class="inline-flex items-center gap-2 rounded-xl border bg-slate-50 px-4 py-3">
           <input id="stActive" type="checkbox" ${r.Active===false?'':'checked'}>
-          <span class="font-bold">Active</span>
+          <span class="font-bold">เปิดใช้งานข้อมูลนักเรียน</span>
         </label>
       </div>
 
