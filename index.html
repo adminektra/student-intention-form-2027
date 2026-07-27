@@ -355,7 +355,7 @@
                   <p class="text-xs text-slate-500 mt-1" data-i18n="studentIdHelp">ไม่ใช่เลขที่นักเรียนในห้องเรียน</p>
                 </div>
                 <div class="mt-4">
-                  <label class="label required" data-i18n="birthDate">วันเดือนปีเกิดนักเรียน</label>
+                  <label class="label required" data-i18n="birthDate">วันเดือนปีเกิดนักเรียน (ค.ศ.)</label>
                   <input id="studentBirthDate" type="date" class="input" autocomplete="bday">
                   <p class="text-xs text-slate-500 mt-1" data-i18n="birthDateHelp">ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</p>
                 </div>
@@ -599,7 +599,7 @@ const I18N = {
     studentId:'รหัสนักเรียน', parentEmail:'อีเมลผู้ปกครอง', backHome:'กลับหน้าหลัก', selectedForm:'แบบฟอร์มที่เลือก',
     page1:'หน้าที่ 1', importantInfo:'ข้อควรทราบ', deadlineLabel:'กำหนดส่ง:', studentDocsTitle:'เอกสารของนักเรียน', studentDoc1:'สำเนาสูติบัตร หรือบัตรประชาชน หรือ Passport เล่มปัจจุบัน', studentDoc2:'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)', parentDocsTitle:'เอกสารของบิดา มารดา หรือผู้ปกครอง', parentDoc1:'สำเนาบัตรประชาชน หรือ Passport เล่มปัจจุบัน', parentDoc2:'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)',
     page2:'หน้าที่ 2', parentInfo:'ข้อมูลผู้แจ้งความจำนง', parentInfoHelp:'ต้องเป็นบิดา มารดา หรือผู้ปกครองตามกฎหมายที่มีอำนาจลงนาม', parentPrefix:'คำนำหน้า', otherPrefix:'ระบุคำนำหน้า', choose:'-- เลือก --', parentName:'ชื่อ-นามสกุล ผู้แจ้งความจำนง', parentId:'เลขประจำตัวประชาชน / Passport', identityHelp:'ใช้เพื่อยืนยันตัวตนเท่านั้น', phone:'เบอร์โทรศัพท์', emailDuplicateHelp:'อีเมลนี้ใช้บันทึกแบบร่างและตรวจสอบการส่งซ้ำ', relationship:'ความสัมพันธ์กับนักเรียน', father:'บิดา', mother:'มารดา', guardian:'ผู้ปกครองอื่น', relationshipOther:'เกี่ยวข้องกับนักเรียนเป็น', guardianDefinition:'ผู้ปกครองหมายถึงผู้ดูแลรับผิดชอบนักเรียนและยินยอมรับเงื่อนไขของโรงเรียนทุกประการ',
-    page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียนและวันเดือนปีเกิด เพื่อยืนยันข้อมูลกับฐานข้อมูลโรงเรียน', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', birthDate:'วันเดือนปีเกิดนักเรียน', birthDateHelp:'ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล', birthDateVerified:'ยืนยันตรงกับฐานข้อมูลแล้ว', verifyStudent:'ตรวจสอบและยืนยันนักเรียน', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังยืนยันรหัสและวันเกิด', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
+    page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียนและวันเดือนปีเกิด เพื่อยืนยันข้อมูลกับฐานข้อมูลโรงเรียน', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', birthDate:'วันเดือนปีเกิดนักเรียน (ค.ศ.)', birthDateHelp:'ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล', birthDateVerified:'ยืนยันตรงกับฐานข้อมูลแล้ว', verifyStudent:'ตรวจสอบและยืนยันนักเรียน', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังยืนยันรหัสและวันเกิด', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
     page4:'หน้าที่ 4', tuitionInformation:'ข้อมูลค่าธรรมเนียมการศึกษา', currentTuition:'ค่าธรรมเนียมปัจจุบัน', continueFeeCase:'กรณีแจ้งความจำนงศึกษาต่อ', returnFeeCase:'กรณีแจ้งความจำนงลาออก แต่ประสงค์กลับเข้าศึกษาต่อ', feeItem:'รายการ', feeLevel:'ระดับชั้น', tuitionPerSemester:'ค่าธรรมเนียมต่อภาคเรียน (บาท)', feeNote:'หมายเหตุ', feeDataMissing:'ยังไม่มีข้อมูลค่าธรรมเนียมที่ครบถ้วนสำหรับนักเรียน กรุณาติดต่อฝ่ายธุรการ', selectIntentionAfterFee:'กรุณาตรวจสอบข้อมูลค่าธรรมเนียมก่อนเลือกความประสงค์', selectIntentionAfterFeeHelp:'เมื่อข้อมูลถูกต้องแล้ว ให้เลือกศึกษาต่อหรือลาออกด้านล่าง', continueHelp:'ประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา', withdrawHelp:'ยืนยันการลาออกเมื่อจบระดับชั้นปัจจุบัน', thirdLanguageM1:'การเลือกเรียนภาษาที่สาม ระดับชั้นมัธยมศึกษาปีที่ 1-3', thirdLanguageM1Help:'เลือกภาษาจีนหรือภาษาญี่ปุ่น และเรียนต่อเนื่องจนจบมัธยมศึกษาปีที่ 3', chinese:'ภาษาจีน', japanese:'ภาษาญี่ปุ่น', english:'ภาษาอังกฤษ', ackLanguageM1:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 3 โดยไม่มีการเปลี่ยนแปลง', studyPlanTitle:'การเลือกแผนการเรียน ระดับชั้นมัธยมศึกษาปีที่ 4-6', thirdLanguage:'ภาษาที่สาม', ackLanguageM4:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 6 โดยไม่มีการเปลี่ยนแปลง', nextSchool:'โรงเรียนที่นักเรียนจะไปศึกษาต่อ', statisticsOnly:'ใช้เพื่อบันทึกเป็นข้อมูลสถิติของโรงเรียนเท่านั้น', withdrawalReason:'สาเหตุสำคัญที่ตัดสินใจย้ายออก',
     page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG, WEBP ขนาดไม่เกิน 5 MB ต่อไฟล์ สูงสุด 4 ไฟล์ต่อหมวด และรวมทุกหมวดไม่เกิน 15 MB', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', motherDocuments:'แนบเอกสารของมารดา', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'ไม่บังคับแนบ ใช้เฉพาะกรณีผู้แจ้งความจำนงไม่ใช่บิดาหรือมารดา',
     page6:'หน้าที่ 6', meetingTitle:'กำหนดการประชุมผู้ปกครองและรับมอบตัวนักเรียน', withdrawNoMeeting:'กรณีลาออกไม่ต้องระบุการเข้าร่วมประชุมมอบตัว', meetingAttendance:'การเข้าร่วมประชุม', canAttend:'สามารถเข้าร่วมประชุมได้', cannotAttend:'ไม่สามารถเข้าร่วมประชุมได้', meetingCount:'จำนวนผู้ปกครองที่เข้าร่วม',
@@ -1800,27 +1800,247 @@ function nextSchoolsTable(rows){
 }
 
 async function loadResponses() {
-  document.getElementById('adminContent').innerHTML=adminHeader(tr('responses'),'fa-file-lines',`<button onclick="refreshAdminSection('responses')" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
-  `<div class="card p-4 mb-5"><div class="grid md:grid-cols-4 gap-3"><input id="responseSearch" class="input" placeholder="${tr('search')}..."><select id="responseStatus" class="input"><option value="">${tr('status')}: ${state.lang==='th'?'ทั้งหมด':'All'}</option><option value="SUBMITTED">${state.lang==='th'?'ส่งแล้ว':'Submitted'}</option><option value="DRAFT">${state.lang==='th'?'แบบร่าง':'Draft'}</option><option value="PROCESSING">${state.lang==='th'?'กำลังประมวลผล':'Processing'}</option><option value="ERROR">${state.lang==='th'?'เกิดข้อผิดพลาด':'Error'}</option></select><select id="responseFormType" class="input"><option value="">Form: ${state.lang==='th'?'ทั้งหมด':'All'}</option><option>P1</option><option>M1</option><option>M4</option></select><button onclick="refreshResponsesTable()" class="btn-primary"><i class="fa-solid fa-magnifying-glass mr-2"></i>${tr('search')}</button></div></div><div id="responsesTable" class="card p-5">${adminLoading()}</div>`;
+  const role=state.bootstrap.user.role;
+  const canEdit=['SuperAdmin','Admin'].includes(role);
+
+  document.getElementById('adminContent').innerHTML=
+    adminHeader(
+      tr('responses'),
+      'fa-file-lines',
+      `<button onclick="refreshAdminSection('responses')" class="btn-light">
+        <i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}
+      </button>`
+    ) +
+    `<div class="card p-4 mb-5">
+      <div class="grid md:grid-cols-4 gap-3">
+        <input id="responseSearch" class="input" placeholder="${tr('search')}...">
+        <select id="responseStatus" class="input">
+          <option value="">${tr('status')}: ${state.lang==='th'?'ทั้งหมด':'All'}</option>
+          <option value="SUBMITTED">${state.lang==='th'?'ส่งแล้ว':'Submitted'}</option>
+          <option value="DRAFT">${state.lang==='th'?'แบบร่าง':'Draft'}</option>
+          <option value="PROCESSING">${state.lang==='th'?'กำลังประมวลผล':'Processing'}</option>
+          <option value="ERROR">${state.lang==='th'?'เกิดข้อผิดพลาด':'Error'}</option>
+        </select>
+        <select id="responseFormType" class="input">
+          <option value="">Form: ${state.lang==='th'?'ทั้งหมด':'All'}</option>
+          <option>P1</option><option>M1</option><option>M4</option>
+        </select>
+        <button onclick="refreshResponsesTable()" class="btn-primary">
+          <i class="fa-solid fa-magnifying-glass mr-2"></i>${tr('search')}
+        </button>
+      </div>
+    </div>
+
+    <div id="responsesTable" class="card p-5">${adminLoading()}</div>
+
+    ${canEdit?`
+      <div class="card p-5 mt-5 border-2 border-amber-200 bg-amber-50/20">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 class="font-extrabold text-xl text-brand-navy">
+              <i class="fa-solid fa-clock-rotate-left text-amber-600 mr-2"></i>
+              ${state.lang==='th'?'ประวัติการแก้ไขข้อมูลแบบฟอร์ม':'Submission Edit History'}
+            </h3>
+            <p class="text-sm text-slate-500 mt-1">
+              ${state.lang==='th'
+                ? 'แสดงเฉพาะการแก้ไขข้อมูลความประสงค์และการประชุมผู้ปกครอง'
+                : 'Shows edits to intention and parent-meeting information.'}
+            </p>
+          </div>
+          <button onclick="refreshSubmissionEditHistory()" class="btn-light">
+            <i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}
+          </button>
+        </div>
+        <div id="submissionEditHistory">${adminLoading()}</div>
+      </div>
+    `:''}`;
+
   await refreshResponsesTable();
 }
 
 async function refreshResponsesTable() {
-  const filters={search:value('responseSearch'),status:value('responseStatus'),formType:value('responseFormType')};
-  const data=await gas('getSubmissions',filters); window.__responses=data.rows;
-  const superAdmin=state.bootstrap.user.role==='SuperAdmin';
-  const labels={date:state.lang==='th'?'วันที่กรอก':'Submitted Date',status:tr('status'),studentId:tr('studentId'),studentName:state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name',className:tr('className'),email:tr('parentEmail'),intention:state.lang==='th'?'ความประสงค์':'Intention',actions:tr('actions')};
+  const filters={
+    search:value('responseSearch'),
+    status:value('responseStatus'),
+    formType:value('responseFormType')
+  };
+
+  const data=await gas('getSubmissions',filters);
+  window.__responses=data.rows;
+
+  const role=state.bootstrap.user.role;
+  const canEdit=['SuperAdmin','Admin'].includes(role);
+  const superAdmin=role==='SuperAdmin';
+
+  const labels={
+    date:state.lang==='th'?'วันที่กรอก':'Submitted Date',
+    status:tr('status'),
+    studentId:tr('studentId'),
+    studentName:state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name',
+    className:tr('className'),
+    email:tr('parentEmail'),
+    intention:state.lang==='th'?'ความประสงค์':'Intention',
+    actions:tr('actions')
+  };
+
   const rows=data.rows.map((r,i)=>`<tr>
-    <td data-label="${escapeAttr(labels.date)}" class="whitespace-nowrap">${formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)}</td>
-    <td data-label="${escapeAttr(labels.status)}">${statusBadge(r.StatusCode||r.Status)}</td>
-    <td data-label="${escapeAttr(labels.studentId)}" class="font-bold text-brand-navy">${escapeHtml(r.StudentId||'-')}</td>
-    <td data-label="${escapeAttr(labels.studentName)}" class="font-semibold">${escapeHtml(r.StudentNameTH||[r.StudentPrefix,r.StudentName].filter(Boolean).join(' ')||'-')}</td>
-    <td data-label="${escapeAttr(labels.className)}"><span class="badge bg-blue-50 text-blue-800 border border-blue-200">${escapeHtml(r.CurrentClass||'-')}</span></td>
-    <td data-label="${escapeAttr(labels.email)}" class="text-sm">${escapeHtml(r.ParentEmail||'-')}</td>
-    <td data-label="${escapeAttr(labels.intention)}">${intentionBadge(r.IntentionCode||r.Intention)}</td>
-    <td data-label="${escapeAttr(labels.actions)}" class="whitespace-nowrap"><div class="inline-flex items-center gap-2"><button onclick="viewSubmission(${i})" class="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100" title="${tr('view')}"><i class="fa-solid fa-eye"></i></button><button onclick="editSubmission(${i})" class="w-9 h-9 rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100" title="${tr('edit')}"><i class="fa-solid fa-pen"></i></button>${superAdmin?`<button onclick="removeSubmission('${escapeAttr(r.SubmissionId)}')" class="w-9 h-9 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100" title="${tr('delete')}"><i class="fa-solid fa-trash"></i></button>`:''}</div></td>
-  </tr>`).join('')||`<tr><td colspan="8" class="responses-empty text-center text-slate-500 py-8">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`;
-  document.getElementById('responsesTable').innerHTML=`<div class="flex flex-wrap justify-between items-center gap-3 mb-4"><h3 class="font-extrabold text-brand-navy">${tr('total')}: ${data.total}</h3><p class="text-xs text-slate-400">${state.lang==='th'?'เรียงตามวันที่กรอกล่าสุด':'Sorted by latest submission'}</p></div><div class="table-wrap enhanced-table-wrap responses-table-wrap"><table class="enhanced-table responses-table"><thead><tr><th>${labels.date}</th><th>${labels.status}</th><th>${labels.studentId}</th><th>${labels.studentName}</th><th>${labels.className}</th><th>${labels.email}</th><th>${labels.intention}</th><th>${labels.actions}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+    <td data-label="${escapeAttr(labels.date)}" class="whitespace-nowrap">
+      ${formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)}
+    </td>
+    <td data-label="${escapeAttr(labels.status)}">
+      ${statusBadge(r.StatusCode||r.Status)}
+    </td>
+    <td data-label="${escapeAttr(labels.studentId)}" class="font-bold text-brand-navy">
+      ${escapeHtml(r.StudentId||'-')}
+    </td>
+    <td data-label="${escapeAttr(labels.studentName)}" class="font-semibold">
+      ${escapeHtml(r.StudentNameTH||[r.StudentPrefix,r.StudentName].filter(Boolean).join(' ')||'-')}
+    </td>
+    <td data-label="${escapeAttr(labels.className)}">
+      <span class="badge bg-blue-50 text-blue-800 border border-blue-200">
+        ${escapeHtml(r.CurrentClass||'-')}
+      </span>
+    </td>
+    <td data-label="${escapeAttr(labels.email)}" class="text-sm">
+      ${escapeHtml(r.ParentEmail||'-')}
+    </td>
+    <td data-label="${escapeAttr(labels.intention)}">
+      ${intentionBadge(r.IntentionCode||r.Intention)}
+    </td>
+    <td data-label="${escapeAttr(labels.actions)}" class="whitespace-nowrap">
+      <div class="inline-flex items-center gap-2">
+        <button onclick="viewSubmission(${i})"
+          class="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100"
+          title="${tr('view')}">
+          <i class="fa-solid fa-eye"></i>
+        </button>
+        ${canEdit?`
+          <button onclick="editSubmission(${i})"
+            class="w-9 h-9 rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100"
+            title="${tr('edit')}">
+            <i class="fa-solid fa-pen"></i>
+          </button>
+        `:''}
+        ${superAdmin?`
+          <button onclick="removeSubmission('${escapeAttr(r.SubmissionId)}')"
+            class="w-9 h-9 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100"
+            title="${tr('delete')}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        `:''}
+      </div>
+    </td>
+  </tr>`).join('')||
+  `<tr>
+    <td colspan="8" class="responses-empty text-center text-slate-500 py-8">
+      ${state.lang==='th'?'ไม่พบข้อมูล':'No data'}
+    </td>
+  </tr>`;
+
+  document.getElementById('responsesTable').innerHTML=`
+    <div class="flex flex-wrap justify-between items-center gap-3 mb-4">
+      <h3 class="font-extrabold text-brand-navy">${tr('total')}: ${data.total}</h3>
+      <p class="text-xs text-slate-400">
+        ${state.lang==='th'?'เรียงตามวันที่กรอกล่าสุด':'Sorted by latest submission'}
+      </p>
+    </div>
+    <div class="table-wrap enhanced-table-wrap responses-table-wrap">
+      <table class="enhanced-table responses-table">
+        <thead>
+          <tr>
+            <th>${labels.date}</th><th>${labels.status}</th>
+            <th>${labels.studentId}</th><th>${labels.studentName}</th>
+            <th>${labels.className}</th><th>${labels.email}</th>
+            <th>${labels.intention}</th><th>${labels.actions}</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+
+  if(canEdit && document.getElementById('submissionEditHistory')) {
+    await refreshSubmissionEditHistory();
+  }
+}
+
+async function refreshSubmissionEditHistory() {
+  const container=document.getElementById('submissionEditHistory');
+  if(!container) return;
+
+  container.innerHTML=adminLoading();
+
+  try {
+    const data=await gas('getSubmissionEditHistory',{
+      search:value('responseSearch'),
+      limit:500
+    });
+
+    const rows=(data.rows||[]).map(row=>`<tr>
+      <td class="whitespace-nowrap">${formatDate(row.Timestamp)}</td>
+      <td class="font-bold text-brand-navy">${escapeHtml(row.StudentId||'-')}</td>
+      <td class="font-semibold">${escapeHtml(row.StudentNameTH||'-')}</td>
+      <td>
+        <span class="badge bg-blue-50 text-blue-800 border border-blue-200">
+          ${escapeHtml(row.CurrentClass||'-')}
+        </span>
+      </td>
+      <td>
+        <span class="badge bg-amber-100 text-amber-800 border border-amber-200">
+          ${escapeHtml(row.Topic||'-')}
+        </span>
+      </td>
+      <td class="min-w-[230px] whitespace-pre-line align-top">
+        ${escapeHtml(row.OldValue||'-')}
+      </td>
+      <td class="min-w-[230px] whitespace-pre-line align-top">
+        ${escapeHtml(row.NewValue||'-')}
+      </td>
+      <td class="min-w-[220px] whitespace-pre-line align-top">
+        ${escapeHtml(row.Reason||'-')}
+      </td>
+      <td class="min-w-[180px]">
+        <p class="font-bold">${escapeHtml(row.EditorName||row.EditorEmail||'-')}</p>
+        ${row.EditorEmail?`<p class="text-xs text-slate-500">${escapeHtml(row.EditorEmail)}</p>`:''}
+      </td>
+    </tr>`).join('')||
+    `<tr><td colspan="9" class="text-center text-slate-500 py-8">
+      ${state.lang==='th'?'ยังไม่มีประวัติการแก้ไข':'No edit history'}
+    </td></tr>`;
+
+    container.innerHTML=`
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
+        <p class="font-extrabold text-brand-navy">
+          ${state.lang==='th'?'จำนวนประวัติ':'History records'}: ${data.total||0}
+        </p>
+        <p class="text-xs text-slate-400">
+          ${state.lang==='th'?'เรียงจากรายการล่าสุด':'Newest first'}
+        </p>
+      </div>
+      <div class="table-wrap enhanced-table-wrap">
+        <table class="enhanced-table min-w-[1750px]">
+          <thead>
+            <tr>
+              <th>วันที่ดำเนินการ</th>
+              <th>รหัสนักเรียน</th>
+              <th>ชื่อ-นามสกุลนักเรียน</th>
+              <th>ชั้นเรียน</th>
+              <th>หัวข้อที่แก้ไข</th>
+              <th>ข้อมูลเดิม</th>
+              <th>ข้อมูลใหม่</th>
+              <th>รายละเอียดเหตุผล</th>
+              <th>ชื่อผู้ใช้งานที่แก้ไข</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  } catch(error) {
+    container.innerHTML=`
+      <div class="rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-800">
+        <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+        ${escapeHtml(error.message)}
+      </div>`;
+  }
 }
 
 function statusBadge(status) {
@@ -1879,11 +2099,390 @@ function submissionDetailSection(title,rows){
 function submissionDetailRow(label,value,raw=false){return `<tr class="border-b last:border-b-0"><th class="w-[34%] bg-slate-50 px-4 py-3 text-brand-navy align-top">${escapeHtml(label)}</th><td class="px-4 py-3 break-words">${raw?value:escapeHtml(value||'-')}</td></tr>`;}
 
 async function editSubmission(index) {
-  const r=window.__responses[index]; if(!r)return;
+  const role=state.bootstrap.user.role;
+  if(!['SuperAdmin','Admin'].includes(role)) {
+    await Swal.fire({
+      icon:'error',
+      title:'ไม่มีสิทธิ์แก้ไขข้อมูล',
+      text:'เมนูนี้อนุญาตเฉพาะ SuperAdmin และ Admin'
+    });
+    return;
+  }
+
+  const r=window.__responses[index];
+  if(!r) return;
+
   const intentionCode=r.IntentionCode||normalizeClientIntention(r.Intention);
-  const statusCode=r.StatusCode||normalizeClientStatus(r.Status);
-  const result=await Swal.fire({title:tr('edit'),width:760,html:`<div class="text-left grid md:grid-cols-2 gap-3"><div><label class="label">${tr('parentName')}</label><input id="swParentName" class="input" value="${escapeAttr(r.ParentName||'')}"></div><div><label class="label">${tr('phone')}</label><input id="swPhone" class="input" value="${escapeAttr(r.ParentPhone||'')}"></div><div><label class="label">${tr('parentId')}</label><input id="swParentId" class="input" value="${escapeAttr(r.ParentIdNo||'')}"></div><div><label class="label">ชื่อ-นามสกุลนักเรียนภาษาไทย</label><input id="swStudentName" class="input" value="${escapeAttr(r.StudentName||'')}"></div><div><label class="label">${tr('className')}</label><input id="swClass" class="input" value="${escapeAttr(r.CurrentClass||'')}"></div><div><label class="label">ความประสงค์</label><select id="swIntention" class="input"><option value="CONTINUE" ${intentionCode==='CONTINUE'?'selected':''}>ศึกษาต่อ</option><option value="WITHDRAW" ${intentionCode==='WITHDRAW'?'selected':''}>ลาออก</option></select></div><div><label class="label">${tr('status')}</label><select id="swStatus" class="input"><option value="SUBMITTED" ${statusCode==='SUBMITTED'?'selected':''}>ส่งแล้ว</option><option value="DRAFT" ${statusCode==='DRAFT'?'selected':''}>แบบร่าง</option><option value="ERROR" ${statusCode==='ERROR'?'selected':''}>เกิดข้อผิดพลาด</option></select></div></div>`,showCancelButton:true,confirmButtonText:state.lang==='th'?'บันทึก':'Save',preConfirm:()=>({SubmissionId:r.SubmissionId,ParentName:document.getElementById('swParentName').value,ParentPhone:document.getElementById('swPhone').value,ParentIdNo:document.getElementById('swParentId').value,StudentName:document.getElementById('swStudentName').value,CurrentClass:document.getElementById('swClass').value,Intention:document.getElementById('swIntention').value,Status:document.getElementById('swStatus').value})});
-  if(result.isConfirmed) { showBusy(state.lang==='th'?'กำลังบันทึกข้อมูล...':'Saving...'); await gas('updateSubmissionAdmin',result.value); Swal.close(); await refreshResponsesTable(); Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกแล้ว':'Saved'}); }
+  const thirdLanguageCode=r.ThirdLanguageCode||
+    normalizeClientThirdLanguage(r.ThirdLanguage);
+  const studyPlanCode=r.StudyPlanCode||
+    normalizeClientStudyPlan(r.StudyPlan);
+  const meetingCode=r.MeetingAttendanceCode||
+    normalizeClientMeeting(r.MeetingAttendance);
+
+  const thaiStatus=clientThaiStatus(r.StatusCode||r.Status);
+  const thaiRelationship=clientThaiRelationship(
+    r.RelationshipCode||r.Relationship
+  );
+  const thaiPrefix=clientThaiPrefix(r.ParentPrefix);
+
+  const docs=[
+    ['เอกสารของนักเรียน',r.StudentDocs],
+    ['เอกสารของบิดา',r.FatherDocs],
+    ['เอกสารของมารดา',r.MotherDocs],
+    ['เอกสารของผู้ปกครองอื่น',r.GuardianDocs]
+  ].map(([label,items])=>{
+    const links=(Array.isArray(items)?items:[]).map(f=>`
+      <a href="${escapeAttr(f.url)}" target="_blank"
+        class="inline-flex items-center gap-2 text-blue-700 underline mr-3 mb-2">
+        <i class="fa-solid fa-paperclip"></i>${escapeHtml(f.name)}
+      </a>
+    `).join('');
+    return submissionDetailRow(label,links||'-',true);
+  }).join('');
+
+  const intentionEditor=`
+    <select id="editIntention" class="input"
+      onchange="syncSubmissionEditFields('${escapeAttr(r.FormType||'P1')}')">
+      <option value="CONTINUE" ${intentionCode==='CONTINUE'?'selected':''}>
+        ศึกษาต่อ
+      </option>
+      <option value="WITHDRAW" ${intentionCode==='WITHDRAW'?'selected':''}>
+        ลาออก
+      </option>
+    </select>`;
+
+  const thirdLanguageEditor=`
+    <div id="editThirdLanguageWrap">
+      <select id="editThirdLanguage" class="input">
+        <option value="">-- เลือกภาษาที่สาม --</option>
+        <option value="ENGLISH" ${thirdLanguageCode==='ENGLISH'?'selected':''}>
+          ภาษาอังกฤษ
+        </option>
+        <option value="CHINESE" ${thirdLanguageCode==='CHINESE'?'selected':''}>
+          ภาษาจีน
+        </option>
+        <option value="JAPANESE" ${thirdLanguageCode==='JAPANESE'?'selected':''}>
+          ภาษาญี่ปุ่น
+        </option>
+      </select>
+    </div>`;
+
+  const studyPlanEditor=`
+    <div id="editStudyPlanWrap">
+      <select id="editStudyPlan" class="input"
+        onchange="syncSubmissionEditFields('${escapeAttr(r.FormType||'P1')}')">
+        <option value="">-- เลือกแผนการเรียน --</option>
+        <option value="GAC_SCI_MATH" ${studyPlanCode==='GAC_SCI_MATH'?'selected':''}>
+          GAC (Science-Math)
+        </option>
+        <option value="GAC_LANGUAGE" ${studyPlanCode==='GAC_LANGUAGE'?'selected':''}>
+          GAC (Language)
+        </option>
+        <option value="EXTRA_LANGUAGE" ${studyPlanCode==='EXTRA_LANGUAGE'?'selected':''}>
+          Extra Class (Language)
+        </option>
+        <option value="BILINGUAL_SCI_MATH" ${studyPlanCode==='BILINGUAL_SCI_MATH'?'selected':''}>
+          Bilingual (Science-Math)
+        </option>
+      </select>
+    </div>`;
+
+  const nextSchoolEditor=`
+    <div id="editNextSchoolWrap">
+      <input id="editNextSchool" class="input"
+        value="${escapeAttr(r.NextSchool||'')}"
+        placeholder="โรงเรียนที่นักเรียนจะไปศึกษาต่อ">
+    </div>`;
+
+  const withdrawalEditor=`
+    <div id="editWithdrawalReasonWrap">
+      <textarea id="editWithdrawalReason" class="input min-h-28"
+        placeholder="สาเหตุสำคัญที่ตัดสินใจย้ายออก">${escapeHtml(r.WithdrawalReason||'')}</textarea>
+    </div>`;
+
+  const meetingEditor=`
+    <select id="editMeetingAttendance" class="input"
+      onchange="syncSubmissionMeetingCount()">
+      <option value="">-- เลือกการเข้าร่วมประชุม --</option>
+      <option value="ATTEND" ${meetingCode==='ATTEND'?'selected':''}>
+        สามารถเข้าร่วมประชุมได้
+      </option>
+      <option value="UNABLE" ${meetingCode==='UNABLE'?'selected':''}>
+        ไม่สามารถเข้าร่วมประชุมได้
+      </option>
+    </select>`;
+
+  const meetingCountEditor=`
+    <div id="editMeetingCountWrap">
+      <input id="editMeetingCount" type="number" min="1" max="10"
+        class="input" value="${Math.max(1,Number(r.MeetingCount)||1)}">
+    </div>`;
+
+  const sections=[
+    submissionDetailSection('ข้อมูลระบบ',[
+      ['วันที่กรอก',formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)],
+      ['สถานะ',thaiStatus],
+      ['ID',r.SubmissionId],
+      ['ประเภทแบบฟอร์ม',clientThaiFormType(r.FormType)],
+      ['ภาษาที่ผู้ปกครองใช้',r.Language==='en'?'ภาษาอังกฤษ':'ภาษาไทย']
+    ]),
+    submissionDetailSection('ข้อมูลผู้แจ้งความจำนง',[
+      ['คำนำหน้า',thaiPrefix],
+      ['ชื่อ-นามสกุลผู้แจ้งความจำนง',r.ParentName],
+      ['เลขประจำตัวประชาชน / Passport',r.ParentIdNo],
+      ['เบอร์โทรศัพท์',r.ParentPhone],
+      ['อีเมลผู้ปกครอง',r.ParentEmail],
+      ['ความสัมพันธ์กับนักเรียน',thaiRelationship],
+      ['เกี่ยวข้องกับนักเรียนเป็น',r.RelationshipOther]
+    ]),
+    submissionDetailSection('ข้อมูลนักเรียน',[
+      ['รหัสนักเรียน',r.StudentId],
+      ['ชื่อ-นามสกุลนักเรียนภาษาไทย',
+        r.StudentNameTH||[r.StudentPrefix,r.StudentName].filter(Boolean).join(' ')],
+      ['ชั้นเรียน',r.CurrentClass]
+    ]),
+    `<div class="rounded-2xl border-2 border-amber-300 overflow-hidden">
+      <div class="bg-amber-500 text-white px-4 py-3 font-extrabold">
+        <i class="fa-solid fa-pen-to-square mr-2"></i>
+        ข้อมูลความประสงค์ — สามารถแก้ไขได้
+      </div>
+      <table class="w-full"><tbody>
+        ${submissionDetailRow('ความประสงค์',intentionEditor,true)}
+        ${submissionDetailRow(
+          'ระดับชั้นที่จะศึกษาต่อ',
+          clientThaiFormType(r.FormType)
+        )}
+        ${submissionDetailRow('ภาษาที่สาม',thirdLanguageEditor,true)}
+        ${submissionDetailRow('แผนการเรียน',studyPlanEditor,true)}
+        ${submissionDetailRow(
+          'รับทราบระเบียบโรงเรียน',
+          isTruthyClient(r.AcknowledgedRules)?'รับทราบ':'ยังไม่รับทราบ'
+        )}
+        ${submissionDetailRow(
+          'รับทราบเงื่อนไขภาษา/แผนการเรียน',
+          isTruthyClient(r.AcknowledgedLanguage)?'รับทราบ':'ไม่เกี่ยวข้อง'
+        )}
+        ${submissionDetailRow(
+          'โรงเรียนที่นักเรียนจะไปศึกษาต่อ',
+          nextSchoolEditor,
+          true
+        )}
+        ${submissionDetailRow(
+          'สาเหตุสำคัญที่ตัดสินใจย้ายออก',
+          withdrawalEditor,
+          true
+        )}
+      </tbody></table>
+    </div>`,
+    `<div class="rounded-2xl border-2 border-emerald-300 overflow-hidden">
+      <div class="bg-emerald-600 text-white px-4 py-3 font-extrabold">
+        <i class="fa-solid fa-calendar-check mr-2"></i>
+        การประชุมผู้ปกครอง — สามารถแก้ไขได้
+      </div>
+      <table class="w-full"><tbody>
+        ${submissionDetailRow('การเข้าร่วมประชุม',meetingEditor,true)}
+        ${submissionDetailRow(
+          'จำนวนผู้ปกครองที่เข้าร่วม',
+          meetingCountEditor,
+          true
+        )}
+      </tbody></table>
+    </div>`,
+    `<div class="rounded-2xl border border-slate-200 overflow-hidden">
+      <div class="bg-brand-navy text-white px-4 py-3 font-extrabold">
+        เอกสารแนบและไฟล์ยืนยัน
+      </div>
+      <table class="w-full"><tbody>
+        ${docs}
+        ${submissionDetailRow(
+          'PDF Confirmation',
+          r.ConfirmationPdfUrl
+            ? `<a href="${escapeAttr(r.ConfirmationPdfUrl)}" target="_blank"
+                class="inline-flex items-center gap-2 px-3 py-2 rounded-lg
+                bg-rose-50 text-rose-700 font-bold">
+                <i class="fa-solid fa-file-pdf"></i>เปิด PDF Confirmation
+              </a>`
+            : '-',
+          true
+        )}
+      </tbody></table>
+    </div>`,
+    `<div class="rounded-2xl border-2 border-rose-300 bg-rose-50 p-5">
+      <label class="label required text-rose-800">
+        รายละเอียดเหตุผลที่แก้ไข
+      </label>
+      <textarea id="editReason" class="input min-h-28"
+        placeholder="กรุณาระบุเหตุผลและรายละเอียดที่จำเป็น เช่น ผู้ปกครองแจ้งเปลี่ยนความประสงค์ทางโทรศัพท์ วันที่..."></textarea>
+      <p class="text-xs text-rose-700 mt-2">
+        ระบบจะบันทึกข้อมูลเดิม ข้อมูลใหม่ เหตุผล และชื่อผู้แก้ไขไว้ในประวัติ
+      </p>
+    </div>`
+  ].join('<div class="h-4"></div>');
+
+  const result=await Swal.fire({
+    width:1080,
+    title:`แก้ไขข้อมูล · ${escapeHtml(r.StudentId||'')} · ${escapeHtml(r.StudentNameTH||r.StudentName||'')}`,
+    html:`<div class="text-left max-h-[72vh] overflow-y-auto pr-1">${sections}</div>`,
+    showCancelButton:true,
+    confirmButtonText:'บันทึกการแก้ไข',
+    cancelButtonText:'ยกเลิก',
+    focusConfirm:false,
+    didOpen:()=>{
+      syncSubmissionEditFields(r.FormType||'P1');
+    },
+    preConfirm:()=>{
+      const intention=value('editIntention');
+      const thirdLanguage=value('editThirdLanguage');
+      const studyPlan=value('editStudyPlan');
+      const nextSchool=value('editNextSchool');
+      const withdrawalReason=value('editWithdrawalReason');
+      const meetingAttendance=value('editMeetingAttendance');
+      const meetingCount=Number(value('editMeetingCount'))||0;
+      const editReason=value('editReason').trim();
+      const formType=r.FormType||'P1';
+
+      if(editReason.length<5) {
+        Swal.showValidationMessage(
+          'กรุณาระบุรายละเอียดเหตุผลที่แก้ไขอย่างน้อย 5 ตัวอักษร'
+        );
+        return false;
+      }
+
+      if(intention==='WITHDRAW') {
+        if(!nextSchool) {
+          Swal.showValidationMessage(
+            'กรุณาระบุโรงเรียนที่นักเรียนจะไปศึกษาต่อ'
+          );
+          return false;
+        }
+        if(!withdrawalReason) {
+          Swal.showValidationMessage(
+            'กรุณาระบุสาเหตุสำคัญที่ตัดสินใจย้ายออก'
+          );
+          return false;
+        }
+      } else {
+        if(formType==='M1'&&!thirdLanguage) {
+          Swal.showValidationMessage('กรุณาเลือกภาษาที่สาม');
+          return false;
+        }
+
+        if(formType==='M4') {
+          if(!studyPlan) {
+            Swal.showValidationMessage('กรุณาเลือกแผนการเรียน');
+            return false;
+          }
+          if(
+            ['GAC_LANGUAGE','EXTRA_LANGUAGE'].includes(studyPlan)&&
+            !thirdLanguage
+          ) {
+            Swal.showValidationMessage(
+              'กรุณาเลือกภาษาที่สามสำหรับแผนการเรียนภาษา'
+            );
+            return false;
+          }
+        }
+
+        if(!meetingAttendance) {
+          Swal.showValidationMessage(
+            'กรุณาระบุการเข้าร่วมประชุมผู้ปกครอง'
+          );
+          return false;
+        }
+
+        if(meetingAttendance==='ATTEND'&&meetingCount<1) {
+          Swal.showValidationMessage(
+            'กรุณาระบุจำนวนผู้ปกครองที่เข้าร่วม'
+          );
+          return false;
+        }
+      }
+
+      return {
+        SubmissionId:r.SubmissionId,
+        Intention:intention,
+        ThirdLanguage:thirdLanguage,
+        StudyPlan:studyPlan,
+        NextSchool:nextSchool,
+        WithdrawalReason:withdrawalReason,
+        MeetingAttendance:meetingAttendance,
+        MeetingCount:meetingCount,
+        EditReason:editReason
+      };
+    }
+  });
+
+  if(!result.isConfirmed) return;
+
+  try {
+    showBusy('กำลังบันทึกข้อมูลและประวัติการแก้ไข...');
+    const saved=await gas('updateSubmissionAdmin',result.value);
+    Swal.close();
+
+    await refreshResponsesTable();
+
+    await Swal.fire({
+      icon:saved.pdfUpdated===false?'warning':'success',
+      title:saved.pdfUpdated===false
+        ? 'บันทึกแล้ว แต่ PDF ยังไม่อัปเดต'
+        : 'บันทึกการแก้ไขเรียบร้อยแล้ว',
+      text:saved.message||''
+    });
+  } catch(error) {
+    Swal.close();
+    await Swal.fire({
+      icon:'error',
+      title:'บันทึกการแก้ไขไม่สำเร็จ',
+      text:error.message
+    });
+  }
+}
+
+function syncSubmissionEditFields(formType) {
+  const intention=value('editIntention');
+  const studyPlan=value('editStudyPlan');
+  const isContinue=intention==='CONTINUE';
+  const isWithdraw=intention==='WITHDRAW';
+
+  const thirdWrap=document.getElementById('editThirdLanguageWrap');
+  const studyWrap=document.getElementById('editStudyPlanWrap');
+  const nextWrap=document.getElementById('editNextSchoolWrap');
+  const withdrawalWrap=document.getElementById('editWithdrawalReasonWrap');
+  const meeting=document.getElementById('editMeetingAttendance');
+
+  const showThird=isContinue&&(
+    formType==='M1'||
+    (
+      formType==='M4'&&
+      ['GAC_LANGUAGE','EXTRA_LANGUAGE'].includes(studyPlan)
+    )
+  );
+  const showStudy=isContinue&&formType==='M4';
+
+  thirdWrap?.classList.toggle('hidden',!showThird);
+  studyWrap?.classList.toggle('hidden',!showStudy);
+  nextWrap?.classList.toggle('hidden',!isWithdraw);
+  withdrawalWrap?.classList.toggle('hidden',!isWithdraw);
+
+  if(meeting) {
+    meeting.disabled=isWithdraw;
+  }
+
+  if(isWithdraw) {
+    document.getElementById('editMeetingCountWrap')?.classList.add('hidden');
+  } else {
+    syncSubmissionMeetingCount();
+  }
+}
+
+function syncSubmissionMeetingCount() {
+  const intention=value('editIntention');
+  const attendance=value('editMeetingAttendance');
+  const show=intention==='CONTINUE'&&attendance==='ATTEND';
+
+  document.getElementById('editMeetingCountWrap')
+    ?.classList.toggle('hidden',!show);
 }
 
 async function removeSubmission(id) {
