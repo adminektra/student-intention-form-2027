@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sarabun: ['Sarabun', 'sans-serif'] },
+          colors: {
+            brand: {
+              navy: '#0f2747',
+              navy2: '#173a63',
+              gold: '#d5a514',
+              gold2: '#f2c94c',
+              cream: '#fff9e8'
+            }
+          },
+          boxShadow: {
+            soft: '0 10px 35px rgba(15,39,71,.10)',
+            card: '0 6px 22px rgba(15,39,71,.08)'
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="./config.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Sarabun', sans-serif; background: #f5f7fb; color: #1f2937; }
+    .glass { backdrop-filter: blur(12px); background: rgba(255,255,255,.92); }
+    .card { background: #fff; border: 1px solid #e8edf4; border-radius: 1.25rem; box-shadow: 0 8px 28px rgba(15,39,71,.08); }
+    .input { width: 100%; border: 1px solid #d7deea; border-radius: .85rem; padding: .78rem .95rem; background: #fff; transition: .2s; outline: none; }
+    .input:focus { border-color: #d5a514; box-shadow: 0 0 0 4px rgba(213,165,20,.14); }
+    .input:disabled, .input[readonly] { background: #f3f5f8; color: #64748b; }
+    .label { display: block; font-weight: 600; color: #24364d; margin-bottom: .42rem; }
+    .required::after { content: ' *'; color: #dc2626; }
+    .btn-primary { background: linear-gradient(135deg,#0f2747,#173a63); color: #fff; border-radius: .85rem; padding: .75rem 1.1rem; font-weight: 700; box-shadow: 0 6px 15px rgba(15,39,71,.18); transition: .2s; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 9px 20px rgba(15,39,71,.22); }
+    .btn-gold { background: linear-gradient(135deg,#d5a514,#efc23b); color: #14233a; border-radius: .85rem; padding: .75rem 1.1rem; font-weight: 800; box-shadow: 0 6px 15px rgba(213,165,20,.25); transition: .2s; }
+    .btn-gold:hover { transform: translateY(-1px); }
+    .btn-light { background: #fff; border: 1px solid #dbe2ec; color: #21334b; border-radius: .85rem; padding: .72rem 1rem; font-weight: 600; transition: .2s; }
+    .btn-light:hover { background: #f7f9fc; }
+    .nav-btn.active { background: rgba(255,255,255,.18); color: #fff; }
+    .choice-card { border: 2px solid #e6eaf0; border-radius: 1rem; padding: 1rem; cursor: pointer; transition: .2s; background: #fff; }
+    .choice-card:hover { border-color: #d5a514; transform: translateY(-2px); box-shadow: 0 9px 22px rgba(15,39,71,.08); }
+    .choice-card.selected { border-color: #d5a514; background: #fff9e8; box-shadow: 0 0 0 4px rgba(213,165,20,.12); }
+    .step-dot { width: 2rem; height: 2rem; border-radius: 9999px; display:flex; align-items:center; justify-content:center; font-weight:700; background:#e6ebf2; color:#64748b; transition:.2s; }
+    .step-dot.active { background:#0f2747; color:#fff; box-shadow:0 0 0 5px rgba(15,39,71,.10); }
+    .step-dot.done { background:#d5a514; color:#10213a; }
+    .step-line { height: 3px; flex: 1; background:#e6ebf2; min-width: .65rem; }
+    .step-line.done { background:#d5a514; }
+    .view { display:none; }
+    .view.active { display:block; }
+    .form-step { display:none; }
+    .form-step.active { display:block; animation: fadeSlide .25s ease; }
+    @keyframes fadeSlide { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:none;} }
+    .table-wrap { overflow:auto; border:1px solid #e5eaf1; border-radius:1rem; }
+    table { border-collapse: separate; border-spacing:0; width:100%; }
+    th { background:#f2f5f9; color:#30425a; font-weight:700; white-space:nowrap; }
+    th, td { padding:.72rem .85rem; border-bottom:1px solid #edf0f4; text-align:left; vertical-align:top; }
+    tr:last-child td { border-bottom:none; }
+    .badge { display:inline-flex; align-items:center; gap:.35rem; border-radius:9999px; padding:.25rem .65rem; font-size:.78rem; font-weight:700; }
+    .dropzone { border:2px dashed #cfd8e5; border-radius:1rem; padding:1rem; background:#fafbfd; transition:.2s; }
+    .dropzone:hover { border-color:#d5a514; background:#fffdf5; }
+    .notice-html { white-space: pre-line; line-height:1.85; }
+    .enhanced-table-wrap { border: 1px solid #cbd5e1; box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); background:#fff; }
+    .enhanced-table th { background: linear-gradient(180deg,#eaf0f8,#dfe8f3); color:#173a63; border-right:1px solid #cbd5e1; border-bottom:1px solid #cbd5e1; }
+    .enhanced-table td { border-right:1px solid #e2e8f0; border-bottom:1px solid #e2e8f0; }
+    .enhanced-table th:last-child, .enhanced-table td:last-child { border-right:none; }
+    .enhanced-table tbody tr:nth-child(even) td { background:#f8fafc; }
+    .enhanced-table tbody tr:hover td { background:#fff9e8; }
+    .action-group { display:inline-flex; align-items:center; gap:.65rem; }
+    .action-icon-btn { width:2.35rem; height:2.35rem; display:inline-flex; align-items:center; justify-content:center; border-radius:.75rem; border:1px solid transparent; transition:.18s; }
+    .action-icon-btn:hover { transform:translateY(-1px); box-shadow:0 5px 12px rgba(15,39,71,.12); }
+    .action-edit { color:#a16207; background:#fef9c3; border-color:#fde68a; }
+    .action-delete { color:#be123c; background:#fff1f2; border-color:#fecdd3; }
+    .form-field-panel { border:1px solid #dbe4ef; background:#f8fafc; border-radius:1rem; padding:1rem; }
+    .intention-choice { border-width:2px; }
+    .intention-continue { border-color:#86efac; background:#f0fdf4; }
+    .intention-continue:hover, .intention-continue.selected { border-color:#16a34a; background:#dcfce7; box-shadow:0 0 0 4px rgba(22,163,74,.12); }
+    .intention-withdraw { border-color:#fca5a5; background:#fff1f2; }
+    .intention-withdraw:hover, .intention-withdraw.selected { border-color:#dc2626; background:#ffe4e6; box-shadow:0 0 0 4px rgba(220,38,38,.12); }
+    .image-gallery-scroll { display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; padding:.25rem .15rem .75rem; }
+    .image-gallery-stack { display:grid; grid-template-columns:1fr; gap:1rem; width:100%; }
+    .image-gallery-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; width:100%; }
+    .image-gallery-row { display:grid; grid-template-columns:1fr; gap:1rem; width:100%; }
+    .image-gallery-item { flex:0 0 min(92%,780px); scroll-snap-align:start; border:1px solid #dbe4ef; border-radius:1rem; background:#fff; padding:.6rem; cursor:zoom-in; box-shadow:0 5px 18px rgba(15,39,71,.07); }
+    .image-gallery-stack .image-gallery-item { width:100%; max-width:none; flex:none; }
+    .image-gallery-grid .image-gallery-item, .image-gallery-row .image-gallery-item { width:100%; max-width:none; min-width:0; flex:none; }
+    .image-gallery-item img { width:100%; max-height:680px; object-fit:contain; border-radius:.75rem; background:#fff; }
+    .image-gallery-stack .image-gallery-item img { max-height:none; height:auto; }
+    .image-gallery-caption { margin-top:.5rem; text-align:center; font-size:.78rem; color:#64748b; }
+    .image-viewer { position:fixed; inset:0; z-index:200; background:rgba(2,6,23,.96); display:none; flex-direction:column; }
+    .image-viewer.active { display:flex; }
+    .image-viewer-toolbar { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.75rem; padding:.75rem 1rem; background:rgba(15,23,42,.9); color:#fff; }
+    .image-viewer-controls { display:flex; align-items:center; gap:.5rem; }
+    .viewer-btn { min-width:2.7rem; height:2.7rem; padding:0 .8rem; border-radius:.75rem; background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2); color:#fff; font-weight:700; }
+    .viewer-btn:hover { background:rgba(255,255,255,.22); }
+    .image-viewer-stage { flex:1; overflow:auto; display:block; padding:1rem; overscroll-behavior:contain; }
+    .image-viewer-canvas { min-height:100%; display:flex; align-items:flex-start; justify-content:center; margin:0 auto; }
+    .image-viewer-stage img { display:block; width:100%; height:auto; max-width:none; max-height:none; object-fit:contain; transition:width .2s ease; }
+    .chart-card { min-width:0; overflow:hidden; position:relative; }
+    .chart-container { width:100%; min-width:0; min-height:320px; overflow:hidden; }
+    .chart-container > .apexcharts-canvas { width:100% !important; max-width:100% !important; margin:0 auto !important; }
+    .chart-container .apexcharts-svg { width:100% !important; max-width:100% !important; }
+    .meeting-choice { border-width:2px; min-height:88px; display:flex; align-items:center; gap:.8rem; }
+    .meeting-choice .meeting-choice-icon { width:2.75rem; height:2.75rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; flex:0 0 auto; }
+    .meeting-attend { border-color:#86efac; background:#f0fdf4; color:#166534; }
+    .meeting-attend .meeting-choice-icon { background:#dcfce7; color:#15803d; }
+    .meeting-attend:hover, .meeting-attend:has(input:checked) { border-color:#16a34a; background:#dcfce7; box-shadow:0 0 0 4px rgba(22,163,74,.12); }
+    .meeting-unable { border-color:#fca5a5; background:#fff1f2; color:#9f1239; }
+    .meeting-unable .meeting-choice-icon { background:#ffe4e6; color:#be123c; }
+    .meeting-unable:hover, .meeting-unable:has(input:checked) { border-color:#dc2626; background:#ffe4e6; box-shadow:0 0 0 4px rgba(220,38,38,.12); }
+    .responses-table-wrap { overflow-x:hidden; }
+    .responses-table { table-layout:fixed; width:100%; }
+    .responses-table th, .responses-table td { white-space:normal; overflow-wrap:anywhere; word-break:break-word; padding:.65rem .55rem; }
+    .responses-table th:nth-child(1), .responses-table td:nth-child(1) { width:13%; }
+    .responses-table th:nth-child(2), .responses-table td:nth-child(2) { width:9%; }
+    .responses-table th:nth-child(3), .responses-table td:nth-child(3) { width:9%; }
+    .responses-table th:nth-child(4), .responses-table td:nth-child(4) { width:20%; }
+    .responses-table th:nth-child(5), .responses-table td:nth-child(5) { width:7%; }
+    .responses-table th:nth-child(6), .responses-table td:nth-child(6) { width:18%; }
+    .responses-table th:nth-child(7), .responses-table td:nth-child(7) { width:10%; }
+    .responses-table th:nth-child(8), .responses-table td:nth-child(8) { width:14%; }
+    @media (min-width: 769px) {
+      .image-gallery-row { grid-template-columns:repeat(var(--gallery-count,3),minmax(0,1fr)); align-items:stretch; }
+      .image-gallery-row .image-gallery-item img { height:clamp(190px,18vw,310px); max-height:310px; object-fit:contain; }
+    }
+    @media (max-width: 900px) {
+      .responses-table-wrap { border:0; background:transparent; box-shadow:none; overflow:visible; }
+      .responses-table, .responses-table tbody, .responses-table tr, .responses-table td { display:block; width:100%; }
+      .responses-table thead { display:none; }
+      .responses-table tr { margin-bottom:1rem; border:1px solid #cbd5e1; border-radius:1rem; overflow:hidden; background:#fff; box-shadow:0 5px 16px rgba(15,39,71,.06); }
+      .responses-table td { display:grid; grid-template-columns:minmax(112px,36%) 1fr; gap:.65rem; padding:.72rem .85rem; border-right:0; border-bottom:1px solid #e2e8f0; }
+      .responses-table td::before { content:attr(data-label); font-weight:800; color:#173a63; }
+      .responses-table td:last-child { border-bottom:0; }
+      .responses-table .responses-empty { display:block; text-align:center; }
+      .responses-table .responses-empty::before { content:none; }
+    }
+    .skeleton { background: linear-gradient(90deg,#eef1f5 25%,#f7f8fa 50%,#eef1f5 75%); background-size:200% 100%; animation: shimmer 1.4s infinite; }
+    @keyframes shimmer { to { background-position:-200% 0; } }
+    @media (min-width: 769px) and (max-width: 1023px) { .desktop-nav { display:none !important; } }
+    @media (max-width: 768px) {
+      .desktop-nav { display:none; }
+      .step-label { display:none; }
+      th, td { padding:.6rem .65rem; font-size:.86rem; }
+    }
+  </style>
+</head>
+<body class="min-h-screen font-sarabun">
+  <div id="loadingOverlay" class="fixed inset-0 z-[100] bg-white/95 flex items-center justify-center">
+    <div class="text-center px-6">
+      <div class="w-16 h-16 mx-auto rounded-full border-4 border-slate-200 border-t-brand-gold animate-spin"></div>
+      <p class="mt-5 text-brand-navy font-bold text-lg" data-i18n="loading">กำลังโหลดระบบ...</p>
+      <p class="text-slate-500 mt-1">Sarasas Ektra School</p>
+    </div>
+  </div>
+
+  <header class="sticky top-0 z-40 bg-brand-navy text-white shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center gap-3">
+      <button onclick="showHome()" class="bg-white rounded-xl p-2 shrink-0 shadow-sm" aria-label="Home">
+        <img id="siteLogo" src="" alt="Sarasas Ektra School" class="h-11 sm:h-14 w-auto max-w-[180px] object-contain">
+      </button>
+      <div class="min-w-[240px] flex-1 lg:w-[460px]">
+        <h1 class="font-extrabold text-base sm:text-xl leading-tight" data-i18n="appTitle">แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570</h1>
+        <p class="text-xs sm:text-sm text-blue-100 truncate" data-i18n="schoolName">โรงเรียนสารสาสน์เอกตรา</p>
+      </div>
+
+      <nav id="adminNav" class="desktop-nav hidden lg:flex order-3 w-full items-center gap-1 pt-2 mt-1 border-t border-white/10 overflow-x-auto"></nav>
+
+      <button onclick="toggleLanguage()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 font-bold text-sm border border-white/15">
+        <i class="fa-solid fa-language mr-1"></i><span id="langLabel">EN</span>
+      </button>
+      <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden px-3 py-2 rounded-xl bg-white/10 hidden">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-white/10 px-4 py-3 bg-brand-navy2"></div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-9">
+    <!-- HOME -->
+    <section id="homeView" class="view active">
+      <div class="relative overflow-hidden card bg-gradient-to-br from-brand-navy via-brand-navy2 to-[#204c7b] text-white p-6 sm:p-10">
+        <div class="absolute -right-24 -top-24 w-72 h-72 rounded-full bg-brand-gold/20"></div>
+        <div class="absolute -left-20 -bottom-28 w-72 h-72 rounded-full bg-white/5"></div>
+        <div class="relative grid lg:grid-cols-[1.5fr_.8fr] gap-8 items-center">
+          <div>
+            <div class="inline-flex items-center gap-2 bg-white/10 border border-white/15 px-3 py-1.5 rounded-full text-sm font-semibold">
+              <i class="fa-solid fa-graduation-cap text-brand-gold2"></i>
+              <span data-i18n="academicYear">ปีการศึกษา 2570</span>
+            </div>
+            <h2 class="mt-4 text-2xl sm:text-4xl font-extrabold leading-tight" data-i18n="heroTitle">แจ้งความจำนงศึกษาต่อ หรือ ลาออก</h2>
+            <p class="mt-3 text-blue-100 text-base sm:text-lg max-w-3xl" data-i18n="heroSubtitle">กรุณาเลือกแบบฟอร์มตามระดับชั้นปัจจุบันของนักเรียน และกรอกข้อมูลให้ครบถ้วนก่อนส่งแบบฟอร์ม</p>
+            <div id="formStatusBanner" class="mt-5 inline-flex items-center gap-2 rounded-xl px-4 py-2 bg-white/10 border border-white/15"></div>
+          </div>
+          <div class="bg-white rounded-2xl p-4 shadow-2xl">
+            <img id="heroLogo" src="" alt="Logo" class="w-full max-h-36 object-contain">
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <div class="flex flex-wrap items-end justify-between gap-3 mb-4">
+          <div>
+            <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="selectForm">เลือกแบบฟอร์มตามระดับชั้น</h3>
+            <p class="text-slate-500" data-i18n="selectFormHelp">เลือก 1 แบบฟอร์มเพื่อเริ่มกรอกข้อมูล</p>
+          </div>
+        </div>
+        <div id="formCards" class="grid md:grid-cols-3 gap-5"></div>
+      </div>
+
+      <div class="mt-8 card p-5 sm:p-6">
+        <div class="flex items-start gap-3">
+          <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-floppy-disk"></i></div>
+          <div class="flex-1">
+            <h3 class="font-extrabold text-lg text-brand-navy" data-i18n="resumeTitle">เปิดแบบร่างที่บันทึกไว้</h3>
+            <p class="text-sm text-slate-500" data-i18n="resumeHelp">กรอกรหัสนักเรียนและอีเมลเดียวกับที่ใช้บันทึกแบบร่าง</p>
+            <div class="grid md:grid-cols-[1fr_1.4fr_auto] gap-3 mt-4">
+              <input id="resumeStudentId" class="input" data-i18n-placeholder="studentId" placeholder="รหัสนักเรียน">
+              <input id="resumeEmail" type="email" class="input" data-i18n-placeholder="parentEmail" placeholder="อีเมลผู้ปกครอง">
+              <button onclick="resumeDraft()" class="btn-primary whitespace-nowrap"><i class="fa-solid fa-rotate-left mr-2"></i><span data-i18n="resumeButton">เปิดแบบร่าง</span></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARENT FORM -->
+    <section id="formView" class="view">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <button onclick="showHome()" class="btn-light"><i class="fa-solid fa-arrow-left mr-2"></i><span data-i18n="backHome">กลับหน้าหลัก</span></button>
+        <div class="text-right">
+          <p class="text-xs text-slate-500" data-i18n="selectedForm">แบบฟอร์มที่เลือก</p>
+          <h2 id="selectedFormTitle" class="font-extrabold text-brand-navy"></h2>
+        </div>
+      </div>
+
+      <div class="card p-4 sm:p-6 mb-5 overflow-x-auto">
+        <div id="stepper" class="min-w-[650px] flex items-center"></div>
+      </div>
+
+      <form id="intentionForm" onsubmit="return false;" novalidate>
+        <input type="hidden" id="formType" name="formType">
+        <input type="hidden" id="submissionId" name="submissionId">
+        <input type="hidden" id="studentPrefix" name="studentPrefix">
+        <input type="hidden" id="studentName" name="studentName">
+        <input type="hidden" id="currentClass" name="currentClass">
+
+        <div class="card p-5 sm:p-8">
+          <!-- STEP 1 -->
+          <section class="form-step active" data-step="1">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-circle-info text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page1">หน้าที่ 1</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="importantInfo">ข้อควรทราบ</h3>
+              </div>
+            </div>
+            <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:p-6">
+              <div id="noticeText" class="notice-html text-slate-700"></div>
+              <div class="mt-4 flex items-center gap-2 text-sm font-bold text-rose-700 bg-rose-50 rounded-xl p-3">
+                <i class="fa-regular fa-calendar-days"></i><span data-i18n="deadlineLabel">กำหนดส่ง:</span><span id="deadlineText"></span>
+              </div>
+              <div id="noticeGallery" class="hidden mt-4"></div>
+            </div>
+
+            <label class="mt-5 flex items-start gap-3 rounded-2xl border-2 border-amber-200 bg-amber-50 p-4 cursor-pointer">
+              <input id="acknowledgedRules" type="checkbox" class="mt-1 w-5 h-5 accent-amber-600">
+              <span id="legalAckText" class="font-medium text-slate-700"></span>
+            </label>
+          </section>
+
+          <!-- STEP 2 -->
+          <section class="form-step" data-step="2">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-user-shield text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page2">หน้าที่ 2</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="parentInfo">ข้อมูลผู้แจ้งความจำนง</h3>
+                <p class="text-sm text-slate-500" data-i18n="parentInfoHelp">ต้องเป็นบิดา มารดา หรือผู้ปกครองตามกฎหมายที่มีอำนาจลงนาม</p>
+              </div>
+            </div>
+            <div class="grid lg:grid-cols-3 gap-4">
+              <div class="form-field-panel">
+                <label class="label required" data-i18n="parentPrefix">คำนำหน้า</label>
+                <select id="parentPrefix" class="input" onchange="toggleParentPrefixOther()"></select>
+                <div id="parentPrefixOtherWrap" class="hidden mt-3">
+                  <label class="label required" data-i18n="otherPrefix">ระบุคำนำหน้า</label>
+                  <input id="parentPrefixOther" class="input" maxlength="50">
+                </div>
+              </div>
+              <div class="form-field-panel">
+                <label class="label required" data-i18n="parentName">ชื่อ-นามสกุล ผู้แจ้งความจำนง</label>
+                <input id="parentName" class="input" autocomplete="name">
+              </div>
+              <div class="form-field-panel">
+                <label class="label required" data-i18n="parentId">เลขประจำตัวประชาชน / Passport</label>
+                <input id="parentIdNo" class="input" autocomplete="off">
+                <p class="text-xs text-slate-500 mt-1" data-i18n="identityHelp">ใช้เพื่อยืนยันตัวตนเท่านั้น</p>
+              </div>
+              <div class="form-field-panel">
+                <label class="label required" data-i18n="phone">เบอร์โทรศัพท์</label>
+                <input id="parentPhone" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="10" class="input" placeholder="0667779999" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+              </div>
+              <div class="form-field-panel">
+                <label class="label required" data-i18n="parentEmail">อีเมลผู้ปกครอง</label>
+                <input id="parentEmail" type="email" class="input" autocomplete="email" inputmode="email" oninput="sanitizeEmailInput(this)">
+                <p class="text-xs text-slate-500 mt-1" data-i18n="emailDuplicateHelp">อีเมลนี้ใช้บันทึกแบบร่างและตรวจสอบการส่งซ้ำ</p>
+              </div>
+              <div class="form-field-panel">
+                <label class="label required" data-i18n="relationship">ความสัมพันธ์กับนักเรียน</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <label class="choice-card !p-3 text-center"><input type="radio" name="relationship" value="FATHER" class="accent-amber-600 mr-1" onchange="toggleRelationshipOther()"><span data-i18n="father">บิดา</span></label>
+                  <label class="choice-card !p-3 text-center"><input type="radio" name="relationship" value="MOTHER" class="accent-amber-600 mr-1" onchange="toggleRelationshipOther()"><span data-i18n="mother">มารดา</span></label>
+                  <label class="choice-card !p-3 text-center"><input type="radio" name="relationship" value="GUARDIAN" class="accent-amber-600 mr-1" onchange="toggleRelationshipOther()"><span data-i18n="guardian">ผู้ปกครองอื่น</span></label>
+                </div>
+              </div>
+              <div id="relationshipOtherWrap" class="lg:col-span-3 hidden form-field-panel">
+                <label class="label required" data-i18n="relationshipOther">เกี่ยวข้องกับนักเรียนเป็น</label>
+                <input id="relationshipOther" class="input">
+                <p class="text-xs text-slate-500 mt-1" data-i18n="guardianDefinition">ผู้ปกครองหมายถึงผู้ดูแลรับผิดชอบนักเรียนและยินยอมรับเงื่อนไขของโรงเรียนทุกประการ</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- STEP 3 -->
+          <section class="form-step" data-step="3">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-user-graduate text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page3">หน้าที่ 3</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="studentInfo">ข้อมูลนักเรียน</h3>
+                <p class="text-sm text-slate-500" data-i18n="studentLookupHelp">กรอกรหัสนักเรียน แล้วกดตรวจสอบเพื่อดึงข้อมูลจากฐานข้อมูล</p>
+              </div>
+            </div>
+            <div class="grid lg:grid-cols-[.8fr_1.2fr] gap-5 items-stretch">
+              <div class="rounded-2xl border border-blue-200 bg-blue-50/60 p-5 flex flex-col justify-center">
+                <label class="label required" data-i18n="studentId">รหัสนักเรียน</label>
+                <input id="studentId" class="input" inputmode="numeric" autocomplete="off">
+                <p class="text-xs text-slate-500 mt-1" data-i18n="studentIdHelp">ไม่ใช่เลขที่นักเรียนในห้องเรียน</p>
+                <button type="button" onclick="lookupStudent()" class="btn-gold mt-4 w-full"><i class="fa-solid fa-magnifying-glass mr-2"></i><span data-i18n="verifyStudent">ตรวจสอบข้อมูล</span></button>
+              </div>
+              <div class="rounded-2xl border border-slate-200 bg-white p-5">
+                <div id="studentResultEmpty" class="h-full min-h-[210px] flex flex-col items-center justify-center text-center text-slate-400">
+                  <i class="fa-solid fa-address-card text-5xl"></i>
+                  <p class="mt-3 font-bold" data-i18n="studentResultWaiting">ข้อมูลนักเรียนจะแสดงหลังตรวจสอบรหัส</p>
+                </div>
+                <div id="studentResult" class="hidden">
+                  <div class="flex items-center gap-3 mb-4">
+                    <div class="w-11 h-11 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center"><i class="fa-solid fa-check"></i></div>
+                    <p class="text-sm text-emerald-700 font-bold" data-i18n="studentVerified">ตรวจสอบข้อมูลนักเรียนแล้ว</p>
+                  </div>
+                  <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><tbody>
+                    <tr><th data-i18n="studentId">รหัสนักเรียน</th><td id="studentDisplayId" class="font-extrabold text-brand-navy"></td></tr>
+                    <tr><th data-i18n="thaiFullName">ชื่อ-นามสกุลภาษาไทย</th><td id="studentDisplayNameTH"></td></tr>
+                    <tr><th data-i18n="englishFullName">ชื่อ-นามสกุลภาษาอังกฤษ</th><td id="studentDisplayNameEN"></td></tr>
+                    <tr><th data-i18n="currentClass">ชั้นเรียนปัจจุบัน</th><td id="studentDisplayClass" class="font-bold"></td></tr>
+                  </tbody></table></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- STEP 4 -->
+          <section class="form-step" data-step="4">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-pen-to-square text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page4">หน้าที่ 4</p>
+                <h3 id="intentionHeading" class="text-xl sm:text-2xl font-extrabold text-brand-navy"></h3>
+                <p class="text-sm text-slate-500"><span data-i18n="deadlineLabel">กำหนดส่ง:</span> <span id="deadlineText2"></span></p>
+              </div>
+            </div>
+
+            <div id="feeLinkWrap" class="hidden mb-4 rounded-xl bg-blue-50 border border-blue-100 p-3">
+              <i class="fa-solid fa-receipt text-brand-navy mr-2"></i>
+              <span data-i18n="feeCheck">ตรวจสอบค่าธรรมเนียมการศึกษา:</span>
+              <a id="feeLink" href="#" target="_blank" title="Open tuition fee document" class="font-bold text-blue-700 underline" data-i18n="openLink">เปิดลิงก์</a>
+            </div>
+            <div id="intentionGallery" class="hidden mb-4"></div>
+
+            <div class="space-y-3">
+              <label id="continueChoice" class="choice-card intention-choice intention-continue flex items-start gap-3">
+                <input type="radio" name="intention" value="CONTINUE" class="mt-1 accent-amber-600" onchange="toggleIntention()">
+                <span><strong id="continueLabel"></strong><br><small class="text-slate-500" data-i18n="continueHelp">ประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา</small></span>
+              </label>
+              <label id="withdrawChoice" class="choice-card intention-choice intention-withdraw flex items-start gap-3">
+                <input type="radio" name="intention" value="WITHDRAW" class="mt-1 accent-amber-600" onchange="toggleIntention()">
+                <span><strong id="withdrawLabel"></strong><br><small class="text-slate-500" data-i18n="withdrawHelp">ยืนยันการลาออกเมื่อจบระดับชั้นปัจจุบัน</small></span>
+              </label>
+            </div>
+
+            <div id="continueOptions" class="hidden mt-5 space-y-5">
+              <div id="m1LanguageBox" class="hidden rounded-2xl border p-5">
+                <h4 class="font-extrabold text-brand-navy" data-i18n="thirdLanguageM1">การเลือกเรียนภาษาที่สาม ระดับชั้นมัธยมศึกษาปีที่ 1-3</h4>
+                <p class="text-sm text-slate-500 mt-1" data-i18n="thirdLanguageM1Help">เลือกภาษาจีนหรือภาษาญี่ปุ่น และเรียนต่อเนื่องจนจบมัธยมศึกษาปีที่ 3</p>
+                <div class="grid sm:grid-cols-2 gap-3 mt-4">
+                  <label class="choice-card"><input type="radio" name="thirdLanguage" value="CHINESE" class="accent-amber-600 mr-2"><span data-i18n="chinese">ภาษาจีน</span></label>
+                  <label class="choice-card"><input type="radio" name="thirdLanguage" value="JAPANESE" class="accent-amber-600 mr-2"><span data-i18n="japanese">ภาษาญี่ปุ่น</span></label>
+                </div>
+                <label class="mt-4 flex gap-3 items-start"><input id="acknowledgedLanguageM1" type="checkbox" class="mt-1 accent-amber-600"><span data-i18n="ackLanguageM1">รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 3 โดยไม่มีการเปลี่ยนแปลง</span></label>
+              </div>
+
+              <div id="m4PlanBox" class="hidden rounded-2xl border p-5">
+                <h4 class="font-extrabold text-brand-navy" data-i18n="studyPlanTitle">การเลือกแผนการเรียน ระดับชั้นมัธยมศึกษาปีที่ 4-6</h4>
+                <div class="grid md:grid-cols-2 gap-3 mt-4">
+                  <label class="choice-card"><input type="radio" name="studyPlan" value="GAC_SCI_MATH" class="accent-amber-600 mr-2" onchange="toggleM4Language()">GAC (Science-Math)</label>
+                  <label class="choice-card"><input type="radio" name="studyPlan" value="GAC_LANGUAGE" class="accent-amber-600 mr-2" onchange="toggleM4Language()">GAC (Language)</label>
+                  <label class="choice-card"><input type="radio" name="studyPlan" value="EXTRA_LANGUAGE" class="accent-amber-600 mr-2" onchange="toggleM4Language()">Extra Class (Language)</label>
+                  <label class="choice-card"><input type="radio" name="studyPlan" value="BILINGUAL_SCI_MATH" class="accent-amber-600 mr-2" onchange="toggleM4Language()">Bilingual (Science-Math)</label>
+                </div>
+                <div id="m4LanguageOptions" class="hidden mt-5 rounded-xl bg-slate-50 p-4">
+                  <label class="label required" data-i18n="thirdLanguage">ภาษาที่สาม</label>
+                  <div class="grid sm:grid-cols-3 gap-3">
+                    <label class="choice-card"><input type="radio" name="thirdLanguage" value="ENGLISH" class="accent-amber-600 mr-2"><span data-i18n="english">ภาษาอังกฤษ</span></label>
+                    <label class="choice-card"><input type="radio" name="thirdLanguage" value="CHINESE" class="accent-amber-600 mr-2"><span data-i18n="chinese">ภาษาจีน</span></label>
+                    <label class="choice-card"><input type="radio" name="thirdLanguage" value="JAPANESE" class="accent-amber-600 mr-2"><span data-i18n="japanese">ภาษาญี่ปุ่น</span></label>
+                  </div>
+                  <label class="mt-4 flex gap-3 items-start"><input id="acknowledgedLanguageM4" type="checkbox" class="mt-1 accent-amber-600"><span data-i18n="ackLanguageM4">รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 6 โดยไม่มีการเปลี่ยนแปลง</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div id="withdrawOptions" class="hidden mt-5 rounded-2xl border border-rose-200 bg-rose-50/50 p-5">
+              <p id="withdrawConfirmText" class="font-bold text-rose-800 mb-4"></p>
+              <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label class="label required" data-i18n="nextSchool">โรงเรียนที่นักเรียนจะไปศึกษาต่อ</label>
+                  <input id="nextSchool" class="input">
+                  <p class="text-xs text-slate-500 mt-1" data-i18n="statisticsOnly">ใช้เพื่อบันทึกเป็นข้อมูลสถิติของโรงเรียนเท่านั้น</p>
+                </div>
+                <div>
+                  <label class="label required" data-i18n="withdrawalReason">สาเหตุสำคัญที่ตัดสินใจย้ายออก</label>
+                  <textarea id="withdrawalReason" class="input min-h-28"></textarea>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- STEP 5 -->
+          <section class="form-step" data-step="5">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-cloud-arrow-up text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page5">หน้าที่ 5</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="uploadEvidence">แนบหลักฐานสำหรับการมอบตัวนักเรียน</h3>
+                <p class="text-sm text-slate-500" data-i18n="uploadHelp">รองรับ PDF, JPG, PNG, WEBP ขนาดไม่เกิน 5 MB ต่อไฟล์ สูงสุด 4 ไฟล์ต่อหมวด และรวมทุกหมวดไม่เกิน 15 MB</p>
+              </div>
+            </div>
+            <div id="uploadSkip" class="hidden rounded-2xl bg-slate-50 border p-6 text-center text-slate-600">
+              <i class="fa-solid fa-circle-check text-3xl text-slate-400"></i>
+              <p class="font-bold mt-2" data-i18n="withdrawNoUpload">กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว</p>
+            </div>
+            <div id="uploadFields" class="space-y-4">
+              <div id="exampleImages"></div>
+              <div class="dropzone"><label class="label required" data-i18n="studentDocuments">แนบเอกสารของนักเรียน</label><input id="studentFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm"><p class="text-xs text-slate-500 mt-2" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)</p></div>
+              <div class="dropzone"><label class="label required" data-i18n="fatherDocuments">แนบเอกสารของบิดา</label><input id="fatherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p></div>
+              <div class="dropzone"><label class="label required" data-i18n="motherDocuments">แนบเอกสารของมารดา</label><input id="motherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p></div>
+              <div id="guardianFileWrap" class="dropzone hidden"><label class="label" data-i18n="guardianDocuments">แนบเอกสารของผู้ปกครองอื่น</label><input id="guardianFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm"><p class="text-xs text-slate-500 mt-2" data-i18n="guardianFileHelp">ไม่บังคับแนบ ใช้เฉพาะกรณีผู้แจ้งความจำนงไม่ใช่บิดาหรือมารดา</p></div>
+            </div>
+          </section>
+
+          <!-- STEP 6 -->
+          <section class="form-step" data-step="6">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-calendar-check text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page6">หน้าที่ 6</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="meetingTitle">กำหนดการประชุมผู้ปกครองและรับมอบตัวนักเรียน</h3>
+              </div>
+            </div>
+            <div id="meetingSkip" class="hidden rounded-2xl bg-slate-50 border p-6 text-center text-slate-600"><p class="font-bold" data-i18n="withdrawNoMeeting">กรณีลาออกไม่ต้องระบุการเข้าร่วมประชุมมอบตัว</p></div>
+            <div id="meetingFields">
+              <div class="rounded-2xl bg-gradient-to-br from-brand-navy to-brand-navy2 text-white p-5 sm:p-7">
+                <p id="meetingDescription" class="text-blue-100"></p>
+                <div class="grid sm:grid-cols-3 gap-3 mt-5">
+                  <div class="bg-white/10 rounded-xl p-4"><i class="fa-regular fa-calendar text-brand-gold2 mr-2"></i><strong id="meetingDate"></strong></div>
+                  <div class="bg-white/10 rounded-xl p-4"><i class="fa-regular fa-clock text-brand-gold2 mr-2"></i><strong id="meetingTime"></strong></div>
+                  <div class="bg-white/10 rounded-xl p-4"><i class="fa-solid fa-location-dot text-brand-gold2 mr-2"></i><strong id="meetingLocation"></strong></div>
+                </div>
+              </div>
+              <div class="mt-5">
+                <label class="label required" data-i18n="meetingAttendance">การเข้าร่วมประชุม</label>
+                <div class="grid md:grid-cols-2 gap-4">
+                  <label class="choice-card meeting-choice meeting-attend"><input type="radio" name="meetingAttendance" value="ATTEND" class="accent-green-600" onchange="toggleMeetingCount()"><span class="meeting-choice-icon"><i class="fa-solid fa-circle-check"></i></span><span class="font-bold" data-i18n="canAttend">สามารถเข้าร่วมประชุมได้</span></label>
+                  <label class="choice-card meeting-choice meeting-unable"><input type="radio" name="meetingAttendance" value="UNABLE" class="accent-rose-600" onchange="toggleMeetingCount()"><span class="meeting-choice-icon"><i class="fa-solid fa-calendar-xmark"></i></span><span class="font-bold" data-i18n="cannotAttend">ไม่สามารถเข้าร่วมประชุมได้</span></label>
+                </div>
+              </div>
+              <div id="meetingCountWrap" class="hidden mt-4 max-w-md">
+                <label class="label required" data-i18n="meetingCount">จำนวนผู้ปกครองที่เข้าร่วม</label>
+                <input id="meetingCount" type="number" min="1" max="10" class="input" value="1">
+              </div>
+            </div>
+          </section>
+
+          <!-- STEP 7 -->
+          <section class="form-step" data-step="7">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-credit-card text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page7">หน้าที่ 7</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="paymentTitle">ช่องทางการชำระค่าธรรมเนียมการศึกษา</h3>
+              </div>
+            </div>
+            <div id="paymentSkip" class="hidden rounded-2xl bg-slate-50 border p-6 text-center text-slate-600"><p class="font-bold" data-i18n="withdrawNoPayment">กรณีลาออกไม่ต้องดำเนินการชำระค่าธรรมเนียมสำหรับการมอบตัว</p></div>
+            <div id="paymentContent">
+              <div id="paymentGallery" class="hidden"></div>
+              <div id="paymentEmpty" class="rounded-2xl bg-amber-50 border border-amber-200 p-6 text-center"><i class="fa-solid fa-building-columns text-3xl text-amber-600"></i><p class="mt-2 font-bold text-amber-800" data-i18n="paymentPending">กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ</p></div>
+            </div>
+          </section>
+
+          <!-- STEP 8 -->
+          <section class="form-step" data-step="8">
+            <div class="flex items-start gap-3 mb-5">
+              <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid fa-clipboard-check text-xl"></i></div>
+              <div>
+                <p class="text-sm font-bold text-brand-gold" data-i18n="page8">หน้าที่ 8</p>
+                <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="reviewTitle">ตรวจสอบและยืนยันข้อมูล</h3>
+              </div>
+            </div>
+            <div id="reviewContent" class="space-y-4"></div>
+            <div class="mt-5 rounded-2xl border-2 border-rose-200 bg-rose-50 p-5 text-rose-800 font-bold text-center">
+              <i class="fa-solid fa-bell mr-2"></i><span data-i18n="finalWarning">เมื่อกด “ส่งแบบฟอร์ม” แล้ว จะไม่สามารถแก้ไขข้อมูลหรือส่งแบบฟอร์มซ้ำได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง</span>
+            </div>
+          </section>
+
+          <div class="mt-7 pt-5 border-t flex flex-wrap items-center justify-between gap-3">
+            <button id="prevBtn" type="button" onclick="prevStep()" class="btn-light invisible"><i class="fa-solid fa-chevron-left mr-2"></i><span data-i18n="previous">ย้อนกลับ</span></button>
+            <div class="flex flex-wrap gap-2 ml-auto">
+              <button id="draftBtn" type="button" onclick="saveDraftFromForm()" class="btn-light hidden"><i class="fa-regular fa-floppy-disk mr-2"></i><span data-i18n="saveDraft">บันทึกแบบร่าง</span></button>
+              <button id="nextBtn" type="button" onclick="nextStep()" class="btn-primary"><span data-i18n="next">ถัดไป</span><i class="fa-solid fa-chevron-right ml-2"></i></button>
+              <button id="submitBtn" type="button" onclick="submitFinal()" class="btn-gold hidden"><i class="fa-solid fa-paper-plane mr-2"></i><span data-i18n="submitForm">ส่งแบบฟอร์ม</span></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- ADMIN -->
+    <section id="adminView" class="view">
+      <div id="adminContent"></div>
+    </section>
+  </main>
+
+  <footer class="mt-10 bg-brand-navy text-blue-100 text-center px-4 py-6">
+    <p id="footerText">© 2027 | แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570</p>
+  </footer>
+
+  <div id="imageViewer" class="image-viewer" role="dialog" aria-modal="true" aria-label="Image viewer">
+    <div class="image-viewer-toolbar">
+      <div><strong id="viewerTitle">รูปภาพ</strong><span id="viewerCounter" class="ml-2 text-sm text-slate-300"></span></div>
+      <div class="image-viewer-controls">
+        <button type="button" class="viewer-btn" data-no-action-alert="true" onclick="changeViewerImage(-1)" title="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+        <button type="button" class="viewer-btn" data-no-action-alert="true" onclick="changeViewerZoom(-1)" title="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <button type="button" class="viewer-btn" data-no-action-alert="true" onclick="resetViewerZoom()" title="Reset zoom"><span id="viewerZoomLabel">100%</span></button>
+        <button type="button" class="viewer-btn" data-no-action-alert="true" onclick="changeViewerZoom(1)" title="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button type="button" class="viewer-btn" data-no-action-alert="true" onclick="changeViewerImage(1)" title="Next"><i class="fa-solid fa-chevron-right"></i></button>
+        <button type="button" class="viewer-btn" data-no-action-alert="true" onclick="closeImageViewer()" title="Close"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+    </div>
+    <div id="imageViewerStage" class="image-viewer-stage"><div id="viewerCanvas" class="image-viewer-canvas"><img id="viewerImage" alt="Preview"></div></div>
+  </div>
+
+<script>
+'use strict';
+
+const I18N = {
+  th: {
+    loading:'กำลังโหลดระบบ...', appTitle:'แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570', schoolName:'โรงเรียนสารสาสน์เอกตรา', academicYear:'ปีการศึกษา 2570',
+    heroTitle:'แจ้งความจำนงศึกษาต่อ หรือ ลาออก', heroSubtitle:'กรุณาเลือกแบบฟอร์มตามระดับชั้นปัจจุบันของนักเรียน และกรอกข้อมูลให้ครบถ้วนก่อนส่งแบบฟอร์ม',
+    selectForm:'เลือกแบบฟอร์มตามระดับชั้น', selectFormHelp:'เลือก 1 แบบฟอร์มเพื่อเริ่มกรอกข้อมูล', resumeTitle:'เปิดแบบร่างที่บันทึกไว้', resumeHelp:'กรอกรหัสนักเรียนและอีเมลเดียวกับที่ใช้บันทึกแบบร่าง', resumeButton:'เปิดแบบร่าง',
+    studentId:'รหัสนักเรียน', parentEmail:'อีเมลผู้ปกครอง', backHome:'กลับหน้าหลัก', selectedForm:'แบบฟอร์มที่เลือก',
+    page1:'หน้าที่ 1', importantInfo:'ข้อควรทราบ', deadlineLabel:'กำหนดส่ง:', studentDocsTitle:'เอกสารของนักเรียน', studentDoc1:'สำเนาสูติบัตร หรือบัตรประชาชน หรือ Passport เล่มปัจจุบัน', studentDoc2:'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)', parentDocsTitle:'เอกสารของบิดา มารดา หรือผู้ปกครอง', parentDoc1:'สำเนาบัตรประชาชน หรือ Passport เล่มปัจจุบัน', parentDoc2:'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)',
+    page2:'หน้าที่ 2', parentInfo:'ข้อมูลผู้แจ้งความจำนง', parentInfoHelp:'ต้องเป็นบิดา มารดา หรือผู้ปกครองตามกฎหมายที่มีอำนาจลงนาม', parentPrefix:'คำนำหน้า', otherPrefix:'ระบุคำนำหน้า', choose:'-- เลือก --', parentName:'ชื่อ-นามสกุล ผู้แจ้งความจำนง', parentId:'เลขประจำตัวประชาชน / Passport', identityHelp:'ใช้เพื่อยืนยันตัวตนเท่านั้น', phone:'เบอร์โทรศัพท์', emailDuplicateHelp:'อีเมลนี้ใช้บันทึกแบบร่างและตรวจสอบการส่งซ้ำ', relationship:'ความสัมพันธ์กับนักเรียน', father:'บิดา', mother:'มารดา', guardian:'ผู้ปกครองอื่น', relationshipOther:'เกี่ยวข้องกับนักเรียนเป็น', guardianDefinition:'ผู้ปกครองหมายถึงผู้ดูแลรับผิดชอบนักเรียนและยินยอมรับเงื่อนไขของโรงเรียนทุกประการ',
+    page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียน แล้วกดตรวจสอบเพื่อดึงข้อมูลจากฐานข้อมูล', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', verifyStudent:'ตรวจสอบข้อมูล', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังตรวจสอบรหัส', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
+    page4:'หน้าที่ 4', feeCheck:'ตรวจสอบค่าธรรมเนียมการศึกษา:', openLink:'เปิดลิงก์', continueHelp:'ประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา', withdrawHelp:'ยืนยันการลาออกเมื่อจบระดับชั้นปัจจุบัน', thirdLanguageM1:'การเลือกเรียนภาษาที่สาม ระดับชั้นมัธยมศึกษาปีที่ 1-3', thirdLanguageM1Help:'เลือกภาษาจีนหรือภาษาญี่ปุ่น และเรียนต่อเนื่องจนจบมัธยมศึกษาปีที่ 3', chinese:'ภาษาจีน', japanese:'ภาษาญี่ปุ่น', english:'ภาษาอังกฤษ', ackLanguageM1:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 3 โดยไม่มีการเปลี่ยนแปลง', studyPlanTitle:'การเลือกแผนการเรียน ระดับชั้นมัธยมศึกษาปีที่ 4-6', thirdLanguage:'ภาษาที่สาม', ackLanguageM4:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 6 โดยไม่มีการเปลี่ยนแปลง', nextSchool:'โรงเรียนที่นักเรียนจะไปศึกษาต่อ', statisticsOnly:'ใช้เพื่อบันทึกเป็นข้อมูลสถิติของโรงเรียนเท่านั้น', withdrawalReason:'สาเหตุสำคัญที่ตัดสินใจย้ายออก',
+    page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG, WEBP ขนาดไม่เกิน 5 MB ต่อไฟล์ สูงสุด 4 ไฟล์ต่อหมวด และรวมทุกหมวดไม่เกิน 15 MB', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', motherDocuments:'แนบเอกสารของมารดา', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'ไม่บังคับแนบ ใช้เฉพาะกรณีผู้แจ้งความจำนงไม่ใช่บิดาหรือมารดา',
+    page6:'หน้าที่ 6', meetingTitle:'กำหนดการประชุมผู้ปกครองและรับมอบตัวนักเรียน', withdrawNoMeeting:'กรณีลาออกไม่ต้องระบุการเข้าร่วมประชุมมอบตัว', meetingAttendance:'การเข้าร่วมประชุม', canAttend:'สามารถเข้าร่วมประชุมได้', cannotAttend:'ไม่สามารถเข้าร่วมประชุมได้', meetingCount:'จำนวนผู้ปกครองที่เข้าร่วม',
+    page7:'หน้าที่ 7', paymentTitle:'ช่องทางการชำระค่าธรรมเนียมการศึกษา', withdrawNoPayment:'กรณีลาออกไม่ต้องดำเนินการชำระค่าธรรมเนียมสำหรับการมอบตัว', paymentPending:'กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ',
+    page8:'หน้าที่ 8', reviewTitle:'ตรวจสอบและยืนยันข้อมูล', finalWarning:'เมื่อกด “ส่งแบบฟอร์ม” แล้ว จะไม่สามารถแก้ไขข้อมูลหรือส่งแบบฟอร์มซ้ำได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง', previous:'ย้อนกลับ', saveDraft:'บันทึกแบบร่าง', next:'ถัดไป', submitForm:'ส่งแบบฟอร์ม',
+    formOpen:'ระบบเปิดรับแบบฟอร์ม', formClosed:'ระบบปิดรับแบบฟอร์ม', startForm:'เริ่มกรอกแบบฟอร์ม', dashboard:'Dashboard', responses:'ข้อมูลแบบฟอร์ม', reviewStudents:'ตรวจสอบรายชื่อนักเรียน', students:'จัดการนักเรียน', settings:'ตั้งค่าระบบ', users:'ผู้ใช้งาน', logs:'Log Activity', home:'หน้าหลัก', refresh:'Refresh', search:'ค้นหา', add:'เพิ่มข้อมูล', edit:'แก้ไข', delete:'ลบ', view:'ดูข้อมูล', total:'รวม', responded:'กรอกแล้ว', pending:'ยังไม่กรอก', continue:'ศึกษาต่อ', withdraw:'ลาออก', actions:'จัดการ', status:'สถานะ', className:'ชั้นเรียน', teacher:'ครูประจำชั้น', sequence:'ลำดับ', submittedDate:'วันที่กรอก'
+  },
+  en: {
+    loading:'Loading application...', appTitle:'Continuation of Study Intention Form — Academic Year 2027', schoolName:'Sarasas Ektra School', academicYear:'Academic Year 2027',
+    heroTitle:'Declare Continuation or Withdrawal', heroSubtitle:'Select the form that matches the student’s current level and complete all required information before submission.',
+    selectForm:'Select a Form by Level', selectFormHelp:'Choose one form to begin', resumeTitle:'Resume a Saved Draft', resumeHelp:'Enter the same student ID and parent email used to save the draft', resumeButton:'Resume Draft',
+    studentId:'Student ID', parentEmail:'Parent Email', backHome:'Back to Home', selectedForm:'Selected Form',
+    page1:'Page 1', importantInfo:'Important Information', deadlineLabel:'Deadline:', studentDocsTitle:'Student Documents', studentDoc1:'Birth certificate, national ID card, or current passport', studentDoc2:'Name-change document, if applicable', parentDocsTitle:'Father, Mother, or Guardian Documents', parentDoc1:'National ID card or current passport', parentDoc2:'Name-change document, if applicable',
+    page2:'Page 2', parentInfo:'Declarant Information', parentInfoHelp:'The declarant must be the student’s father, mother, or legal guardian with full signing authority.', parentPrefix:'Title', otherPrefix:'Specify title', choose:'-- Select --', parentName:'Declarant’s Full Name', parentId:'National ID / Passport Number', identityHelp:'Used for identity verification only', phone:'Phone Number', emailDuplicateHelp:'This email is used to resume drafts and prevent duplicate submissions', relationship:'Relationship to Student', father:'Father', mother:'Mother', guardian:'Other Guardian', relationshipOther:'Relationship to Student', guardianDefinition:'A guardian is responsible for the student and accepts all school conditions.',
+    page3:'Page 3', studentInfo:'Student Information', studentLookupHelp:'Enter the student ID and verify it against the school database', studentIdHelp:'This is not the classroom roll number', verifyStudent:'Verify Student', studentVerified:'Student verified', studentResultWaiting:'Student details will appear after verification', thaiFullName:'Thai Full Name', englishFullName:'English Full Name', currentClass:'Current Class', homeroom:'Homeroom Teacher',
+    page4:'Page 4', feeCheck:'Check tuition fees:', openLink:'Open Link', continueHelp:'The student will continue at Sarasas Ektra School', withdrawHelp:'Confirm withdrawal after completing the current level', thirdLanguageM1:'Third-Language Selection for Years 7–9', thirdLanguageM1Help:'Choose Chinese or Japanese and study it continuously through Year 9', chinese:'Chinese', japanese:'Japanese', english:'English', ackLanguageM1:'I acknowledge that the selected language must be studied continuously through Year 9 without change.', studyPlanTitle:'Study Plan Selection for Years 10–12', thirdLanguage:'Third Language', ackLanguageM4:'I acknowledge that the selected language must be studied continuously through Year 12 without change.', nextSchool:'Next School', statisticsOnly:'Used only for school statistical records', withdrawalReason:'Main Reason for Withdrawal',
+    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'PDF, JPG, PNG, or WEBP; maximum 5 MB per file and 4 files per category', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate/ID/passport and name-change document, if applicable', fatherDocuments:'Father’s Documents', motherDocuments:'Mother’s Documents', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'Optional; use only when the declarant is not the father or mother',
+    page6:'Page 6', meetingTitle:'Parent Meeting and Student Enrolment Schedule', withdrawNoMeeting:'No enrolment meeting response is required for withdrawal', meetingAttendance:'Meeting Attendance', canAttend:'Able to attend', cannotAttend:'Unable to attend', meetingCount:'Number of Parents Attending',
+    page7:'Page 7', paymentTitle:'Tuition Payment Channels', withdrawNoPayment:'No enrolment payment action is required for withdrawal', paymentPending:'Please check the school announcement or contact the Administration Office for payment channels.',
+    page8:'Page 8', reviewTitle:'Review and Confirm', finalWarning:'After clicking “Submit Form,” the information cannot be edited and the form cannot be submitted again. Please verify everything carefully.', previous:'Previous', saveDraft:'Save Draft', next:'Next', submitForm:'Submit Form',
+    formOpen:'Form is open', formClosed:'Form is closed', startForm:'Start Form', dashboard:'Dashboard', responses:'Form Responses', reviewStudents:'Student Review', students:'Student Management', settings:'System Settings', users:'Users', logs:'Activity Log', home:'Home', refresh:'Refresh', search:'Search', add:'Add', edit:'Edit', delete:'Delete', view:'View', total:'Total', responded:'Responded', pending:'Pending', continue:'Continue', withdraw:'Withdraw', actions:'Actions', status:'Status', className:'Class', teacher:'Homeroom Teacher', sequence:'No.', submittedDate:'Submitted Date'
+  }
+};
+
+const MAX_TOTAL_UPLOAD_BYTES = 15 * 1024 * 1024;
+
+const state = {
+  bootstrap: null,
+  lang: localStorage.getItem('ektra-intention-lang') || 'th',
+  formType: '',
+  currentStep: 1,
+  studentVerified: false,
+  student: null,
+  adminSection: '',
+  reviewClass: '',
+  charts: [],
+  imageViewer: { items: [], index: 0, zoomIndex: 0 },
+  galleries: {},
+  submitting: false
+};
+
+const stepTitles = {
+  th: ['ข้อควรทราบ','ผู้แจ้งความจำนง','ข้อมูลนักเรียน','ความประสงค์','แนบหลักฐาน','ประชุมผู้ปกครอง','ชำระค่าธรรมเนียม','ตรวจสอบข้อมูล'],
+  en: ['Information','Declarant','Student','Intention','Documents','Meeting','Payment','Review']
+};
+
+window.addEventListener('DOMContentLoaded', initApp);
+document.addEventListener('click', handleGlobalActionAlert, true);
+document.addEventListener('keydown', event => {
+  if(!document.getElementById('imageViewer')?.classList.contains('active')) return;
+  if(event.key==='Escape') closeImageViewer();
+  if(event.key==='ArrowLeft') changeViewerImage(-1);
+  if(event.key==='ArrowRight') changeViewerImage(1);
+  if(event.key==='+' || event.key==='=') changeViewerZoom(1);
+  if(event.key==='-') changeViewerZoom(-1);
+});
+
+async function initApp() {
+  try {
+    state.bootstrap = await gas('getAppBootstrap');
+    document.getElementById('siteLogo').src = state.bootstrap.app.logoUrl;
+    document.getElementById('heroLogo').src = state.bootstrap.app.logoUrl;
+    document.getElementById('footerText').textContent = state.bootstrap.app.footer;
+    renderParentPrefixOptions();
+    renderFormCards();
+    renderAdminNavigation();
+    applyLanguage();
+  } catch (error) {
+    console.error('initApp', error);
+    Swal.fire({ icon:'error', title:'ไม่สามารถเปิดระบบได้', text:error.message });
+  } finally {
+    document.getElementById('loadingOverlay').classList.add('hidden');
+  }
+}
+
+function tr(key) { return (I18N[state.lang] && I18N[state.lang][key]) || key; }
+
+function setting(key) {
+  if (!state.formType || !state.bootstrap) return '';
+  const s = state.bootstrap.settings[state.formType] || {};
+  const localized = s[key + '_' + state.lang.toUpperCase()];
+  return localized !== undefined && localized !== '' ? localized : s[key];
+}
+
+function formatDateOnlyValue(value) {
+  if(value === null || value === undefined || value === '') return '';
+  const text=String(value).trim();
+  const looksLikeDateObject=/GMT[+-]\d{4}|\d{4}-\d{2}-\d{2}T\d{2}:\d{2}|\b00:00:00\b/.test(text);
+  if(!looksLikeDateObject) return text;
+  const date=new Date(text);
+  if(Number.isNaN(date.getTime())) return text.replace(/\s+00:00:00.*$/,'').trim();
+  try {
+    const locale=state.lang==='th'?'th-TH-u-ca-buddhist':'en-GB';
+    return new Intl.DateTimeFormat(locale,{weekday:'long',day:'numeric',month:'long',year:'numeric',timeZone:'Asia/Bangkok'}).format(date);
+  } catch(ignore) {
+    return text.replace(/\s+00:00:00.*$/,'').trim();
+  }
+}
+
+function applyLanguage() {
+  document.documentElement.lang = state.lang;
+  document.getElementById('langLabel').textContent = state.lang === 'th' ? 'EN' : 'TH';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (I18N[state.lang][key]) el.textContent = I18N[state.lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.dataset.i18nPlaceholder;
+    if (I18N[state.lang][key]) el.placeholder = I18N[state.lang][key];
+  });
+  renderParentPrefixOptions();
+  renderFormCards();
+  renderAdminNavigation();
+  renderStepper();
+  if (state.formType) renderFormMetadata();
+  if (state.adminSection) showAdminSection(state.adminSection, true);
+}
+
+function toggleLanguage() {
+  state.lang = state.lang === 'th' ? 'en' : 'th';
+  localStorage.setItem('ektra-intention-lang', state.lang);
+  applyLanguage();
+}
+
+function renderFormCards() {
+  if (!state.bootstrap) return;
+  const forms = state.bootstrap.forms || [];
+  const html = forms.map(form => {
+    const settings = state.bootstrap.settings[form.code] || {};
+    const isOpen = Boolean(settings.FORM_OPEN);
+    const title = state.lang === 'th' ? form.titleTH : form.titleEN;
+    const current = (settings.CLASS_OPTIONS || form.currentClasses.join(',')).toString().split(',').map(v=>v.trim()).filter(Boolean).join(', ');
+    const icon = form.code === 'P1' ? 'fa-school' : form.code === 'M1' ? 'fa-book-open-reader' : 'fa-flask-vial';
+    return `
+      <article class="card overflow-hidden group">
+        <div class="h-2 ${isOpen ? 'bg-brand-gold' : 'bg-slate-300'}"></div>
+        <div class="p-5 sm:p-6">
+          <div class="flex items-center justify-between">
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center"><i class="fa-solid ${icon} text-xl"></i></div>
+            <span class="badge ${isOpen ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-600'}"><i class="fa-solid ${isOpen ? 'fa-circle-check' : 'fa-circle-xmark'}"></i>${isOpen ? tr('formOpen') : tr('formClosed')}</span>
+          </div>
+          <p class="mt-4 text-xs font-extrabold text-brand-gold tracking-widest">${escapeHtml(form.code)}</p>
+          <h4 class="text-lg font-extrabold text-brand-navy mt-1 min-h-[56px]">${escapeHtml(title)}</h4>
+          <p class="mt-2 text-sm text-slate-500"><i class="fa-solid fa-users mr-2"></i>${escapeHtml(current)}</p>
+          <button ${isOpen ? '' : 'disabled'} onclick="openForm('${form.code}')" class="mt-5 w-full ${isOpen ? 'btn-primary' : 'btn-light opacity-50 cursor-not-allowed'}">
+            <i class="fa-solid fa-pen mr-2"></i>${tr('startForm')}
+          </button>
+        </div>
+      </article>`;
+  }).join('');
+  document.getElementById('formCards').innerHTML = html;
+  const anyOpen = forms.some(f => Boolean((state.bootstrap.settings[f.code] || {}).FORM_OPEN));
+  document.getElementById('formStatusBanner').innerHTML = anyOpen
+    ? `<i class="fa-solid fa-circle-check text-emerald-300"></i><strong>${tr('formOpen')}</strong>`
+    : `<i class="fa-solid fa-circle-xmark text-rose-300"></i><strong>${tr('formClosed')}</strong>`;
+}
+
+function renderAdminNavigation() {
+  if (!state.bootstrap) return;
+  const user = state.bootstrap.user || { role:'User' };
+  const allowed = ['Admin','SuperAdmin','Teacher'].includes(user.role);
+  const nav = document.getElementById('adminNav');
+  const mobile = document.getElementById('mobileMenu');
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  if (!allowed) {
+    nav.classList.add('hidden');
+    mobileBtn.classList.add('hidden');
+    mobile.innerHTML = '';
+    return;
+  }
+  nav.classList.remove('hidden');
+  mobileBtn.classList.remove('hidden');
+  const adminAccess = user.role === 'Admin' || user.role === 'SuperAdmin';
+  const items = [
+    ['home','fa-house'],
+    ...(adminAccess ? [['dashboard','fa-chart-pie'], ['responses','fa-file-lines']] : []),
+    ['reviewStudents','fa-clipboard-user'],
+    ...(user.role === 'SuperAdmin' ? [['students','fa-user-graduate']] : []),
+    ...(adminAccess ? [['settings','fa-gears']] : []),
+    ...(user.role === 'SuperAdmin' ? [['users','fa-users-gear'],['logs','fa-clock-rotate-left']] : [])
+  ];
+  const buttonHtml = items.map(([key,icon]) => {
+    const section = key === 'reviewStudents' ? 'studentReview' : key;
+    return `<button class="nav-btn shrink-0 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 ${state.adminSection===section?'active':''}" onclick="${key==='home'?'showHome()':`showAdminSection('${section}')`}"><i class="fa-solid ${icon} mr-1.5"></i>${tr(key)}</button>`;
+  }).join('');
+  nav.innerHTML = buttonHtml;
+  mobile.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${buttonHtml}</div><div class="mt-3 text-xs text-blue-100">${escapeHtml(user.name || user.email)} · ${escapeHtml(user.role)}</div>`;
+}
+
+function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById(viewId).classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function showHome() {
+  state.adminSection = '';
+  renderAdminNavigation();
+  showView('homeView');
+}
+
+function openForm(formType, draft) {
+  const settings = state.bootstrap.settings[formType] || {};
+  if (!settings.FORM_OPEN && !draft) {
+    Swal.fire({ icon:'warning', title:tr('formClosed') });
+    return;
+  }
+  resetForm();
+  state.formType = formType;
+  state.currentStep = 1;
+  document.getElementById('formType').value = formType;
+  renderFormMetadata();
+  renderStepper();
+  showStep(1);
+  if (draft) applyDraft(draft);
+  showView('formView');
+}
+
+function resetForm() {
+  document.getElementById('intentionForm').reset();
+  state.studentVerified = false;
+  state.student = null;
+  document.getElementById('submissionId').value = '';
+  document.getElementById('studentResult').classList.add('hidden');
+  document.getElementById('studentResultEmpty').classList.remove('hidden');
+  document.getElementById('relationshipOtherWrap').classList.add('hidden');
+  document.getElementById('parentPrefixOtherWrap').classList.add('hidden');
+  document.getElementById('parentPrefixOther').value='';
+  renderParentPrefixOptions();
+  document.getElementById('continueOptions').classList.add('hidden');
+  document.getElementById('withdrawOptions').classList.add('hidden');
+  document.getElementById('m1LanguageBox').classList.add('hidden');
+  document.getElementById('m4PlanBox').classList.add('hidden');
+  document.getElementById('m4LanguageOptions').classList.add('hidden');
+}
+
+function renderFormMetadata() {
+  if (!state.formType || !state.bootstrap) return;
+  const form = state.bootstrap.forms.find(f=>f.code===state.formType);
+  const title = state.lang === 'th' ? form.titleTH : form.titleEN;
+  document.getElementById('selectedFormTitle').textContent = title;
+  document.getElementById('noticeText').textContent = setting('NOTICE_TEXT');
+  document.getElementById('legalAckText').textContent = setting('LEGAL_ACK_TEXT');
+  const deadlineDisplay = formatDateOnlyValue(setting('FORM_DEADLINE'));
+  document.getElementById('deadlineText').textContent = deadlineDisplay;
+  document.getElementById('deadlineText2').textContent = deadlineDisplay;
+  document.getElementById('intentionHeading').textContent = (state.lang==='th' ? 'การแจ้งความจำนงศึกษาต่อ ' : 'Continuation Intention — ') + title;
+  document.getElementById('continueLabel').textContent = state.lang==='th' ? form.targetTH : form.targetEN;
+  document.getElementById('withdrawLabel').textContent = state.lang==='th' ? form.withdrawalTH : form.withdrawalEN;
+  document.getElementById('withdrawConfirmText').textContent = (state.lang==='th' ? 'ข้าพเจ้ายืนยันให้นักเรียน' : 'I confirm that the student will ') + (state.lang==='th' ? form.withdrawalTH : form.withdrawalEN);
+
+  renderImageGallery('noticeGallery', toImageItems(setting('NOTICE_IMAGE_URL'), state.lang==='th'?'เอกสารข้อควรทราบ':'Important information'), 'stack');
+  renderImageGallery('intentionGallery', toImageItems(setting('INTENTION_IMAGE_URL'), state.lang==='th'?'ใบแจ้งความจำนง':'Intention document'), 'stack');
+  const fee = setting('FEE_URL');
+  document.getElementById('feeLinkWrap').classList.toggle('hidden', !fee);
+  if (fee) document.getElementById('feeLink').href = fee;
+
+  document.getElementById('m1LanguageBox').classList.toggle('hidden', state.formType !== 'M1');
+  document.getElementById('m4PlanBox').classList.toggle('hidden', state.formType !== 'M4');
+  document.getElementById('meetingDescription').textContent = setting('MEETING_DESCRIPTION');
+  document.getElementById('meetingDate').textContent = formatDateOnlyValue(setting('MEETING_DATE'));
+  document.getElementById('meetingTime').textContent = setting('MEETING_TIME');
+  document.getElementById('meetingLocation').textContent = setting('MEETING_LOCATION');
+
+  const paymentItems = toImageItems(setting('PAYMENT_IMAGE_URL'), state.lang==='th'?'ช่องทางการชำระค่าธรรมเนียม':'Payment channel');
+  renderImageGallery('paymentGallery', paymentItems, 'stack');
+  document.getElementById('paymentEmpty').classList.toggle('hidden', paymentItems.length > 0);
+  renderExampleImages();
+}
+
+function parseImageUrls(raw) {
+  if(Array.isArray(raw)) return raw.map(String).map(v=>v.trim()).filter(Boolean);
+  const text=String(raw||'').trim();
+  if(!text) return [];
+  if(text.startsWith('[')) {
+    try { const parsed=JSON.parse(text); if(Array.isArray(parsed)) return parsed.map(String).map(v=>v.trim()).filter(Boolean); } catch(ignore) {}
+  }
+  return text.split(/\r?\n|\|/).map(v=>v.trim()).filter(Boolean);
+}
+
+function toImageItems(raw, baseLabel) {
+  const urls=parseImageUrls(raw);
+  return urls.map((url,index)=>({url,label:`${baseLabel}${urls.length>1?` ${index+1}`:''}`}));
+}
+
+function renderImageGallery(containerId, items, layout='stack') {
+  const container=document.getElementById(containerId); if(!container)return;
+  const list=(items||[]).filter(item=>item&&item.url);
+  state.galleries[containerId]=list;
+  container.classList.toggle('hidden',!list.length);
+  if(!list.length){container.innerHTML='';return;}
+  const galleryClass=layout==='scroll'?'image-gallery-scroll':layout==='grid'?'image-gallery-grid':layout==='row'?'image-gallery-row':'image-gallery-stack';
+  const galleryStyle=layout==='row'?` style="--gallery-count:${Math.max(1,list.length)}"`:'';
+  container.innerHTML=`<div class="${galleryClass}"${galleryStyle}>${list.map((item,index)=>`<figure class="image-gallery-item" role="button" tabindex="0" data-no-action-alert="true" onclick="openGalleryImage('${escapeAttr(containerId)}',${index})" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openGalleryImage('${escapeAttr(containerId)}',${index});}"><img src="${escapeAttr(item.url)}" alt="${escapeAttr(item.label||'Image')}"><figcaption class="image-gallery-caption"><i class="fa-solid fa-magnifying-glass-plus mr-1"></i>${escapeHtml(item.label||'')} · ${state.lang==='th'?'กดเพื่อดูเต็มจอและซูม':'Click for full screen and zoom'}</figcaption></figure>`).join('')}</div>`;
+}
+
+function openGalleryImage(containerId,startIndex=0) {
+  openImageViewer(state.galleries[containerId]||[],startIndex);
+}
+
+function renderExampleImages() {
+  const data = [
+    {url:setting('EXAMPLE_STUDENT_DOC_URL'),label:state.lang==='th'?'ตัวอย่างบัตรประชาชน':'ID Card Example'},
+    {url:setting('EXAMPLE_PASSPORT_URL'),label:state.lang==='th'?'ตัวอย่าง Passport':'Passport Example'},
+    {url:setting('EXAMPLE_NAME_CHANGE_URL'),label:state.lang==='th'?'ตัวอย่างใบเปลี่ยนชื่อ':'Name-change Document Example'}
+  ].filter(item=>item.url);
+  renderImageGallery('exampleImages',data,'row');
+}
+
+function openImageViewer(items,startIndex=0) {
+  state.imageViewer.items=(items||[]).filter(item=>item&&item.url);
+  if(!state.imageViewer.items.length)return;
+  state.imageViewer.index=Math.max(0,Math.min(Number(startIndex)||0,state.imageViewer.items.length-1));
+  state.imageViewer.zoomIndex=0;
+  document.getElementById('imageViewer').classList.add('active');
+  document.body.style.overflow='hidden';
+  renderImageViewer();
+}
+function closeImageViewer(){document.getElementById('imageViewer').classList.remove('active');document.body.style.overflow='';}
+function renderImageViewer(){
+  const item=state.imageViewer.items[state.imageViewer.index]; if(!item)return;
+  const levels=[1,1.5,2,3]; const zoom=levels[state.imageViewer.zoomIndex]||1;
+  const image=document.getElementById('viewerImage');
+  const canvas=document.getElementById('viewerCanvas');
+  const stage=document.getElementById('imageViewerStage');
+  canvas.style.width=`${Math.round(zoom*100)}%`;
+  canvas.style.minWidth=`${Math.round(zoom*100)}%`;
+  image.src=item.url;
+  image.alt=item.label||'Image';
+  image.style.transform='none';
+  document.getElementById('viewerTitle').textContent=item.label|| (state.lang==='th'?'รูปภาพ':'Image');
+  document.getElementById('viewerCounter').textContent=`${state.imageViewer.index+1} / ${state.imageViewer.items.length}`;
+  document.getElementById('viewerZoomLabel').textContent=`${Math.round(zoom*100)}%`;
+  requestAnimationFrame(()=>{
+    stage.scrollTop=0;
+    stage.scrollLeft=Math.max(0,(stage.scrollWidth-stage.clientWidth)/2);
+  });
+}
+function changeViewerImage(delta){const total=state.imageViewer.items.length;if(!total)return;state.imageViewer.index=(state.imageViewer.index+delta+total)%total;state.imageViewer.zoomIndex=0;renderImageViewer();}
+function changeViewerZoom(delta){state.imageViewer.zoomIndex=Math.max(0,Math.min(3,state.imageViewer.zoomIndex+delta));renderImageViewer();}
+function resetViewerZoom(){state.imageViewer.zoomIndex=0;renderImageViewer();}
+
+function renderStepper() {
+  const wrap = document.getElementById('stepper');
+  if (!wrap) return;
+  const labels = stepTitles[state.lang];
+  wrap.innerHTML = labels.map((label,i)=>{
+    const n=i+1;
+    const cls = n < state.currentStep ? 'done' : n===state.currentStep ? 'active' : '';
+    const icon = n < state.currentStep ? '<i class="fa-solid fa-check"></i>' : n;
+    return `${i?`<div class="step-line ${n<=state.currentStep?'done':''}"></div>`:''}<div class="flex flex-col items-center min-w-[64px]"><div class="step-dot ${cls}">${icon}</div><span class="step-label text-[11px] mt-2 text-center ${n===state.currentStep?'font-bold text-brand-navy':'text-slate-500'}">${escapeHtml(label)}</span></div>`;
+  }).join('');
+}
+
+function showStep(step) {
+  state.currentStep = Math.max(1, Math.min(8, step));
+  document.querySelectorAll('.form-step').forEach(s=>s.classList.toggle('active', Number(s.dataset.step)===state.currentStep));
+  document.getElementById('prevBtn').classList.toggle('invisible', state.currentStep===1);
+  document.getElementById('nextBtn').classList.toggle('hidden', state.currentStep===8);
+  document.getElementById('submitBtn').classList.toggle('hidden', state.currentStep!==8);
+  document.getElementById('draftBtn').classList.toggle('hidden', state.currentStep<2 || state.currentStep===8);
+  if (state.currentStep===8) renderReview();
+  renderStepper();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+async function nextStep() {
+  try {
+    validateStep(state.currentStep);
+    if (state.currentStep===2) await checkDuplicateBeforeContinue();
+    showStep(state.currentStep+1);
+  } catch (error) {
+    Swal.fire({ icon:'warning', title:state.lang==='th'?'กรุณาตรวจสอบข้อมูล':'Please check the information', text:error.message });
+  }
+}
+function prevStep() { showStep(state.currentStep-1); }
+
+function validateStep(step) {
+  if (step===1 && !document.getElementById('acknowledgedRules').checked) throw new Error(state.lang==='th'?'กรุณาติ๊กรับทราบระเบียบและเงื่อนไข':'Please acknowledge the information and conditions.');
+  if (step===2) {
+    const required=['parentPrefix','parentName','parentIdNo','parentPhone','parentEmail'];
+    required.forEach(id=>{ if(!value(id)) throw new Error((state.lang==='th'?'กรุณากรอก ':'Please enter ') + labelFor(id)); });
+    if(value('parentPrefix')==='__OTHER__'&&!value('parentPrefixOther')) throw new Error(state.lang==='th'?'กรุณาระบุคำนำหน้า':'Please specify the title.');
+    if(!/^[\x00-\x7F]+$/.test(value('parentEmail'))||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value('parentEmail'))) throw new Error(state.lang==='th'?'อีเมลต้องเป็นภาษาอังกฤษและมีรูปแบบถูกต้อง':'Email must use English characters and a valid format.');
+    if(!/^\d{9,10}$/.test(value('parentPhone'))) throw new Error(state.lang==='th'?'เบอร์โทรศัพท์ต้องเป็นตัวเลข 9-10 หลัก':'Phone number must contain 9–10 digits.');
+    const rel=radioValue('relationship'); if(!rel) throw new Error(state.lang==='th'?'กรุณาเลือกความสัมพันธ์กับนักเรียน':'Please select the relationship to the student.');
+    if(rel==='GUARDIAN'&&!value('relationshipOther')) throw new Error(state.lang==='th'?'กรุณาระบุความเกี่ยวข้องกับนักเรียน':'Please specify the relationship to the student.');
+  }
+  if (step===3 && !state.studentVerified) throw new Error(state.lang==='th'?'กรุณาตรวจสอบรหัสนักเรียนให้สำเร็จ':'Please verify the student ID.');
+  if (step===4) {
+    const intention=radioValue('intention'); if(!intention) throw new Error(state.lang==='th'?'กรุณาเลือกความประสงค์':'Please select an intention.');
+    if(intention==='WITHDRAW') {
+      if(!value('nextSchool')) throw new Error(state.lang==='th'?'กรุณาระบุโรงเรียนที่ไปศึกษาต่อ':'Please enter the next school.');
+      if(!value('withdrawalReason')) throw new Error(state.lang==='th'?'กรุณาระบุสาเหตุที่ย้ายออก':'Please enter the withdrawal reason.');
+    } else {
+      if(state.formType==='M1') {
+        if(!radioValue('thirdLanguage')) throw new Error(state.lang==='th'?'กรุณาเลือกภาษาที่สาม':'Please select a third language.');
+        if(!document.getElementById('acknowledgedLanguageM1').checked) throw new Error(state.lang==='th'?'กรุณาติ๊กรับทราบเงื่อนไขภาษาที่สาม':'Please acknowledge the third-language condition.');
+      }
+      if(state.formType==='M4') {
+        const plan=radioValue('studyPlan'); if(!plan) throw new Error(state.lang==='th'?'กรุณาเลือกแผนการเรียน':'Please select a study plan.');
+        if(['EXTRA_LANGUAGE','BILINGUAL_SCI_MATH'].includes(plan)) {
+          if(!radioValue('thirdLanguage')) throw new Error(state.lang==='th'?'กรุณาเลือกภาษาที่สาม':'Please select a third language.');
+          if(!document.getElementById('acknowledgedLanguageM4').checked) throw new Error(state.lang==='th'?'กรุณาติ๊กรับทราบเงื่อนไขภาษาที่สาม':'Please acknowledge the third-language condition.');
+        }
+      }
+    }
+  }
+  if (step===5 && radioValue('intention')==='CONTINUE' && Boolean(setting('REQUIRE_DOCUMENTS'))) {
+    ['studentFiles','fatherFiles','motherFiles'].forEach(id=>{ if(!document.getElementById(id).files.length) throw new Error(state.lang==='th'?'กรุณาแนบไฟล์ให้ครบทุกหมวดที่กำหนด':'Please upload all required document categories.'); });
+    validateFileInputs();
+  }
+  if (step===6 && radioValue('intention')==='CONTINUE') {
+    const attendance=radioValue('meetingAttendance'); if(!attendance) throw new Error(state.lang==='th'?'กรุณาระบุการเข้าร่วมประชุม':'Please specify meeting attendance.');
+    if(attendance==='ATTEND' && Number(value('meetingCount'))<1) throw new Error(state.lang==='th'?'กรุณาระบุจำนวนผู้เข้าร่วม':'Please enter the number attending.');
+  }
+}
+
+function labelFor(id) {
+  const map={parentPrefix:tr('parentPrefix'),parentName:tr('parentName'),parentIdNo:tr('parentId'),parentPhone:tr('phone'),parentEmail:tr('parentEmail')};
+  return map[id]||id;
+}
+
+function value(id) { return (document.getElementById(id)?.value || '').trim(); }
+function radioValue(name) { return document.querySelector(`input[name="${name}"]:checked`)?.value || ''; }
+function setRadio(name,val) { document.querySelectorAll(`input[name="${name}"]`).forEach(el=>el.checked=el.value===val); }
+
+function renderParentPrefixOptions() {
+  const select=document.getElementById('parentPrefix'); if(!select)return;
+  const current=getParentPrefixValue();
+  const standard={th:[['นาย','นาย'],['นาง','นาง'],['นางสาว','นางสาว']],en:[['Mr.','Mr.'],['Mrs.','Mrs.'],['Ms.','Ms.']]};
+  const codeMap={'นาย':'MR','Mr.':'MR','นาง':'MRS','Mrs.':'MRS','นางสาว':'MS','Ms.':'MS'};
+  const reverse={th:{MR:'นาย',MRS:'นาง',MS:'นางสาว'},en:{MR:'Mr.',MRS:'Mrs.',MS:'Ms.'}};
+  const code=codeMap[current]||'';
+  const custom=current&&!code?current:value('parentPrefixOther');
+  select.innerHTML=`<option value="">${escapeHtml(tr('choose'))}</option>${standard[state.lang].map(([v,l])=>`<option value="${v}">${l}</option>`).join('')}<option value="__OTHER__">${state.lang==='th'?'อื่นๆ':'Other'}</option>`;
+  if(code) select.value=reverse[state.lang][code];
+  else if(custom){select.value='__OTHER__';document.getElementById('parentPrefixOther').value=custom;}
+  toggleParentPrefixOther();
+}
+function toggleParentPrefixOther(){document.getElementById('parentPrefixOtherWrap')?.classList.toggle('hidden',value('parentPrefix')!=='__OTHER__');}
+function getParentPrefixValue(){const selected=value('parentPrefix');return selected==='__OTHER__'?value('parentPrefixOther'):selected;}
+function applyParentPrefix(prefix){
+  const standard=['นาย','นาง','นางสาว','Mr.','Mrs.','Ms.'];
+  renderParentPrefixOptions();
+  if(standard.includes(prefix)){
+    const map={'นาย':'นาย','นาง':'นาง','นางสาว':'นางสาว','Mr.':'Mr.','Mrs.':'Mrs.','Ms.':'Ms.'};
+    const codes={'นาย':'MR','Mr.':'MR','นาง':'MRS','Mrs.':'MRS','นางสาว':'MS','Ms.':'MS'};
+    const reverse={th:{MR:'นาย',MRS:'นาง',MS:'นางสาว'},en:{MR:'Mr.',MRS:'Mrs.',MS:'Ms.'}};
+    document.getElementById('parentPrefix').value=reverse[state.lang][codes[prefix]];
+  } else if(prefix){document.getElementById('parentPrefix').value='__OTHER__';document.getElementById('parentPrefixOther').value=prefix;}
+  toggleParentPrefixOther();
+}
+function sanitizeEmailInput(input){input.value=String(input.value||'').replace(/[^\x00-\x7F]/g,'').replace(/\s+/g,'');}
+
+function toggleRelationshipOther() {
+  const guardian=radioValue('relationship')==='GUARDIAN';
+  document.getElementById('relationshipOtherWrap').classList.toggle('hidden',!guardian);
+  document.getElementById('guardianFileWrap').classList.toggle('hidden',!guardian);
+}
+
+function toggleIntention() {
+  const intention=radioValue('intention');
+  const cont=intention==='CONTINUE';
+  const withdraw=intention==='WITHDRAW';
+  document.getElementById('continueOptions').classList.toggle('hidden',!cont);
+  document.getElementById('withdrawOptions').classList.toggle('hidden',!withdraw);
+  document.getElementById('uploadFields').classList.toggle('hidden',!cont);
+  document.getElementById('uploadSkip').classList.toggle('hidden',cont);
+  document.getElementById('meetingFields').classList.toggle('hidden',!cont);
+  document.getElementById('meetingSkip').classList.toggle('hidden',cont);
+  document.getElementById('paymentContent').classList.toggle('hidden',!cont);
+  document.getElementById('paymentSkip').classList.toggle('hidden',cont);
+  document.getElementById('continueChoice').classList.toggle('selected',cont);
+  document.getElementById('withdrawChoice').classList.toggle('selected',withdraw);
+  if(cont) {
+    document.getElementById('m1LanguageBox').classList.toggle('hidden',state.formType!=='M1');
+    document.getElementById('m4PlanBox').classList.toggle('hidden',state.formType!=='M4');
+  }
+}
+
+function toggleM4Language() {
+  const plan=radioValue('studyPlan');
+  const needs=['EXTRA_LANGUAGE','BILINGUAL_SCI_MATH'].includes(plan);
+  document.getElementById('m4LanguageOptions').classList.toggle('hidden',!needs);
+  if(!needs) {
+    document.querySelectorAll('input[name="thirdLanguage"]').forEach(el=>el.checked=false);
+    document.getElementById('acknowledgedLanguageM4').checked=false;
+  }
+}
+
+function toggleMeetingCount() { document.getElementById('meetingCountWrap').classList.toggle('hidden',radioValue('meetingAttendance')!=='ATTEND'); }
+
+async function lookupStudent() {
+  try {
+    const id=value('studentId'); if(!id) throw new Error(state.lang==='th'?'กรุณากรอกรหัสนักเรียน':'Please enter the student ID.');
+    showBusy(state.lang==='th'?'กำลังตรวจสอบข้อมูล...':'Verifying student...');
+    const result=await gas('findStudent',id,state.formType);
+    Swal.close();
+    if(!result.found) throw new Error(result.message);
+    state.student=result.student; state.studentVerified=true;
+    const s=result.student;
+    const thName=[s.PrefixTH,s.FirstNameTH,s.LastNameTH].filter(Boolean).join(' ');
+    const enName=[s.PrefixEN,s.FirstNameEN,s.LastNameEN].filter(Boolean).join(' ');
+    document.getElementById('studentPrefix').value=state.lang==='th'?s.PrefixTH:(s.PrefixEN||s.PrefixTH);
+    document.getElementById('studentName').value=state.lang==='th'?[s.FirstNameTH,s.LastNameTH].filter(Boolean).join(' '):([s.FirstNameEN,s.LastNameEN].filter(Boolean).join(' ')||[s.FirstNameTH,s.LastNameTH].filter(Boolean).join(' '));
+    document.getElementById('currentClass').value=s.CurrentClass||'';
+    document.getElementById('studentDisplayId').textContent=s.StudentId||id;
+    document.getElementById('studentDisplayNameTH').textContent=thName||'-';
+    document.getElementById('studentDisplayNameEN').textContent=enName||'-';
+    document.getElementById('studentDisplayClass').textContent=s.CurrentClass||'-';
+    document.getElementById('studentResultEmpty').classList.add('hidden');
+    document.getElementById('studentResult').classList.remove('hidden');
+  } catch(error) {
+    Swal.close(); state.studentVerified=false; state.student=null; document.getElementById('studentResult').classList.add('hidden'); document.getElementById('studentResultEmpty').classList.remove('hidden');
+    Swal.fire({icon:'error',title:state.lang==='th'?'ไม่พบข้อมูลนักเรียน':'Student not found',text:error.message});
+  }
+}
+
+document.getElementById('studentId').addEventListener('input',()=>{
+  state.studentVerified=false; state.student=null; document.getElementById('studentResult').classList.add('hidden'); document.getElementById('studentResultEmpty').classList.remove('hidden');
+});
+
+async function checkDuplicateBeforeContinue() {
+  const studentId=value('studentId');
+  if(!studentId) return;
+  const result=await gas('checkExistingSubmission',studentId,value('parentEmail'));
+  if(result.status==='SUBMITTED'||result.status==='PROCESSING') throw new Error(result.message);
+  if(result.status==='DRAFT' && !value('submissionId')) {
+    const answer=await Swal.fire({icon:'question',title:state.lang==='th'?'พบแบบร่างเดิม':'Saved draft found',text:state.lang==='th'?'ต้องการโหลดแบบร่างเดิมหรือไม่':'Would you like to load the saved draft?',showCancelButton:true,confirmButtonText:state.lang==='th'?'โหลดแบบร่าง':'Load Draft',cancelButtonText:state.lang==='th'?'ใช้ข้อมูลปัจจุบัน':'Keep Current'});
+    if(answer.isConfirmed) applyDraft(result.draft);
+  }
+}
+
+async function resumeDraft() {
+  try {
+    const id=value('resumeStudentId'), email=value('resumeEmail');
+    if(!id||!email) throw new Error(state.lang==='th'?'กรุณาระบุรหัสนักเรียนและอีเมล':'Please enter student ID and email.');
+    showBusy(state.lang==='th'?'กำลังค้นหาแบบร่าง...':'Looking for a draft...');
+    const result=await gas('checkExistingSubmission',id,email); Swal.close();
+    if(result.status==='SUBMITTED'||result.status==='PROCESSING') return Swal.fire({icon:'info',title:state.lang==='th'?(result.status==='PROCESSING'?'กำลังประมวลผล':'ส่งแบบฟอร์มแล้ว'):(result.status==='PROCESSING'?'Processing':'Already submitted'),text:result.message});
+    if(result.status!=='DRAFT') throw new Error(state.lang==='th'?'ไม่พบแบบร่างที่บันทึกไว้':'No saved draft was found.');
+    openForm(result.draft.FormType,result.draft);
+  } catch(error) { Swal.close(); Swal.fire({icon:'warning',title:state.lang==='th'?'ไม่พบแบบร่าง':'Draft not found',text:error.message}); }
+}
+
+function applyDraft(draft) {
+  if(!draft) return;
+  document.getElementById('submissionId').value=draft.SubmissionId||'';
+  const map={parentEmail:'ParentEmail',parentName:'ParentName',parentPhone:'ParentPhone',relationshipOther:'RelationshipOther',studentId:'StudentId',studentPrefix:'StudentPrefix',studentName:'StudentName',currentClass:'CurrentClass',nextSchool:'NextSchool',withdrawalReason:'WithdrawalReason',meetingCount:'MeetingCount'};
+  Object.entries(map).forEach(([id,key])=>{ if(document.getElementById(id)) document.getElementById(id).value=draft[key]||''; });
+  applyParentPrefix(draft.ParentPrefix||'');
+  // Parent ID is intentionally not returned by the server; it must be re-entered.
+  setRadio('relationship',draft.RelationshipCode||draft.Relationship); toggleRelationshipOther();
+  setRadio('intention',draft.IntentionCode||draft.Intention); toggleIntention();
+  setRadio('thirdLanguage',draft.ThirdLanguageCode||draft.ThirdLanguage); setRadio('studyPlan',draft.StudyPlanCode||draft.StudyPlan); toggleM4Language();
+  setRadio('meetingAttendance',draft.MeetingAttendanceCode||draft.MeetingAttendance); toggleMeetingCount();
+  document.getElementById('acknowledgedRules').checked=isTruthyClient(draft.AcknowledgedRules);
+  if(state.formType==='M1') document.getElementById('acknowledgedLanguageM1').checked=isTruthyClient(draft.AcknowledgedLanguage);
+  if(state.formType==='M4') document.getElementById('acknowledgedLanguageM4').checked=isTruthyClient(draft.AcknowledgedLanguage);
+  state.studentVerified=false;
+  showStep(2);
+  Swal.fire({icon:'success',title:state.lang==='th'?'โหลดแบบร่างแล้ว':'Draft loaded',text:state.lang==='th'?'กรุณากรอกเลขบัตรประชาชน/Passport อีกครั้ง และตรวจสอบรหัสนักเรียน':'Please re-enter the ID/passport number and verify the student ID.'});
+}
+
+function getPayload() {
+  return {
+    submissionId:value('submissionId'), formType:state.formType, language:state.lang,
+    parentEmail:value('parentEmail'), parentPrefix:getParentPrefixValue(), parentName:value('parentName'), parentIdNo:value('parentIdNo'), parentPhone:value('parentPhone'),
+    relationship:radioValue('relationship'), relationshipOther:value('relationshipOther'),
+    studentId:value('studentId'), studentPrefix:value('studentPrefix'), studentName:value('studentName'), currentClass:value('currentClass'),
+    intention:radioValue('intention'), targetLevel:state.formType,
+    thirdLanguage:radioValue('thirdLanguage'), studyPlan:radioValue('studyPlan'),
+    acknowledgedRules:document.getElementById('acknowledgedRules').checked,
+    acknowledgedLanguage:state.formType==='M1'?document.getElementById('acknowledgedLanguageM1').checked:document.getElementById('acknowledgedLanguageM4').checked,
+    nextSchool:value('nextSchool'), withdrawalReason:value('withdrawalReason'),
+    meetingAttendance:radioValue('meetingAttendance'), meetingCount:Number(value('meetingCount'))||0
+  };
+}
+
+async function saveDraftFromForm() {
+  try {
+    const payload=getPayload();
+    if(!payload.studentId||!payload.parentEmail) throw new Error(state.lang==='th'?'ต้องระบุรหัสนักเรียนและอีเมลก่อนบันทึกแบบร่าง':'Student ID and parent email are required to save a draft.');
+    showBusy(state.lang==='th'?'กำลังบันทึกแบบร่าง...':'Saving draft...');
+    const result=await gas('saveDraft',payload); Swal.close();
+    document.getElementById('submissionId').value=result.submissionId;
+    Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกแบบร่างแล้ว':'Draft saved',text:result.message});
+  } catch(error) { Swal.close(); Swal.fire({icon:'error',title:state.lang==='th'?'บันทึกไม่สำเร็จ':'Unable to save',text:error.message}); }
+}
+
+function validateFileInputs() {
+  let totalBytes=0;
+  ['studentFiles','fatherFiles','motherFiles','guardianFiles'].forEach(id=>{
+    const input=document.getElementById(id); if(!input) return;
+    if(input.files.length>4) throw new Error(state.lang==='th'?'แนบได้ไม่เกิน 4 ไฟล์ต่อหมวด':'Maximum 4 files per category.');
+    [...input.files].forEach(file=>{
+      totalBytes+=file.size;
+      if(file.size>5*1024*1024) throw new Error(`${file.name} ${state.lang==='th'?'มีขนาดเกิน 5 MB':'exceeds 5 MB'}`);
+      if(!['application/pdf','image/jpeg','image/png','image/webp'].includes(file.type)) throw new Error(`${file.name} ${state.lang==='th'?'เป็นชนิดไฟล์ที่ไม่รองรับ':'is not a supported file type'}`);
+    });
+  });
+  if(totalBytes>MAX_TOTAL_UPLOAD_BYTES) {
+    throw new Error(state.lang==='th'?'ขนาดไฟล์แนบรวมทุกหมวดต้องไม่เกิน 15 MB':'The total attachment size must not exceed 15 MB.');
+  }
+}
+
+async function filesToPayload(inputId) {
+  const files=[...(document.getElementById(inputId)?.files||[])];
+  return Promise.all(files.map(file=>new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve({name:file.name,mimeType:file.type,data:String(reader.result).split(',')[1]||''});
+    reader.onerror=()=>reject(new Error('Cannot read '+file.name));
+    reader.readAsDataURL(file);
+  })));
+}
+
+async function submitFinal() {
+  if(state.submitting) return;
+  state.submitting=true;
+  const submitButton=document.getElementById('submitBtn');
+  if(submitButton) submitButton.disabled=true;
+  try {
+    for(let step=1;step<=6;step++) validateStep(step);
+    const confirm=await Swal.fire({icon:'warning',title:state.lang==='th'?'ยืนยันการส่งแบบฟอร์ม':'Confirm Submission',html:`<p>${escapeHtml(tr('finalWarning'))}</p>`,showCancelButton:true,confirmButtonText:state.lang==='th'?'ยืนยัน ส่งแบบฟอร์ม':'Confirm and Submit',cancelButtonText:state.lang==='th'?'กลับไปตรวจสอบ':'Review Again',confirmButtonColor:'#0f2747'});
+    if(!confirm.isConfirmed) return;
+    const payload=getPayload();
+    if(payload.intention==='CONTINUE' && Boolean(setting('REQUIRE_DOCUMENTS'))) {
+      validateFileInputs();
+      showBusy(state.lang==='th'?'กำลังอ่านและอัปโหลดไฟล์...':'Reading and uploading files...');
+      payload.files={
+        student:await filesToPayload('studentFiles'), father:await filesToPayload('fatherFiles'),
+        mother:await filesToPayload('motherFiles'), guardian:await filesToPayload('guardianFiles')
+      };
+    } else payload.files={student:[],father:[],mother:[],guardian:[]};
+    showBusy(state.lang==='th'?'กำลังส่งแบบฟอร์ม กรุณาอย่าปิดหน้าต่าง':'Submitting. Please do not close this window.');
+    const result=await gas('submitForm',payload); Swal.close();
+    const pdfButton=result.confirmationPdfUrl?`<a href="${escapeAttr(result.confirmationPdfUrl)}" target="_blank" title="Confirmation PDF" class="inline-block mt-4 px-4 py-2 rounded-lg bg-slate-100 text-brand-navy font-bold"><i class="fa-solid fa-file-pdf mr-2"></i>${state.lang==='th'?'เปิดไฟล์ยืนยัน PDF':'Open Confirmation PDF'}</a>`:'';
+    await Swal.fire({icon:'success',title:state.lang==='th'?'ส่งแบบฟอร์มเรียบร้อยแล้ว':'Form Submitted',html:`<p>${escapeHtml(result.message)}</p><p class="mt-2 text-sm"><strong>ID:</strong> ${escapeHtml(result.submissionId)}</p>${pdfButton}`,allowOutsideClick:false,confirmButtonText:state.lang==='th'?'กลับหน้าหลัก':'Back to Home'});
+    showHome(); resetForm();
+  } catch(error) { Swal.close(); console.error('submitFinal',error); Swal.fire({icon:'error',title:state.lang==='th'?'ส่งแบบฟอร์มไม่สำเร็จ':'Submission Failed',text:error.message}); }
+  finally { state.submitting=false; if(submitButton) submitButton.disabled=false; }
+}
+
+function renderReview() {
+  const p=getPayload(); const form=state.bootstrap.forms.find(f=>f.code===state.formType);
+  const intention=p.intention==='CONTINUE'?tr('continue'):tr('withdraw');
+  const rows=[
+    [state.lang==='th'?'แบบฟอร์ม':'Form',state.lang==='th'?form.titleTH:form.titleEN],
+    [tr('parentName'),`${p.parentPrefix} ${p.parentName}`], [tr('parentEmail'),p.parentEmail], [tr('phone'),p.parentPhone],
+    [tr('studentId'),p.studentId], [state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name',`${p.studentPrefix}${p.studentName}`], [tr('currentClass'),p.currentClass],
+    [state.lang==='th'?'ความประสงค์':'Intention',intention]
+  ];
+  if(p.thirdLanguage) rows.push([tr('thirdLanguage'),displayCode(p.thirdLanguage)]);
+  if(p.studyPlan) rows.push([tr('studyPlanTitle'),displayCode(p.studyPlan)]);
+  if(p.intention==='WITHDRAW') { rows.push([tr('nextSchool'),p.nextSchool],[tr('withdrawalReason'),p.withdrawalReason]); }
+  if(p.intention==='CONTINUE') rows.push([tr('meetingAttendance'),displayCode(p.meetingAttendance)+(p.meetingAttendance==='ATTEND'?` (${p.meetingCount})`:'')]);
+  document.getElementById('reviewContent').innerHTML=`<div class="table-wrap"><table><tbody>${rows.map(([a,b])=>`<tr><th class="w-1/3">${escapeHtml(a)}</th><td>${escapeHtml(b||'-')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
+function displayCode(code) {
+  const map={CONTINUE:tr('continue'),WITHDRAW:tr('withdraw'),FATHER:tr('father'),MOTHER:tr('mother'),GUARDIAN:tr('guardian'),CHINESE:tr('chinese'),JAPANESE:tr('japanese'),ENGLISH:tr('english'),ATTEND:tr('canAttend'),UNABLE:tr('cannotAttend'),GAC_SCI_MATH:'GAC (Science-Math)',GAC_LANGUAGE:'GAC (Language)',EXTRA_LANGUAGE:'Extra Class (Language)',BILINGUAL_SCI_MATH:'Bilingual (Science-Math)',DRAFT:'Draft',SUBMITTED:'Submitted'};
+  return map[code]||code||'-';
+}
+
+
+function isTruthyClient(value){return value===true||value===1||['true','1','yes','รับทราบ','ใช่'].includes(String(value||'').trim().toLowerCase());}
+function normalizeClientStatus(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='SUBMITTED'||['ส่งแล้ว','ส่งแบบฟอร์มแล้ว'].includes(t))return'SUBMITTED';if(u==='DRAFT'||t==='แบบร่าง')return'DRAFT';if(u==='PROCESSING'||t==='กำลังประมวลผล')return'PROCESSING';if(u==='ERROR'||t==='เกิดข้อผิดพลาด')return'ERROR';return u;}
+function normalizeClientIntention(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='CONTINUE'||t.startsWith('ศึกษาต่อ'))return'CONTINUE';if(u==='WITHDRAW'||t.startsWith('ลาออก'))return'WITHDRAW';return'';}
+function clientThaiStatus(value){return({SUBMITTED:'ส่งแล้ว',DRAFT:'แบบร่าง',PROCESSING:'กำลังประมวลผล',ERROR:'เกิดข้อผิดพลาด'})[normalizeClientStatus(value)]||value||'-';}
+function clientThaiIntention(value){return normalizeClientIntention(value)==='CONTINUE'?'ศึกษาต่อ':normalizeClientIntention(value)==='WITHDRAW'?'ลาออก':value||'-';}
+function clientThaiRelationship(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='FATHER'||t==='บิดา')return'บิดา';if(u==='MOTHER'||t==='มารดา')return'มารดา';if(u==='GUARDIAN'||t==='ผู้ปกครอง'||t==='ผู้ปกครองอื่น')return'ผู้ปกครองอื่น';return t||'-';}
+function clientThaiThirdLanguage(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='ENGLISH'||t==='ภาษาอังกฤษ')return'ภาษาอังกฤษ';if(u==='CHINESE'||t==='ภาษาจีน')return'ภาษาจีน';if(u==='JAPANESE'||t==='ภาษาญี่ปุ่น')return'ภาษาญี่ปุ่น';return t||'-';}
+function clientThaiStudyPlan(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='GAC_SCI_MATH'||/GAC\s*\(SCIENCE-MATH\)/i.test(t))return'แผนการเรียน GAC (Science-Math)';if(u==='GAC_LANGUAGE'||/GAC\s*\(LANGUAGE\)/i.test(t))return'แผนการเรียน GAC (Language)';if(u==='EXTRA_LANGUAGE'||/EXTRA CLASS\s*\(LANGUAGE\)/i.test(t))return'แผนการเรียน Extra Class (Language)';if(u==='BILINGUAL_SCI_MATH'||/BILINGUAL\s*\(SCIENCE-MATH\)/i.test(t))return'แผนการเรียน Bilingual (Science-Math)';return t||'-';}
+function clientThaiMeeting(value,intention){if(normalizeClientIntention(intention)==='WITHDRAW')return'ไม่เกี่ยวข้อง (ลาออก)';const t=String(value||'').trim(),u=t.toUpperCase();if(u==='ATTEND'||t==='สามารถเข้าร่วมประชุมได้'||t==='เข้าร่วมประชุม')return'สามารถเข้าร่วมประชุมได้';if(u==='UNABLE'||t==='ไม่สามารถเข้าร่วมประชุมได้'||t==='ไม่เข้าร่วมประชุม')return'ไม่สามารถเข้าร่วมประชุมได้';return t||'-';}
+function clientThaiPrefix(value){const t=String(value||'').trim(),u=t.toUpperCase();return({'MR.':'นาย','MR':'นาย','MRS.':'นาง','MRS':'นาง','MS.':'นางสาว','MS':'นางสาว'})[u]||t||'-';}
+function clientThaiFormType(value){const code=String(value||'').toUpperCase();return({P1:'ระดับชั้นประถมศึกษาปีที่ 1',M1:'ระดับชั้นมัธยมศึกษาปีที่ 1',M4:'ระดับชั้นมัธยมศึกษาปีที่ 4'})[code]||value||'-';}
+
+/* ------------------------------ ADMIN ------------------------------------ */
+
+async function showAdminSection(section, refreshOnly=false) {
+  state.adminSection=section; renderAdminNavigation(); showView('adminView');
+  document.getElementById('mobileMenu').classList.add('hidden');
+  destroyCharts();
+  const content=document.getElementById('adminContent');
+  content.innerHTML=adminLoading();
+  try {
+    if(section==='dashboard') await loadDashboard();
+    else if(section==='responses') await loadResponses();
+    else if(section==='studentReview') await loadStudentReview();
+    else if(section==='students') await loadStudents();
+    else if(section==='settings') await loadSettings();
+    else if(section==='users') await loadUsers();
+    else if(section==='logs') await loadLogs();
+    else showHome();
+  } catch(error) {
+    console.error('showAdminSection',section,error);
+    content.innerHTML=`<div class="card p-8 text-center"><i class="fa-solid fa-triangle-exclamation text-4xl text-rose-500"></i><h3 class="mt-3 font-extrabold text-xl">${state.lang==='th'?'ไม่สามารถโหลดข้อมูลได้':'Unable to load data'}</h3><p class="text-slate-500 mt-2">${escapeHtml(error.message)}</p></div>`;
+  }
+}
+
+function adminHeader(title,icon,buttons='') { return `<div class="flex flex-wrap items-center justify-between gap-3 mb-5"><div><p class="text-sm text-brand-gold font-bold">ADMINISTRATION</p><h2 class="text-2xl sm:text-3xl font-extrabold text-brand-navy"><i class="fa-solid ${icon} mr-2"></i>${escapeHtml(title)}</h2></div><div class="flex gap-2">${buttons}</div></div>`; }
+function adminLoading(){ return `<div class="space-y-4"><div class="h-12 rounded-xl skeleton"></div><div class="grid md:grid-cols-4 gap-4">${'<div class="h-28 rounded-2xl skeleton"></div>'.repeat(4)}</div><div class="h-80 rounded-2xl skeleton"></div></div>`; }
+
+async function refreshAdminSection(section){
+  showBusy(state.lang==='th'?'กำลังอัปเดตข้อมูล...':'Updating data...');
+  try {
+    await showAdminSection(section,true);
+    Swal.close();
+    actionToast.fire({icon:'success',title:state.lang==='th'?'อัปเดตข้อมูลเรียบร้อยแล้ว':'Data updated'});
+  } catch(error) {
+    Swal.close();
+    Swal.fire({icon:'error',title:state.lang==='th'?'อัปเดตข้อมูลไม่สำเร็จ':'Update failed',text:error.message});
+  }
+}
+
+async function loadDashboard() {
+  destroyCharts();
+  const data=await gas('getDashboardData'); const o=data.overall;
+  const cards=[
+    [tr('total'),o.total,o.totalPercent,'fa-users','border-blue-300 bg-blue-50 text-blue-700',state.lang==='th'?'นักเรียนทั้งหมด':'All students'],
+    [tr('responded'),o.responded,o.responsePercent,'fa-file-circle-check','border-emerald-300 bg-emerald-50 text-emerald-700',state.lang==='th'?'เทียบกับนักเรียนทั้งหมด':'of all students'],
+    [tr('pending'),o.pending,o.pendingPercent,'fa-hourglass-half','border-amber-300 bg-amber-50 text-amber-700',state.lang==='th'?'เทียบกับนักเรียนทั้งหมด':'of all students'],
+    [tr('continue'),o.continueCount,o.continuePercent,'fa-school-circle-check','border-indigo-300 bg-indigo-50 text-indigo-700',state.lang==='th'?'เทียบกับผู้ที่กรอกแล้ว':'of responses'],
+    [tr('withdraw'),o.withdrawCount,o.withdrawPercent,'fa-person-walking-arrow-right','border-rose-300 bg-rose-50 text-rose-700',state.lang==='th'?'เทียบกับผู้ที่กรอกแล้ว':'of responses']
+  ];
+  const levelCards=(data.levels||[]).map((level,index)=>{
+    const icons=['fa-school','fa-building-columns','fa-graduation-cap'];
+    const titles=state.lang==='th'?{P1:'ระดับชั้นประถมศึกษาปีที่ 1',M1:'ระดับชั้นมัธยมศึกษาปีที่ 1',M4:'ระดับชั้นมัธยมศึกษาปีที่ 4'}:{P1:'Year 1',M1:'Year 7',M4:'Year 10'};
+    const tone=index===0?'border-blue-300 bg-blue-50/40':index===1?'border-indigo-300 bg-indigo-50/40':'border-amber-300 bg-amber-50/40';
+    return `<div class="card p-5 border-2 ${tone}"><div class="flex items-start justify-between gap-3"><div><p class="text-sm font-bold text-slate-600">${escapeHtml(titles[level.formType]||level.formType)}</p><p class="text-3xl font-extrabold text-brand-navy mt-1">${level.total}</p><p class="text-xs text-slate-500">${state.lang==='th'?'นักเรียนทั้งหมด':'Total students'}</p></div><div class="w-11 h-11 rounded-xl bg-white border text-brand-navy flex items-center justify-center"><i class="fa-solid ${icons[index]||'fa-school'}"></i></div></div><div class="mt-4 grid grid-cols-2 gap-2 text-xs"><span class="badge justify-center bg-emerald-100 text-emerald-700">${tr('responded')} ${level.responded} (${level.responsePercent}%)</span><span class="badge justify-center bg-amber-100 text-amber-700">${tr('pending')} ${level.pending} (${level.pendingPercent}%)</span><span class="badge justify-center bg-indigo-100 text-indigo-700">${tr('continue')} ${level.continueCount} (${level.continuePercent}%)</span><span class="badge justify-center bg-rose-100 text-rose-700">${tr('withdraw')} ${level.withdrawCount} (${level.withdrawPercent}%)</span></div></div>`;
+  }).join('');
+  document.getElementById('adminContent').innerHTML=adminHeader(tr('dashboard'),'fa-chart-pie',`<button onclick="refreshAdminSection('dashboard')" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
+    `<div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">${cards.map(([label,num,pct,icon,cls,note])=>`<div class="card p-5 border-2 ${cls}"><div class="flex items-start justify-between"><div class="w-10 h-10 rounded-xl bg-white/80 border flex items-center justify-center"><i class="fa-solid ${icon}"></i></div><span class="badge bg-white/80 text-current border">${pct}%</span></div><p class="text-slate-600 text-sm mt-3">${label}</p><p class="text-3xl font-extrabold text-brand-navy">${num}</p><p class="text-xs text-slate-500 mt-1">${escapeHtml(note)}</p></div>`).join('')}</div>
+    <div class="mt-5"><h3 class="font-extrabold text-brand-navy mb-3">${state.lang==='th'?'จำนวนนักเรียนแยกตามระดับชั้นที่จะศึกษาต่อ':'Students by Target Level'}</h3><div class="grid md:grid-cols-3 gap-4">${levelCards}</div></div>
+    <div class="grid lg:grid-cols-2 gap-5 mt-5 items-stretch"><div class="card chart-card p-5 border border-indigo-200 bg-indigo-50/20"><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'สรุปความประสงค์':'Intention Summary'}</h3><div id="intentionChart" class="chart-container"></div></div><div class="card chart-card p-5 border border-emerald-200 bg-emerald-50/20"><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'สถานะการตอบกลับ':'Response Status'}</h3><div id="responseChart" class="chart-container"></div></div></div>
+    <div class="card p-5 mt-5 border-2 border-slate-200 bg-slate-50/50"><h3 class="font-extrabold text-brand-navy mb-4">${state.lang==='th'?'สรุปตามชั้นเรียนและครูประจำชั้น':'Summary by Class and Homeroom Teacher'}</h3>${dashboardTable(data.table)}<p class="text-xs text-slate-400 mt-3">${state.lang==='th'?'อัปเดตล่าสุด':'Last updated'}: ${escapeHtml(data.generatedAt)}</p></div>
+    <div class="card p-5 mt-5 border-2 border-rose-200 bg-rose-50/30"><div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'สรุปโรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next-school Summary'}</h3><p class="text-sm text-slate-500">${state.lang==='th'?'เฉพาะนักเรียนที่เลือกลาออก':'Students who selected withdrawal only'}</p></div><span class="badge bg-rose-100 text-rose-700">${tr('withdraw')} ${o.withdrawCount}</span></div>${nextSchoolsTable(data.nextSchools||[])}</div>`;
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  const makeDonutOptions=(series,labels)=>({
+    chart:{type:'donut',height:320,width:'100%',parentHeightOffset:0,redrawOnParentResize:true,redrawOnWindowResize:true,toolbar:{show:false},animations:{enabled:true}},
+    series,
+    labels,
+    legend:{position:'bottom',horizontalAlign:'center'},
+    plotOptions:{pie:{expandOnClick:false,donut:{size:'62%'}}},
+    stroke:{width:2,colors:['#ffffff']},
+    dataLabels:{enabled:true,formatter:val=>`${val.toFixed(1)}%`},
+    responsive:[{breakpoint:768,options:{chart:{height:280},legend:{position:'bottom'}}}]
+  });
+  state.charts.push(new ApexCharts(document.querySelector('#intentionChart'),makeDonutOptions(data.charts.intention,[tr('continue'),tr('withdraw')])));
+  state.charts.push(new ApexCharts(document.querySelector('#responseChart'),makeDonutOptions(data.charts.response,[tr('responded'),tr('pending')])));
+  await Promise.all(state.charts.map(chart=>chart.render()));
+  requestAnimationFrame(()=>window.dispatchEvent(new Event('resize')));
+}
+
+function dashboardTable(rows) {
+  return `<div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('teacher')}</th><th>${tr('className')}</th><th>${tr('total')}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${tr('continue')}</th><th>${tr('withdraw')}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${escapeHtml(r.teacher)}</td><td class="font-bold">${escapeHtml(r.className)}</td><td>${r.total}</td><td>${r.responded} <small class="text-slate-500">(${r.responsePercent}%)</small></td><td>${r.pending} <small class="text-slate-500">(${r.pendingPercent}%)</small></td><td>${r.continueCount} <small class="text-slate-500">(${r.continuePercent}%)</small></td><td>${r.withdrawCount} <small class="text-slate-500">(${r.withdrawPercent}%)</small></td></tr>`).join('')||`<tr><td colspan="7" class="text-center text-slate-500">No data</td></tr>`}</tbody></table></div>`;
+}
+
+function nextSchoolsTable(rows){
+  return `<div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${state.lang==='th'?'ลำดับ':'No.'}</th><th>${state.lang==='th'?'ชื่อโรงเรียน':'School Name'}</th><th>${state.lang==='th'?'จำนวนนักเรียน':'Students'}</th><th>%</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="text-center font-bold">${i+1}</td><td class="font-semibold">${escapeHtml(r.schoolName||'-')}</td><td>${r.count}</td><td>${r.percent}%</td></tr>`).join('')||`<tr><td colspan="4" class="text-center text-slate-500 py-8">${state.lang==='th'?'ยังไม่มีข้อมูลโรงเรียนปลายทาง':'No next-school data'}</td></tr>`}</tbody></table></div>`;
+}
+
+async function loadResponses() {
+  document.getElementById('adminContent').innerHTML=adminHeader(tr('responses'),'fa-file-lines',`<button onclick="refreshAdminSection('responses')" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
+  `<div class="card p-4 mb-5"><div class="grid md:grid-cols-4 gap-3"><input id="responseSearch" class="input" placeholder="${tr('search')}..."><select id="responseStatus" class="input"><option value="">${tr('status')}: ${state.lang==='th'?'ทั้งหมด':'All'}</option><option value="SUBMITTED">${state.lang==='th'?'ส่งแล้ว':'Submitted'}</option><option value="DRAFT">${state.lang==='th'?'แบบร่าง':'Draft'}</option><option value="PROCESSING">${state.lang==='th'?'กำลังประมวลผล':'Processing'}</option><option value="ERROR">${state.lang==='th'?'เกิดข้อผิดพลาด':'Error'}</option></select><select id="responseFormType" class="input"><option value="">Form: ${state.lang==='th'?'ทั้งหมด':'All'}</option><option>P1</option><option>M1</option><option>M4</option></select><button onclick="refreshResponsesTable()" class="btn-primary"><i class="fa-solid fa-magnifying-glass mr-2"></i>${tr('search')}</button></div></div><div id="responsesTable" class="card p-5">${adminLoading()}</div>`;
+  await refreshResponsesTable();
+}
+
+async function refreshResponsesTable() {
+  const filters={search:value('responseSearch'),status:value('responseStatus'),formType:value('responseFormType')};
+  const data=await gas('getSubmissions',filters); window.__responses=data.rows;
+  const superAdmin=state.bootstrap.user.role==='SuperAdmin';
+  const labels={date:state.lang==='th'?'วันที่กรอก':'Submitted Date',status:tr('status'),studentId:tr('studentId'),studentName:state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name',className:tr('className'),email:tr('parentEmail'),intention:state.lang==='th'?'ความประสงค์':'Intention',actions:tr('actions')};
+  const rows=data.rows.map((r,i)=>`<tr>
+    <td data-label="${escapeAttr(labels.date)}" class="whitespace-nowrap">${formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)}</td>
+    <td data-label="${escapeAttr(labels.status)}">${statusBadge(r.StatusCode||r.Status)}</td>
+    <td data-label="${escapeAttr(labels.studentId)}" class="font-bold text-brand-navy">${escapeHtml(r.StudentId||'-')}</td>
+    <td data-label="${escapeAttr(labels.studentName)}" class="font-semibold">${escapeHtml(r.StudentNameTH||[r.StudentPrefix,r.StudentName].filter(Boolean).join(' ')||'-')}</td>
+    <td data-label="${escapeAttr(labels.className)}"><span class="badge bg-blue-50 text-blue-800 border border-blue-200">${escapeHtml(r.CurrentClass||'-')}</span></td>
+    <td data-label="${escapeAttr(labels.email)}" class="text-sm">${escapeHtml(r.ParentEmail||'-')}</td>
+    <td data-label="${escapeAttr(labels.intention)}">${intentionBadge(r.IntentionCode||r.Intention)}</td>
+    <td data-label="${escapeAttr(labels.actions)}" class="whitespace-nowrap"><div class="inline-flex items-center gap-2"><button onclick="viewSubmission(${i})" class="w-9 h-9 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100" title="${tr('view')}"><i class="fa-solid fa-eye"></i></button><button onclick="editSubmission(${i})" class="w-9 h-9 rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100" title="${tr('edit')}"><i class="fa-solid fa-pen"></i></button>${superAdmin?`<button onclick="removeSubmission('${escapeAttr(r.SubmissionId)}')" class="w-9 h-9 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100" title="${tr('delete')}"><i class="fa-solid fa-trash"></i></button>`:''}</div></td>
+  </tr>`).join('')||`<tr><td colspan="8" class="responses-empty text-center text-slate-500 py-8">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`;
+  document.getElementById('responsesTable').innerHTML=`<div class="flex flex-wrap justify-between items-center gap-3 mb-4"><h3 class="font-extrabold text-brand-navy">${tr('total')}: ${data.total}</h3><p class="text-xs text-slate-400">${state.lang==='th'?'เรียงตามวันที่กรอกล่าสุด':'Sorted by latest submission'}</p></div><div class="table-wrap enhanced-table-wrap responses-table-wrap"><table class="enhanced-table responses-table"><thead><tr><th>${labels.date}</th><th>${labels.status}</th><th>${labels.studentId}</th><th>${labels.studentName}</th><th>${labels.className}</th><th>${labels.email}</th><th>${labels.intention}</th><th>${labels.actions}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function statusBadge(status) {
+  const code=normalizeClientStatus(status);
+  const map={SUBMITTED:['bg-emerald-100 text-emerald-800 border border-emerald-200','ส่งแล้ว','Submitted'],DRAFT:['bg-amber-100 text-amber-800 border border-amber-200','แบบร่าง','Draft'],PROCESSING:['bg-blue-100 text-blue-800 border border-blue-200','กำลังประมวลผล','Processing'],ERROR:['bg-rose-100 text-rose-800 border border-rose-200','เกิดข้อผิดพลาด','Error']};
+  const item=map[code]||['bg-slate-100 text-slate-700 border border-slate-200',status||'-',status||'-'];
+  return `<span class="badge ${item[0]}">${escapeHtml(state.lang==='th'?item[1]:item[2])}</span>`;
+}
+
+function intentionBadge(value) {
+  const code=normalizeClientIntention(value);
+  if(code==='CONTINUE') return `<span class="badge bg-emerald-100 text-emerald-800 border border-emerald-200"><i class="fa-solid fa-circle-check mr-1"></i>${tr('continue')}</span>`;
+  if(code==='WITHDRAW') return `<span class="badge bg-rose-100 text-rose-800 border border-rose-200"><i class="fa-solid fa-circle-xmark mr-1"></i>${tr('withdraw')}</span>`;
+  return `<span class="badge bg-slate-100 text-slate-700">-</span>`;
+}
+
+function viewSubmission(index) {
+  const r=window.__responses[index]; if(!r)return;
+  const thaiStatus=clientThaiStatus(r.StatusCode||r.Status);
+  const thaiIntention=clientThaiIntention(r.IntentionCode||r.Intention);
+  const thaiRelationship=clientThaiRelationship(r.RelationshipCode||r.Relationship);
+  const thaiThirdLanguage=clientThaiThirdLanguage(r.ThirdLanguageCode||r.ThirdLanguage);
+  const thaiStudyPlan=clientThaiStudyPlan(r.StudyPlanCode||r.StudyPlan);
+  const thaiMeeting=clientThaiMeeting(r.MeetingAttendanceCode||r.MeetingAttendance,r.IntentionCode||r.Intention);
+  const thaiPrefix=clientThaiPrefix(r.ParentPrefix);
+  const docs=[
+    ['เอกสารของนักเรียน',r.StudentDocs],['เอกสารของบิดา',r.FatherDocs],['เอกสารของมารดา',r.MotherDocs],['เอกสารของผู้ปกครองอื่น',r.GuardianDocs]
+  ].map(([label,items])=>{
+    const links=(Array.isArray(items)?items:[]).map(f=>`<a href="${escapeAttr(f.url)}" target="_blank" class="inline-flex items-center gap-2 text-blue-700 underline mr-3 mb-2"><i class="fa-solid fa-paperclip"></i>${escapeHtml(f.name)}</a>`).join('');
+    return submissionDetailRow(label,links||'-',true);
+  }).join('');
+  const sections=[
+    submissionDetailSection('ข้อมูลระบบ',[
+      ['วันที่กรอก',formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)],['สถานะ',thaiStatus],['ID',r.SubmissionId],['ประเภทแบบฟอร์ม',clientThaiFormType(r.FormType)],['ภาษาที่ผู้ปกครองใช้',r.Language==='en'?'ภาษาอังกฤษ':'ภาษาไทย']
+    ]),
+    submissionDetailSection('ข้อมูลผู้แจ้งความจำนง',[
+      ['คำนำหน้า',thaiPrefix],['ชื่อ-นามสกุลผู้แจ้งความจำนง',r.ParentName],['เลขประจำตัวประชาชน / Passport',r.ParentIdNo],['เบอร์โทรศัพท์',r.ParentPhone],['อีเมลผู้ปกครอง',r.ParentEmail],['ความสัมพันธ์กับนักเรียน',thaiRelationship],['เกี่ยวข้องกับนักเรียนเป็น',r.RelationshipOther]
+    ]),
+    submissionDetailSection('ข้อมูลนักเรียน',[
+      ['รหัสนักเรียน',r.StudentId],['ชื่อ-นามสกุลนักเรียนภาษาไทย',r.StudentNameTH||[r.StudentPrefix,r.StudentName].filter(Boolean).join(' ')],['ชั้นเรียน',r.CurrentClass]
+    ]),
+    submissionDetailSection('ข้อมูลความประสงค์',[
+      ['ความประสงค์',thaiIntention],['ระดับชั้นที่จะศึกษาต่อ',clientThaiFormType(r.FormType)],['ภาษาที่สาม',thaiThirdLanguage],['แผนการเรียน',thaiStudyPlan],['รับทราบระเบียบโรงเรียน',isTruthyClient(r.AcknowledgedRules)?'รับทราบ':'ยังไม่รับทราบ'],['รับทราบเงื่อนไขภาษา/แผนการเรียน',isTruthyClient(r.AcknowledgedLanguage)?'รับทราบ':'ไม่เกี่ยวข้อง'],['โรงเรียนที่นักเรียนจะไปศึกษาต่อ',r.NextSchool],['สาเหตุสำคัญที่ตัดสินใจย้ายออก',r.WithdrawalReason]
+    ]),
+    submissionDetailSection('การประชุมผู้ปกครอง',[
+      ['การเข้าร่วมประชุม',thaiMeeting],['จำนวนผู้ปกครองที่เข้าร่วม',String(Number(r.MeetingCount)||0)]
+    ]),
+    `<div class="rounded-2xl border border-slate-200 overflow-hidden"><div class="bg-brand-navy text-white px-4 py-3 font-extrabold">เอกสารแนบและไฟล์ยืนยัน</div><table class="w-full"><tbody>${docs}${submissionDetailRow('PDF Confirmation',r.ConfirmationPdfUrl?`<a href="${escapeAttr(r.ConfirmationPdfUrl)}" target="_blank" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-50 text-rose-700 font-bold"><i class="fa-solid fa-file-pdf"></i>เปิด PDF Confirmation</a>`:'-',true)}</tbody></table></div>`
+  ].join('<div class="h-4"></div>');
+  Swal.fire({width:1000,title:`${escapeHtml(r.StudentId||'')} · ${escapeHtml(r.StudentNameTH||r.StudentName||'')}`,html:`<div class="text-left max-h-[72vh] overflow-y-auto pr-1">${sections}</div>`,showConfirmButton:true,confirmButtonText:'ปิด'});
+}
+
+function submissionDetailSection(title,rows){
+  return `<div class="rounded-2xl border border-slate-200 overflow-hidden"><div class="bg-brand-navy text-white px-4 py-3 font-extrabold">${escapeHtml(title)}</div><table class="w-full"><tbody>${rows.filter(([,v])=>v!==undefined&&v!==null&&String(v)!=='').map(([label,value])=>submissionDetailRow(label,value)).join('')}</tbody></table></div>`;
+}
+function submissionDetailRow(label,value,raw=false){return `<tr class="border-b last:border-b-0"><th class="w-[34%] bg-slate-50 px-4 py-3 text-brand-navy align-top">${escapeHtml(label)}</th><td class="px-4 py-3 break-words">${raw?value:escapeHtml(value||'-')}</td></tr>`;}
+
+async function editSubmission(index) {
+  const r=window.__responses[index]; if(!r)return;
+  const intentionCode=r.IntentionCode||normalizeClientIntention(r.Intention);
+  const statusCode=r.StatusCode||normalizeClientStatus(r.Status);
+  const result=await Swal.fire({title:tr('edit'),width:760,html:`<div class="text-left grid md:grid-cols-2 gap-3"><div><label class="label">${tr('parentName')}</label><input id="swParentName" class="input" value="${escapeAttr(r.ParentName||'')}"></div><div><label class="label">${tr('phone')}</label><input id="swPhone" class="input" value="${escapeAttr(r.ParentPhone||'')}"></div><div><label class="label">${tr('parentId')}</label><input id="swParentId" class="input" value="${escapeAttr(r.ParentIdNo||'')}"></div><div><label class="label">ชื่อ-นามสกุลนักเรียนภาษาไทย</label><input id="swStudentName" class="input" value="${escapeAttr(r.StudentName||'')}"></div><div><label class="label">${tr('className')}</label><input id="swClass" class="input" value="${escapeAttr(r.CurrentClass||'')}"></div><div><label class="label">ความประสงค์</label><select id="swIntention" class="input"><option value="CONTINUE" ${intentionCode==='CONTINUE'?'selected':''}>ศึกษาต่อ</option><option value="WITHDRAW" ${intentionCode==='WITHDRAW'?'selected':''}>ลาออก</option></select></div><div><label class="label">${tr('status')}</label><select id="swStatus" class="input"><option value="SUBMITTED" ${statusCode==='SUBMITTED'?'selected':''}>ส่งแล้ว</option><option value="DRAFT" ${statusCode==='DRAFT'?'selected':''}>แบบร่าง</option><option value="ERROR" ${statusCode==='ERROR'?'selected':''}>เกิดข้อผิดพลาด</option></select></div></div>`,showCancelButton:true,confirmButtonText:state.lang==='th'?'บันทึก':'Save',preConfirm:()=>({SubmissionId:r.SubmissionId,ParentName:document.getElementById('swParentName').value,ParentPhone:document.getElementById('swPhone').value,ParentIdNo:document.getElementById('swParentId').value,StudentName:document.getElementById('swStudentName').value,CurrentClass:document.getElementById('swClass').value,Intention:document.getElementById('swIntention').value,Status:document.getElementById('swStatus').value})});
+  if(result.isConfirmed) { showBusy(state.lang==='th'?'กำลังบันทึกข้อมูล...':'Saving...'); await gas('updateSubmissionAdmin',result.value); Swal.close(); await refreshResponsesTable(); Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกแล้ว':'Saved'}); }
+}
+
+async function removeSubmission(id) {
+  const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',showCancelButton:true,confirmButtonColor:'#dc2626'}); if(!c.isConfirmed)return;
+  showBusy(state.lang==='th'?'กำลังลบข้อมูล...':'Deleting...'); await gas('deleteSubmission',id); Swal.close(); await refreshResponsesTable(); await Swal.fire({icon:'success',title:state.lang==='th'?'ลบข้อมูลแล้ว':'Deleted',timer:1400,showConfirmButton:false});
+}
+
+async function loadStudentReview() {
+  state.reviewClass='';
+  const data=await gas('getStudentReviewSummary');
+  window.__studentReviewSummary=data.rows;
+  const noAssigned=state.bootstrap.user.role==='Teacher' && !data.rows.length;
+  document.getElementById('adminContent').innerHTML=adminHeader(tr('reviewStudents'),'fa-clipboard-user',`<button onclick="refreshAdminSection('studentReview')" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
+    `${noAssigned?`<div class="card p-5 mb-5 border-l-4 border-amber-500"><h3 class="font-extrabold text-amber-800">${state.lang==='th'?'ยังไม่ได้กำหนดชั้นเรียนสำหรับบัญชีครู':'No classes assigned to this teacher account'}</h3><p class="text-sm text-slate-600 mt-1">${state.lang==='th'?'ให้ SuperAdmin ระบุห้องในช่อง AssignedClasses ของเมนูผู้ใช้งาน เช่น Y.6A,Y.6B':'Ask a SuperAdmin to set AssignedClasses, for example Y.6A,Y.6B.'}</p></div>`:''}
+    <div class="card p-5 border-2 border-blue-200 bg-blue-50/30"><div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'ตารางที่ 1: สรุปจำนวนแต่ละชั้น':'Table 1: Class Summary'}</h3><p class="text-sm text-slate-500">${state.lang==='th'?'ตรวจสอบสถานะการกรอกแบบฟอร์มของนักเรียนแต่ละห้อง':'Review form completion by class'}</p></div><span class="text-xs text-slate-400">${state.lang==='th'?'อัปเดตล่าสุด':'Last updated'}: ${escapeHtml(data.generatedAt||'')}</span></div>
+    <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('className')}</th><th>${tr('teacher')}</th><th>${state.lang==='th'?'จำนวนนักเรียนทั้งหมด':'Total Students'}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${state.lang==='th'?'ตรวจสอบรายชื่อ':'Review Names'}</th></tr></thead><tbody>${data.rows.map(row=>`<tr><td class="font-extrabold text-brand-navy">${escapeHtml(row.className)}</td><td>${escapeHtml(row.teacher||'-')}</td><td>${row.total}</td><td><span class="font-bold text-emerald-700">${row.responded}</span> <small class="text-slate-400">(${row.respondedPercent}%)</small></td><td><span class="font-bold text-amber-700">${row.pending}</span> <small class="text-slate-400">(${row.pendingPercent}%)</small></td><td><button onclick="openStudentReviewClass('${escapeAttr(row.className)}')" class="btn-primary !py-2 !px-3 text-sm"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>${state.lang==='th'?'ตรวจสอบรายชื่อ':'Review'}</button></td></tr>`).join('')||`<tr><td colspan="6" class="text-center text-slate-500 py-8">${state.lang==='th'?'ไม่พบข้อมูลชั้นเรียน':'No class data'}</td></tr>`}</tbody></table></div></div>`;
+}
+
+async function openStudentReviewClass(className) {
+  state.reviewClass=className;
+  await refreshStudentReviewDetail();
+}
+
+async function refreshStudentReviewDetail() {
+  if(!state.reviewClass) return loadStudentReview();
+  const data=await gas('getStudentReviewDetails',state.reviewClass);
+  const tableRows=(rows,isResponded)=>rows.map(row=>`<tr><td class="font-bold">${escapeHtml(row.studentId)}</td><td>${escapeHtml(row.studentNameTH||'-')}</td><td>${reviewStatusBadge(row.status)}</td><td class="whitespace-nowrap">${isResponded?formatDate(row.submittedAt):'-'}</td></tr>`).join('')||`<tr><td colspan="4" class="text-center text-slate-500 py-8">${state.lang==='th'?'ไม่มีรายชื่อ':'No students'}</td></tr>`;
+  document.getElementById('adminContent').innerHTML=adminHeader(`${tr('reviewStudents')} · ${data.className}`,'fa-clipboard-user',`<button onclick="refreshAdminSection('studentReview')" class="btn-light"><i class="fa-solid fa-arrow-left mr-2"></i>${state.lang==='th'?'กลับตารางสรุป':'Back'}</button><button onclick="refreshStudentReviewDetail()" class="btn-primary"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
+    `<div class="card p-5 mb-5"><div class="flex flex-wrap items-center justify-between gap-4"><div><p class="text-sm text-slate-500">${tr('teacher')}</p><h3 class="text-xl font-extrabold text-brand-navy">${escapeHtml(data.teacher||'-')}</h3></div><div class="flex flex-wrap gap-3"><span class="badge bg-blue-100 text-blue-700">${tr('total')} ${data.total}</span><span class="badge bg-emerald-100 text-emerald-700">${tr('responded')} ${data.respondedCount} (${data.respondedPercent}%)</span><span class="badge bg-amber-100 text-amber-700">${tr('pending')} ${data.pendingCount} (${data.pendingPercent}%)</span></div></div></div>
+    <div class="grid lg:grid-cols-2 gap-5">
+      <div class="card overflow-hidden border-2 border-emerald-300 bg-emerald-50/20"><div class="p-5 bg-emerald-50 border-b border-emerald-100"><h3 class="font-extrabold text-emerald-800"><i class="fa-solid fa-circle-check mr-2"></i>${state.lang==='th'?'กรอกแบบฟอร์มแล้ว':'Form Completed'} · ${data.respondedCount}</h3></div><div class="p-4"><div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุล ภาษาไทย':'Thai Full Name'}</th><th>${tr('status')}</th><th>${tr('submittedDate')}</th></tr></thead><tbody>${tableRows(data.responded,true)}</tbody></table></div></div></div>
+      <div class="card overflow-hidden border-2 border-amber-300 bg-amber-50/20"><div class="p-5 bg-amber-50 border-b border-amber-100"><h3 class="font-extrabold text-amber-800"><i class="fa-solid fa-hourglass-half mr-2"></i>${state.lang==='th'?'ยังไม่กรอกแบบฟอร์ม':'Form Pending'} · ${data.pendingCount}</h3></div><div class="p-4"><div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุล ภาษาไทย':'Thai Full Name'}</th><th>${tr('status')}</th><th>${tr('submittedDate')}</th></tr></thead><tbody>${tableRows(data.pending,false)}</tbody></table></div></div></div>
+    </div><p class="text-xs text-slate-400 mt-4 text-right">${state.lang==='th'?'อัปเดตล่าสุด':'Last updated'}: ${escapeHtml(data.generatedAt||'')}</p>`;
+}
+
+function reviewStatusBadge(status) {
+  if(status==='CONTINUE') return `<span class="badge bg-blue-100 text-blue-700">${tr('continue')}</span>`;
+  if(status==='WITHDRAW') return `<span class="badge bg-rose-100 text-rose-700">${tr('withdraw')}</span>`;
+  if(status==='PENDING') return `<span class="badge bg-amber-100 text-amber-700">${tr('pending')}</span>`;
+  return `<span class="badge bg-emerald-100 text-emerald-700">${escapeHtml(status||tr('responded'))}</span>`;
+}
+
+async function loadStudents() {
+  document.getElementById('adminContent').innerHTML=adminHeader(tr('students'),'fa-user-graduate',`<button onclick="studentDialog()" class="btn-gold"><i class="fa-solid fa-plus mr-2"></i>${tr('add')}</button><button onclick="refreshAdminSection('students')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`) + `<div class="card p-4 mb-5"><div class="grid md:grid-cols-[1fr_260px_auto] gap-3"><input id="studentSearchAdmin" class="input" placeholder="${tr('search')}..."><select id="studentClassFilter" class="input"><option value="">${state.lang==='th'?'ทุกชั้นเรียน':'All Classes'}</option></select><button onclick="refreshStudentsTable()" class="btn-primary">${tr('search')}</button></div></div><div id="studentsTable" class="card p-5 border-2 border-slate-200 bg-slate-50/30">${adminLoading()}</div>`;
+  await refreshStudentsTable();
+}
+
+async function refreshStudentsTable() {
+  const selectedClass=value('studentClassFilter');
+  const data=await gas('getStudents',{search:value('studentSearchAdmin'),className:selectedClass}); window.__students=data.rows; window.__studentClasses=data.classes||[];
+  const classFilter=document.getElementById('studentClassFilter');
+  if(classFilter){classFilter.innerHTML=`<option value="">${state.lang==='th'?'ทุกชั้นเรียน':'All Classes'}</option>`+(data.classes||[]).map(c=>`<option value="${escapeAttr(c)}" ${c===selectedClass?'selected':''}>${escapeHtml(c)}</option>`).join('');}
+  document.getElementById('studentsTable').innerHTML=`<h3 class="font-extrabold text-brand-navy mb-3">${tr('total')}: ${data.total}</h3><div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('sequence')}</th><th>${tr('className')}</th><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุล':'Thai Full Name'}</th><th>${tr('status')}</th><th>${tr('actions')}</th></tr></thead><tbody>${data.rows.map((r,i)=>`<tr><td class="text-center font-bold">${escapeHtml(r.Sequence||i+1)}</td><td class="font-extrabold text-brand-navy">${escapeHtml(r.CurrentClass||'')}</td><td class="font-bold">${escapeHtml(r.StudentId)}</td><td>${escapeHtml([r.PrefixTH,r.FirstNameTH,r.LastNameTH].filter(Boolean).join(' '))}</td><td>${Boolean(r.Active)?'<span class="badge bg-emerald-100 text-emerald-700">Active</span>':'<span class="badge bg-slate-100 text-slate-600">Inactive</span>'}</td><td><div class="action-group"><button onclick="studentDialog(${i})" class="action-icon-btn action-edit" title="${tr('edit')}"><i class="fa-solid fa-pen"></i></button><button onclick="removeStudent('${escapeAttr(r.StudentId)}')" class="action-icon-btn action-delete" title="${tr('delete')}"><i class="fa-solid fa-trash"></i></button></div></td></tr>`).join('')||`<tr><td colspan="6" class="text-center py-8">No data</td></tr>`}</tbody></table></div>`;
+}
+
+async function studentDialog(index) {
+  const r=index===undefined?{}:window.__students[index];
+  const classes=[...(window.__studentClasses||[])]; if(r.CurrentClass&&!classes.includes(r.CurrentClass))classes.push(r.CurrentClass); classes.sort((a,b)=>a.localeCompare(b,'en',{numeric:true}));
+  const classOptions=classes.map(c=>`<option value="${escapeAttr(c)}" ${r.CurrentClass===c?'selected':''}>${escapeHtml(c)}</option>`).join('');
+  const result=await Swal.fire({title:index===undefined?tr('add'):tr('edit'),width:980,html:`<div class="text-left space-y-4">
+    <div class="rounded-2xl border border-blue-200 bg-blue-50/50 p-4"><div class="grid md:grid-cols-3 gap-3"><div><label class="label">${tr('sequence')}</label><input id="stSequence" type="number" min="1" class="input" value="${escapeAttr(r.Sequence||'')}"></div><div><label class="label">Student ID</label><input id="stId" class="input" value="${escapeAttr(r.StudentId||'')}" ${index!==undefined?'readonly':''}></div><div><label class="label">Homeroom Teacher</label><input id="stTeacher" class="input" value="${escapeAttr(r.HomeroomTeacher||'')}"></div></div></div>
+    <div class="rounded-2xl border border-amber-200 bg-amber-50/40 p-4"><p class="font-extrabold text-brand-navy mb-3">ข้อมูลชื่อภาษาไทย</p><div class="grid md:grid-cols-3 gap-3"><div><label class="label">Prefix TH</label><input id="stPth" class="input" value="${escapeAttr(r.PrefixTH||'')}"></div><div><label class="label">First Name TH</label><input id="stFth" class="input" value="${escapeAttr(r.FirstNameTH||'')}"></div><div><label class="label">Last Name TH</label><input id="stLth" class="input" value="${escapeAttr(r.LastNameTH||'')}"></div></div></div>
+    <div class="rounded-2xl border border-indigo-200 bg-indigo-50/40 p-4"><p class="font-extrabold text-brand-navy mb-3">English Name</p><div class="grid md:grid-cols-3 gap-3"><div><label class="label">Prefix EN</label><input id="stPen" class="input" value="${escapeAttr(r.PrefixEN||'')}"></div><div><label class="label">First Name EN</label><input id="stFen" class="input" value="${escapeAttr(r.FirstNameEN||'')}"></div><div><label class="label">Last Name EN</label><input id="stLen" class="input" value="${escapeAttr(r.LastNameEN||'')}"></div></div></div>
+    <div class="rounded-2xl border border-emerald-200 bg-emerald-50/40 p-4"><div class="grid md:grid-cols-3 gap-3"><div><label class="label">${tr('className')}</label><select id="stClass" class="input"><option value="">-- Select --</option>${classOptions}</select></div><div><label class="label">Grade Level</label><input id="stGrade" class="input" value="${escapeAttr(r.GradeLevel||'')}"></div><div><label class="label">Room</label><input id="stRoom" class="input" value="${escapeAttr(r.Room||'')}"></div></div></div>
+    <label class="inline-flex items-center gap-2 rounded-xl border bg-slate-50 px-4 py-3"><input id="stActive" type="checkbox" ${r.Active===false?'':'checked'}> <span class="font-bold">Active</span></label>
+  </div><p class="text-xs text-slate-500 text-left mt-3">${state.lang==='th'?'เลือกชั้นเรียนเพื่อกรอก Grade Level และ Room อัตโนมัติ หากเว้นลำดับว่าง ระบบจะกำหนดลำดับถัดไปในชั้นนั้น':'Selecting a class fills Grade Level and Room automatically. A blank sequence uses the next number in that class.'}</p>`,showCancelButton:true,confirmButtonText:index===undefined?tr('add'):tr('edit'),didOpen:()=>{const el=document.getElementById('stClass');el?.addEventListener('change',()=>syncStudentClassFields(el.value));},preConfirm:()=>({Sequence:document.getElementById('stSequence').value,StudentId:document.getElementById('stId').value,HomeroomTeacher:document.getElementById('stTeacher').value,PrefixTH:document.getElementById('stPth').value,FirstNameTH:document.getElementById('stFth').value,LastNameTH:document.getElementById('stLth').value,PrefixEN:document.getElementById('stPen').value,FirstNameEN:document.getElementById('stFen').value,LastNameEN:document.getElementById('stLen').value,CurrentClass:document.getElementById('stClass').value,GradeLevel:document.getElementById('stGrade').value,Room:document.getElementById('stRoom').value,Active:document.getElementById('stActive').checked})});
+  if(result.isConfirmed){showBusy(state.lang==='th'?'กำลังบันทึกข้อมูลนักเรียน...':'Saving student...');const saved=await gas('saveStudent',result.value);Swal.close();await refreshStudentsTable();Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกเรียบร้อย':'Saved',text:saved.message||''});}
+}
+
+function syncStudentClassFields(className){const match=String(className||'').match(/^(.+?)([A-Za-z])$/);if(!match)return;const grade=document.getElementById('stGrade');const room=document.getElementById('stRoom');if(grade)grade.value=match[1];if(room)room.value=match[2].toUpperCase();}
+
+async function removeStudent(id){const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',text:state.lang==='th'?'กรุณาตรวจสอบก่อนลบข้อมูลนักเรียน':'Please verify before deleting this student.',showCancelButton:true,confirmButtonColor:'#dc2626'});if(!c.isConfirmed)return;showBusy(state.lang==='th'?'กำลังลบข้อมูล...':'Deleting...');await gas('deleteStudent',id);Swal.close();await refreshStudentsTable();await Swal.fire({icon:'success',title:state.lang==='th'?'ลบข้อมูลนักเรียนแล้ว':'Student deleted',timer:1400,showConfirmButton:false});}
+
+async function loadSettings() {
+  const data=await gas('getSettingsAdmin');
+  data.rows.forEach((row,index)=>row.__index=index);
+  window.__settings=data.rows;
+  const globalOpen=data.rows.find(r=>r.Key==='FORM_OPEN'&&r.FormType==='GLOBAL'); const isOpen=globalOpen?String(globalOpen.ValueTH).toLowerCase()==='true':false;
+  const categories=[]; const categoryMap={};
+  data.rows.forEach(row=>{const category=row.CategoryTH||'การตั้งค่าอื่นๆ';if(!categoryMap[category]){categoryMap[category]=[];categories.push(category);}categoryMap[category].push(row);});
+  const categoryHtml=categories.map(category=>{
+    const rows=categoryMap[category]; const keys=[]; const keyMap={};
+    rows.forEach(row=>{if(!keyMap[row.Key]){keyMap[row.Key]=[];keys.push(row.Key);}keyMap[row.Key].push(row);});
+    return `<section class="card p-5"><div class="flex items-center gap-3 mb-5"><div class="w-10 h-10 rounded-xl bg-blue-50 text-brand-navy flex items-center justify-center"><i class="fa-solid fa-folder-open"></i></div><div><h3 class="font-extrabold text-xl text-brand-navy">${escapeHtml(category)}</h3><p class="text-sm text-slate-500">${state.lang==='th'?'แยกตารางตาม Key และเรียง Form เป็น P1, M1, M4':'Grouped by Key and ordered P1, M1, M4'}</p></div></div><div class="space-y-5">${keys.map(key=>renderSettingKeyTable(keyMap[key])).join('')}</div></section>`;
+  }).join('');
+  document.getElementById('adminContent').innerHTML=adminHeader(tr('settings'),'fa-gears',`<button onclick="settingDialog()" class="btn-gold"><i class="fa-solid fa-plus mr-2"></i>${tr('add')}</button><button onclick="refreshAdminSection('settings')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`) +
+  `<div class="card p-5 mb-5 flex flex-wrap items-center justify-between gap-4"><div><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'เปิด-ปิด แบบฟอร์ม':'Open / Close Form'}</h3><p class="text-sm text-slate-500">FORM_OPEN · GLOBAL · ${escapeHtml(globalOpen?.DescriptionTH||'')}</p></div><button onclick="toggleFormOpen(${!isOpen})" class="${isOpen?'btn-primary':'btn-light'}"><i class="fa-solid ${isOpen?'fa-toggle-on':'fa-toggle-off'} mr-2"></i>${isOpen?tr('formOpen'):tr('formClosed')}</button></div>
+  <div class="space-y-5">${categoryHtml}</div>`;
+}
+
+function renderSettingKeyTable(rows){
+  const formRank={GLOBAL:0,P1:1,M1:2,M4:3}; rows=[...rows].sort((a,b)=>(formRank[a.FormType]??99)-(formRank[b.FormType]??99));
+  const first=rows[0]||{};
+  return `<div class="rounded-2xl border border-slate-200 overflow-hidden"><div class="bg-slate-50 px-4 py-3 border-b"><div class="flex flex-wrap items-start justify-between gap-2"><div><h4 class="font-extrabold text-brand-navy"><code class="text-sm bg-white border rounded-lg px-2 py-1">${escapeHtml(first.Key||'')}</code></h4><p class="text-sm text-slate-600 mt-2">${escapeHtml(first.DescriptionTH||'')}</p></div><span class="badge bg-blue-100 text-blue-700">${escapeHtml(first.Type||'TEXT')}</span></div></div><div class="table-wrap !border-0 !rounded-none"><table><thead><tr><th>Form</th><th>Value TH</th><th>Value EN</th><th>Type</th><th>${tr('actions')}</th></tr></thead><tbody>${rows.map(r=>`<tr><td><span class="badge ${r.FormType==='GLOBAL'?'bg-slate-100 text-slate-700':'bg-amber-100 text-amber-800'}">${escapeHtml(r.FormType)}</span></td><td class="max-w-[360px]"><div class="max-h-24 overflow-auto whitespace-pre-wrap">${escapeHtml(String(r.ValueTH??''))}</div></td><td class="max-w-[360px]"><div class="max-h-24 overflow-auto whitespace-pre-wrap">${escapeHtml(String(r.ValueEN??''))}</div></td><td>${escapeHtml(r.Type)}</td><td class="whitespace-nowrap"><button onclick="settingDialog(${r.__index})" class="px-2 text-amber-700"><i class="fa-solid fa-pen"></i></button>${state.bootstrap.user.role==='SuperAdmin'?`<button onclick="removeSetting('${escapeAttr(r.Key)}','${escapeAttr(r.FormType)}')" class="px-2 text-rose-700"><i class="fa-solid fa-trash"></i></button>`:''}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+async function toggleFormOpen(open){showBusy(state.lang==='th'?'กำลังบันทึกสถานะแบบฟอร์ม...':'Saving form status...');await gas('saveSetting',{Key:'FORM_OPEN',FormType:'GLOBAL',ValueTH:String(open).toUpperCase(),ValueEN:String(open).toUpperCase(),Type:'BOOLEAN'});state.bootstrap=await gas('getAppBootstrap');Swal.close();renderFormCards();await loadSettings();await Swal.fire({icon:'success',title:open?(state.lang==='th'?'เปิดแบบฟอร์มแล้ว':'Form opened'):(state.lang==='th'?'ปิดแบบฟอร์มแล้ว':'Form closed'),timer:1500,showConfirmButton:false});}
+
+async function settingDialog(index){const r=index===undefined?{}:window.__settings[index];const result=await Swal.fire({title:index===undefined?tr('add'):tr('edit'),width:850,html:`<div class="text-left grid md:grid-cols-2 gap-3"><div><label class="label">Key</label><input id="seKey" class="input" value="${escapeAttr(r.Key||'')}" ${index!==undefined?'readonly':''}></div><div><label class="label">FormType</label><select id="seForm" class="input"><option ${r.FormType==='GLOBAL'?'selected':''}>GLOBAL</option><option ${r.FormType==='P1'?'selected':''}>P1</option><option ${r.FormType==='M1'?'selected':''}>M1</option><option ${r.FormType==='M4'?'selected':''}>M4</option></select></div><div class="md:col-span-2"><label class="label">Value TH</label><textarea id="seTH" class="input min-h-28">${escapeHtml(String(r.ValueTH??''))}</textarea></div><div class="md:col-span-2"><label class="label">Value EN</label><textarea id="seEN" class="input min-h-28">${escapeHtml(String(r.ValueEN??''))}</textarea></div><div><label class="label">Type</label><select id="seType" class="input">${['TEXT','TEXTAREA','BOOLEAN','NUMBER','URL','IMAGE_URL','LIST','JSON'].map(v=>`<option ${r.Type===v?'selected':''}>${v}</option>`).join('')}</select></div></div>`,showCancelButton:true,confirmButtonText:'Save',preConfirm:()=>({Key:document.getElementById('seKey').value,FormType:document.getElementById('seForm').value,ValueTH:document.getElementById('seTH').value,ValueEN:document.getElementById('seEN').value,Type:document.getElementById('seType').value})});if(result.isConfirmed){showBusy(state.lang==='th'?'กำลังบันทึกการตั้งค่า...':'Saving setting...');await gas('saveSetting',result.value);state.bootstrap=await gas('getAppBootstrap');Swal.close();renderFormCards();await loadSettings();await Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกการตั้งค่าแล้ว':'Setting saved',timer:1400,showConfirmButton:false});}}
+async function removeSetting(key,form){const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',text:`${key} · ${form}`,showCancelButton:true,confirmButtonColor:'#dc2626'});if(!c.isConfirmed)return;showBusy(state.lang==='th'?'กำลังลบการตั้งค่า...':'Deleting setting...');await gas('deleteSetting',key,form);state.bootstrap=await gas('getAppBootstrap');Swal.close();await loadSettings();await Swal.fire({icon:'success',title:state.lang==='th'?'ลบการตั้งค่าแล้ว':'Setting deleted',timer:1400,showConfirmButton:false});}
+
+async function loadUsers(){const data=await gas('getUsers');window.__users=data.rows;document.getElementById('adminContent').innerHTML=adminHeader(tr('users'),'fa-users-gear',`<button onclick="userDialog()" class="btn-gold"><i class="fa-solid fa-plus mr-2"></i>${tr('add')}</button><button onclick="refreshAdminSection('users')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`)+`<div class="card p-5"><div class="table-wrap"><table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>AssignedClasses</th><th>Status</th><th>${tr('actions')}</th></tr></thead><tbody>${data.rows.map((r,i)=>`<tr><td>${escapeHtml(r.Email)}</td><td>${escapeHtml(r.Name||'')}</td><td><span class="badge bg-blue-100 text-blue-700">${escapeHtml(r.Role)}</span></td><td>${escapeHtml(r.AssignedClasses||'-')}</td><td>${Boolean(r.Active)?'Active':'Inactive'}</td><td><button onclick="userDialog(${i})" class="px-2 text-amber-700"><i class="fa-solid fa-pen"></i></button><button onclick="removeUser('${escapeAttr(r.Email)}')" class="px-2 text-rose-700"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;}
+async function userDialog(index){const r=index===undefined?{}:window.__users[index];const result=await Swal.fire({title:index===undefined?tr('add'):tr('edit'),width:700,html:`<div class="text-left space-y-3"><div><label class="label">Email</label><input id="usEmail" class="input" value="${escapeAttr(r.Email||'')}" ${index!==undefined?'readonly':''}></div><div><label class="label">Name</label><input id="usName" class="input" value="${escapeAttr(r.Name||'')}"></div><div><label class="label">Role</label><select id="usRole" class="input"><option ${r.Role==='SuperAdmin'?'selected':''}>SuperAdmin</option><option ${r.Role==='Admin'?'selected':''}>Admin</option><option ${r.Role==='Teacher'?'selected':''}>Teacher</option><option ${r.Role==='User'?'selected':''}>User</option></select></div><div><label class="label">AssignedClasses</label><input id="usClasses" class="input" value="${escapeAttr(r.AssignedClasses||'')}" placeholder="Y.6A,Y.6B"><p class="text-xs text-slate-500 mt-1">${state.lang==='th'?'สำหรับ Role Teacher ให้ระบุชั้นเรียนที่อนุญาต คั่นด้วยเครื่องหมายจุลภาค':'For Teacher role, enter permitted classes separated by commas.'}</p></div><label><input id="usActive" type="checkbox" ${r.Active===false?'':'checked'}> Active</label></div>`,showCancelButton:true,confirmButtonText:'Save',preConfirm:()=>({Email:document.getElementById('usEmail').value,Name:document.getElementById('usName').value,Role:document.getElementById('usRole').value,AssignedClasses:document.getElementById('usClasses').value,Active:document.getElementById('usActive').checked})});if(result.isConfirmed){showBusy(state.lang==='th'?'กำลังบันทึกผู้ใช้งาน...':'Saving user...');await gas('saveUser',result.value);Swal.close();await loadUsers();await Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกผู้ใช้งานแล้ว':'User saved',timer:1400,showConfirmButton:false});}}
+async function removeUser(email){const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',text:email,showCancelButton:true,confirmButtonColor:'#dc2626'});if(!c.isConfirmed)return;showBusy(state.lang==='th'?'กำลังลบผู้ใช้งาน...':'Deleting user...');await gas('deleteUser',email);Swal.close();await loadUsers();await Swal.fire({icon:'success',title:state.lang==='th'?'ลบผู้ใช้งานแล้ว':'User deleted',timer:1400,showConfirmButton:false});}
+
+async function loadLogs(){const data=await gas('getActivityLogs',500);document.getElementById('adminContent').innerHTML=adminHeader(tr('logs'),'fa-clock-rotate-left',`<button onclick="refreshAdminSection('logs')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`)+`<div class="card p-5"><p class="font-bold text-brand-navy mb-3">${tr('total')}: ${data.total}</p><div class="table-wrap"><table><thead><tr><th>Timestamp</th><th>Email</th><th>Role</th><th>Action</th><th>Entity</th><th>Entity ID</th><th>Details</th></tr></thead><tbody>${data.rows.map(r=>`<tr><td class="whitespace-nowrap">${formatDate(r.Timestamp)}</td><td>${escapeHtml(r.Email||'')}</td><td>${escapeHtml(r.Role||'')}</td><td class="font-bold">${escapeHtml(r.Action||'')}</td><td>${escapeHtml(r.Entity||'')}</td><td class="text-xs max-w-[140px] truncate">${escapeHtml(r.EntityId||'')}</td><td><pre class="text-xs whitespace-pre-wrap max-w-[350px]">${escapeHtml(r.Details||'')}</pre></td></tr>`).join('')}</tbody></table></div></div>`;}
+
+function destroyCharts(){state.charts.forEach(c=>{try{c.destroy();}catch(e){}});state.charts=[];}
+function formatDate(v){if(!v)return'';const d=new Date(v);return isNaN(d)?escapeHtml(String(v)):d.toLocaleString(state.lang==='th'?'th-TH':'en-GB');}
+
+/* ------------------------------ UTILITIES -------------------------------- */
+
+const actionToast=Swal.mixin({toast:true,position:'top-end',showConfirmButton:false,timer:1800,timerProgressBar:true});
+function handleGlobalActionAlert(event){
+  const target=event.target.closest('button,a');
+  if(!target||target.disabled||target.closest('.swal2-container')||target.closest('#imageViewer')||target.dataset.noActionAlert==='true')return;
+  const label=(target.dataset.actionAlert||target.getAttribute('title')||target.getAttribute('aria-label')||target.textContent||'').replace(/\s+/g,' ').trim();
+  const isFile=target.tagName==='A'&&(target.hasAttribute('download')||/pdf|download|ดาวน์โหลด|เอกสาร|file/i.test(label+target.href));
+  const isExternal=target.tagName==='A'&&target.target==='_blank';
+  const isExplicit=target.dataset.actionAlert==='true';
+  if(!isFile&&!isExternal&&!isExplicit)return;
+  const title=isFile?(state.lang==='th'?'กำลังเปิดหรือดาวน์โหลดเอกสาร':'Opening or downloading document'):isExternal?(state.lang==='th'?'กำลังเปิดลิงก์':'Opening link'):(state.lang==='th'?'กำลังดำเนินการ':'Processing');
+  actionToast.fire({icon:'info',title:label?`${title}: ${label}`:title});
+}
+
+function gas(functionName,...args) {
+  const config=window.EKTRA_CONFIG||{};
+  const apiUrl=String(config.API_URL||'').trim();
+  const hasConfiguredApi=/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/i.test(apiUrl)
+    && !/REPLACE_WITH|PASTE_/i.test(apiUrl);
+
+  // If opened inside Apps Script HTML Service, preserve google.script.run
+  // for the internal/admin deployment.
+  if(!hasConfiguredApi && window.google&&google.script&&google.script.run) {
+    return new Promise((resolve,reject)=>{
+      google.script.run
+        .withSuccessHandler(resolve)
+        .withFailureHandler(err=>reject(new Error(err?.message||String(err))))
+        [functionName](...args);
+    });
+  }
+
+  if(!hasConfiguredApi) {
+    return Promise.reject(new Error(
+      state.lang==='th'
+        ? 'ยังไม่ได้ตั้งค่า API_URL ในไฟล์ config.js'
+        : 'API_URL has not been configured in config.js.'
+    ));
+  }
+
+  return callPublicApi_(apiUrl,functionName,args,Number(config.REQUEST_TIMEOUT_MS)||300000);
+}
+
+async function callPublicApi_(apiUrl,action,args,timeoutMs) {
+  const controller=new AbortController();
+  const timer=setTimeout(()=>controller.abort(),timeoutMs);
+
+  try {
+    const response=await fetch(apiUrl,{
+      method:'POST',
+      redirect:'follow',
+      cache:'no-store',
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body:JSON.stringify({apiVersion:1,action:action,args:args}),
+      signal:controller.signal
+    });
+
+    const raw=await response.text();
+    let envelope;
+
+    try {
+      envelope=JSON.parse(raw);
+    } catch(parseError) {
+      const looksLikeLogin=/<html|accounts\.google\.com|sign in/i.test(raw);
+      throw new Error(
+        looksLikeLogin
+          ? (state.lang==='th'
+              ? 'Apps Script API ยังไม่ได้อนุญาต Anyone หรือ URL Deployment ไม่ถูกต้อง'
+              : 'The Apps Script API is not available to Anyone, or the deployment URL is incorrect.')
+          : (state.lang==='th'
+              ? 'API ส่งข้อมูลกลับมาในรูปแบบที่อ่านไม่ได้'
+              : 'The API returned an unreadable response.')
+      );
+    }
+
+    if(!response.ok || envelope.ok!==true) {
+      throw new Error(envelope?.error?.message||`HTTP ${response.status}`);
+    }
+
+    return envelope.data;
+  } catch(error) {
+    if(error?.name==='AbortError') {
+      throw new Error(state.lang==='th'?'การเชื่อมต่อหมดเวลา กรุณาลองใหม่':'The request timed out. Please try again.');
+    }
+    throw error;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+function showBusy(text){Swal.fire({title:text,allowOutsideClick:false,allowEscapeKey:false,didOpen:()=>Swal.showLoading()});}
+function escapeHtml(value){return String(value??'').replace(/[&<>'"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#039;','"':'&quot;'}[ch]));}
+function escapeAttr(value){return escapeHtml(value).replace(/`/g,'&#096;');}
+</script>
+</body>
+</html>
