@@ -1698,7 +1698,30 @@ async function submitFinal() {
     showBusy(state.lang==='th'?'กำลังส่งแบบฟอร์ม กรุณาอย่าปิดหน้าต่าง':'Submitting. Please do not close this window.');
     const result=await gas('submitForm',payload); Swal.close();
     const pdfButton=result.confirmationPdfUrl?`<a href="${escapeAttr(result.confirmationPdfUrl)}" target="_blank" title="Confirmation PDF" class="inline-block mt-4 px-4 py-2 rounded-lg bg-slate-100 text-brand-navy font-bold"><i class="fa-solid fa-file-pdf mr-2"></i>${state.lang==='th'?'เปิดไฟล์ยืนยัน PDF':'Open Confirmation PDF'}</a>`:'';
-    await Swal.fire({icon:'success',title:state.lang==='th'?'ส่งแบบฟอร์มเรียบร้อยแล้ว':'Form Submitted',html:`<p>${escapeHtml(result.message)}</p><p class="mt-2 text-sm"><strong>ID:</strong> ${escapeHtml(result.submissionId)}</p>${pdfButton}`,allowOutsideClick:false,confirmButtonText:state.lang==='th'?'กลับหน้าหลัก':'Back to Home'});
+
+    const emailNotice=result.confirmationEmailSent
+      ? `<div class="mt-4 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-emerald-800 text-sm">
+          <i class="fa-solid fa-envelope-circle-check mr-2"></i>
+          ${state.lang==='th'
+            ? `ระบบได้ส่งอีเมลยืนยันพร้อม PDF Confirmation ไปที่ <strong>${escapeHtml(result.confirmationEmailTo||value('parentEmail'))}</strong> แล้ว`
+            : `A confirmation email with the PDF Confirmation attached has been sent to <strong>${escapeHtml(result.confirmationEmailTo||value('parentEmail'))}</strong>.`}
+        </div>`
+      : `<div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-900 text-sm">
+          <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+          ${state.lang==='th'
+            ? `แบบฟอร์มถูกบันทึกเรียบร้อยแล้ว แต่ระบบไม่สามารถส่งอีเมลยืนยันได้ในขณะนี้ กรุณาอย่าส่งแบบฟอร์มซ้ำ`
+            : `Your form has been submitted successfully, but the confirmation email could not be sent at this time. Please do not submit the form again.`}
+        </div>`;
+
+    await Swal.fire({
+      icon:result.confirmationEmailSent?'success':'warning',
+      title:state.lang==='th'?'ส่งแบบฟอร์มเรียบร้อยแล้ว':'Form Submitted',
+      html:`<p>${escapeHtml(result.message)}</p>
+        <p class="mt-2 text-sm"><strong>ID:</strong> ${escapeHtml(result.submissionId)}</p>
+        ${emailNotice}${pdfButton}`,
+      allowOutsideClick:false,
+      confirmButtonText:state.lang==='th'?'กลับหน้าหลัก':'Back to Home'
+    });
     showHome(); resetForm();
   } catch(error) { Swal.close(); console.error('submitFinal',error); Swal.fire({icon:'error',title:state.lang==='th'?'ส่งแบบฟอร์มไม่สำเร็จ':'Submission Failed',text:error.message}); }
   finally { state.submitting=false; if(submitButton) submitButton.disabled=false; }
