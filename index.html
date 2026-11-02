@@ -1033,7 +1033,7 @@ function renderPracticeDocument(){
   const label=state.lang==='th'
     ? 'เอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตรา'
     : 'Sarasas Ektra School Rules and Regulations';
-  const items=toImageItems(setting('NOTICE_IMAGE_URL'),label);
+  const items=toImageItems(setting('PRACTICE_IMAGE_URL'),label);
   renderImageGallery('practiceGallery',items,'stack');
 }
 
