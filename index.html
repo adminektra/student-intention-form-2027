@@ -33,7 +33,13 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script src="./config.js"></script>
+  <script>
+    // GitHub Pages needs config.js for the Apps Script /exec URL.
+    // Apps Script HTML Service must skip it and use google.script.run directly.
+    if (!/script\.google\.com|googleusercontent\.com/i.test(window.location.hostname)) {
+      document.write('<script src="./config.js"><\/script>');
+    }
+  </script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     * { box-sizing: border-box; }
@@ -74,16 +80,6 @@
     .badge { display:inline-flex; align-items:center; gap:.35rem; border-radius:9999px; padding:.25rem .65rem; font-size:.78rem; font-weight:700; }
     .dropzone { border:2px dashed #cfd8e5; border-radius:1rem; padding:1rem; background:#fafbfd; transition:.2s; }
     .dropzone:hover { border-color:#d5a514; background:#fffdf5; }
-    .selected-files { display:grid; gap:.6rem; margin-top:.8rem; }
-    .selected-file-card { display:flex; align-items:center; gap:.75rem; padding:.7rem .8rem; border:1px solid #dbe4ef; border-radius:.85rem; background:#fff; }
-    .selected-file-icon { width:2.4rem; height:2.4rem; border-radius:.7rem; display:flex; align-items:center; justify-content:center; background:#eef4fb; color:#173a63; flex:0 0 auto; }
-    .selected-file-meta { min-width:0; flex:1; }
-    .selected-file-name { font-weight:700; color:#173a63; overflow-wrap:anywhere; }
-    .selected-file-actions { display:flex; gap:.45rem; flex:0 0 auto; }
-    .file-review-btn,.file-delete-btn { height:2.25rem; padding:0 .7rem; border-radius:.7rem; font-size:.78rem; font-weight:800; display:inline-flex; align-items:center; gap:.35rem; }
-    .file-review-btn { background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; }
-    .file-delete-btn { background:#fff1f2; color:#be123c; border:1px solid #fecdd3; }
-    .practice-ack { border:2px solid #bfdbfe; background:#eff6ff; }
     .notice-html { white-space: pre-line; line-height:1.85; }
     .enhanced-table-wrap { border: 1px solid #cbd5e1; box-shadow: inset 0 0 0 1px rgba(255,255,255,.7); background:#fff; }
     .enhanced-table th { background: linear-gradient(180deg,#eaf0f8,#dfe8f3); color:#173a63; border-right:1px solid #cbd5e1; border-bottom:1px solid #cbd5e1; }
@@ -133,6 +129,15 @@
     .meeting-unable { border-color:#fca5a5; background:#fff1f2; color:#9f1239; }
     .meeting-unable .meeting-choice-icon { background:#ffe4e6; color:#be123c; }
     .meeting-unable:hover, .meeting-unable:has(input:checked) { border-color:#dc2626; background:#ffe4e6; box-shadow:0 0 0 4px rgba(220,38,38,.12); }
+    .file-preview-list { margin-top:.75rem; display:grid; gap:.6rem; }
+    .file-preview-item { display:flex; align-items:center; gap:.75rem; border:1px solid #dbe4ef; background:#f8fafc; border-radius:.9rem; padding:.65rem .75rem; }
+    .file-preview-meta { min-width:0; flex:1; }
+    .file-preview-name { font-weight:700; color:#0f2747; overflow-wrap:anywhere; }
+    .file-preview-actions { display:flex; gap:.45rem; flex-wrap:wrap; justify-content:flex-end; }
+    .file-preview-btn { border:1px solid #cbd5e1; background:#fff; border-radius:.65rem; padding:.45rem .7rem; font-weight:700; font-size:.8rem; }
+    .file-preview-btn:hover { background:#f1f5f9; }
+    .file-preview-delete { border-color:#fecaca; color:#b91c1c; background:#fff7f7; }
+    .file-preview-delete:hover { background:#fee2e2; }
     .responses-table-wrap { overflow-x:hidden; }
     .responses-table { table-layout:fixed; width:100%; }
     .responses-table th, .responses-table td { white-space:normal; overflow-wrap:anywhere; word-break:break-word; padding:.65rem .55rem; }
@@ -281,7 +286,12 @@
             </div>
             <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:p-6">
               <div id="noticeText" class="notice-html text-slate-700"></div>
-              <div id="requiredDocumentsCardStep1" class="mt-5"></div>
+              <div class="mt-5 rounded-2xl border-2 border-amber-300 bg-amber-50 px-4 py-4 text-amber-950">
+                <div class="flex items-start gap-3">
+                  <i class="fa-solid fa-folder-open text-xl text-amber-700 mt-0.5"></i>
+                  <p class="font-semibold leading-relaxed" data-i18n="documentPreparationNotice">กรณีผู้ปกครองประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา กรุณาจัดเตรียมไฟล์เอกสารตามรายการด้านล่าง เพื่อแนบไฟล์ในระบบ จึงจะสามารถส่งแบบฟอร์มแจ้งความจำนงได้</p>
+                </div>
+              </div>
               <div class="mt-5 flex flex-wrap items-center gap-2 text-base sm:text-lg font-extrabold text-rose-800 bg-rose-50 border-2 border-rose-200 rounded-xl px-4 py-3">
                 <i class="fa-regular fa-calendar-days text-xl"></i>
                 <span data-i18n="deadlineLabel">กำหนดส่ง:</span>
@@ -290,8 +300,11 @@
 
               <div class="mt-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-amber-900">
                 <div class="flex items-start gap-3">
-                  <span class="text-xl leading-none mt-0.5">📎</span>
-                  <div class="leading-relaxed font-semibold" data-i18n="documentPreparationNotice">กรณีผู้ปกครองประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา กรุณาจัดเตรียมไฟล์เอกสารตามรายการด้านล่าง เพื่อแนบไฟล์ในระบบ จึงจะสามารถส่งแบบฟอร์มแจ้งความจำนงได้</div>
+                  <span class="text-xl leading-none mt-0.5">⚠️</span>
+                  <div class="leading-relaxed">
+                    <strong data-i18n="deadlineWarningTitle">โปรดส่งแบบฟอร์มภายในกำหนด</strong>
+                    <span data-i18n="deadlineWarningText"> หากไม่ส่งแบบฟอร์มภายในวันดังกล่าว โรงเรียนจะถือปฏิบัติตามหลักเกณฑ์ที่ระบุไว้ในเอกสาร เรื่อง ระเบียบปฏิบัติการศึกษาต่อฯ (หัวข้อที่ 6. หมายเหตุสำคัญ) ที่แสดงด้านล่างนี้</span>
+                  </div>
                 </div>
               </div>
 
@@ -352,7 +365,7 @@
               <div id="relationshipOtherWrap" class="lg:col-span-3 hidden form-field-panel">
                 <label class="label required" data-i18n="relationshipOther">เกี่ยวข้องกับนักเรียนเป็น</label>
                 <input id="relationshipOther" class="input">
-                <p class="text-xs text-slate-500 mt-1" data-i18n="guardianDefinition">"ผู้ปกครอง" หมายถึง ผู้ดูแลรับผิดชอบนักเรียนในทุกกรณี และยินยอมรับเงื่อนไขของโรงเรียนทุกประการ ตามที่ระบุในเอกสารแนบท้ายและระเบียบปฏิบัติของโรงเรียนสารสาสน์เอกตรา นับตั้งแต่วันที่มอบตัวเป็นต้นไป</p>
+                <p class="text-xs text-slate-500 mt-1" data-i18n="guardianDefinition">ผู้ปกครองหมายถึงผู้ดูแลรับผิดชอบนักเรียนและยินยอมรับเงื่อนไขของโรงเรียนทุกประการ</p>
               </div>
             </div>
           </section>
@@ -500,10 +513,10 @@
             <div id="uploadFields" class="space-y-4">
               <div id="requiredDocumentsCardStep5"></div>
               <div id="exampleImages"></div>
-              <div class="dropzone"><label class="label required" data-i18n="studentDocuments">แนบเอกสารของนักเรียน</label><input id="studentFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('studentFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)</p><div id="studentFilesList" class="selected-files"></div></div>
-              <div class="dropzone"><label class="label required" data-i18n="fatherDocuments">แนบเอกสารของบิดา</label><input id="fatherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('fatherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="fatherFilesList" class="selected-files"></div></div>
-              <div class="dropzone"><label class="label required" data-i18n="motherDocuments">แนบเอกสารของมารดา</label><input id="motherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('motherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="motherFilesList" class="selected-files"></div></div>
-              <div id="guardianFileWrap" class="dropzone hidden"><label class="label required" data-i18n="guardianDocuments">แนบเอกสารของผู้ปกครองอื่น</label><input id="guardianFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('guardianFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="guardianFileHelp">บังคับแนบเมื่อผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น</p><div id="guardianFilesList" class="selected-files"></div></div>
+              <div class="dropzone"><label class="label required" data-i18n="studentDocuments">แนบเอกสารของนักเรียน</label><input id="studentFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('studentFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)</p><div id="studentFilesPreview" class="file-preview-list"></div></div>
+              <div class="dropzone"><label class="label required" data-i18n="fatherDocuments">แนบเอกสารของบิดา</label><input id="fatherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('fatherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="fatherFilesPreview" class="file-preview-list"></div></div>
+              <div class="dropzone"><label class="label required" data-i18n="motherDocuments">แนบเอกสารของมารดา</label><input id="motherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('motherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="motherFilesPreview" class="file-preview-list"></div></div>
+              <div id="guardianFileWrap" class="dropzone hidden"><label id="guardianFileLabel" class="label" data-i18n="guardianDocuments">แนบเอกสารของผู้ปกครองอื่น</label><input id="guardianFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('guardianFiles')"><p id="guardianFileHelp" class="text-xs text-slate-500 mt-2" data-i18n="guardianFileHelp">ใช้เฉพาะกรณีผู้แจ้งความจำนงไม่ใช่บิดาหรือมารดา</p><div id="guardianFilesPreview" class="file-preview-list"></div></div>
             </div>
           </section>
 
@@ -514,13 +527,15 @@
               <div>
                 <p class="text-sm font-bold text-brand-gold" data-i18n="page6">หน้าที่ 6</p>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="practiceTitle">ระเบียบปฏิบัติ</h3>
-                <p class="text-sm text-slate-500 mt-1" data-i18n="practiceHelp">เอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตรา</p>
+                <p class="text-sm text-slate-500 mt-1" data-i18n="practiceHelp">กรุณาศึกษาเอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตราโดยละเอียด</p>
               </div>
             </div>
             <div id="practiceFields">
-              <div id="practiceGallery" class="mb-5"></div>
-              <label class="practice-ack flex items-start gap-3 rounded-2xl p-4 sm:p-5 cursor-pointer">
-                <input id="acknowledgedPractice" type="checkbox" class="mt-1 w-5 h-5 accent-blue-700">
+              <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:p-6">
+                <div id="practiceGallery"></div>
+              </div>
+              <label class="mt-5 flex items-start gap-3 rounded-2xl border-2 border-emerald-200 bg-emerald-50 p-4 cursor-pointer">
+                <input id="acknowledgedPractice" type="checkbox" class="mt-1 w-5 h-5 accent-emerald-600">
                 <span class="font-semibold text-slate-700" data-i18n="practiceAck">ข้าพเจ้าได้ศึกษาข้อความในเอกสารเป็นที่เข้าใจดีแล้ว และยินดีปฏิบัติตามระเบียบของโรงเรียนทุกประการ</span>
               </label>
             </div>
@@ -533,8 +548,10 @@
               <div>
                 <p class="text-sm font-bold text-brand-gold" data-i18n="page7">หน้าที่ 7</p>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="paymentTitle">ช่องทางการชำระค่าธรรมเนียมการศึกษา</h3>
-                <p id="withdrawPaymentNotice" class="hidden text-sm text-rose-700 mt-2 leading-relaxed" data-i18n="withdrawPaymentNotice"></p>
               </div>
+            </div>
+            <div id="withdrawPaymentNotice" class="hidden mb-5 rounded-2xl border-2 border-rose-200 bg-rose-50 p-4 sm:p-5 text-rose-900 leading-relaxed">
+              <div class="flex items-start gap-3"><i class="fa-solid fa-circle-info mt-1"></i><p data-i18n="withdrawPaymentExplanation">นักเรียนที่แจ้งความจำนงลาออก สามารถรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับ และสำเนา ภายหลังชำระค่าธรรมเนียมทุกประเภทจนถึงภาคเรียนที่ 2/2569 ครบถ้วนแล้ว</p></div>
             </div>
             <div id="paymentContent">
               <div id="paymentGallery" class="hidden"></div>
@@ -608,8 +625,8 @@ const I18N = {
     page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียนและวันเดือนปีเกิด เพื่อยืนยันข้อมูลกับฐานข้อมูลโรงเรียน', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', birthDate:'วันเดือนปีเกิดนักเรียน (ค.ศ.)', birthDateHelp:'<ul class="list-disc pl-5 space-y-1"><li>กรุณากดเลือกวันเดือนปีเกิดจากปุ่มปฏิทิน</li><li>ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</li></ul>', birthDateVerified:'ยืนยันตรงกับฐานข้อมูลแล้ว', verifyStudent:'ตรวจสอบและยืนยันนักเรียน', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังยืนยันรหัสและวันเกิด', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
     page4:'หน้าที่ 4', tuitionInformation:'ข้อมูลค่าธรรมเนียมการศึกษา', currentTuition:'ค่าธรรมเนียมปัจจุบัน', continueFeeCase:'กรณีแจ้งความจำนงศึกษาต่อ', returnFeeCase:'กรณีแจ้งความจำนงลาออก แต่ประสงค์กลับเข้าศึกษาต่อ', feeItem:'รายการ', feeLevel:'ระดับชั้น', tuitionPerSemester:'ค่าธรรมเนียมต่อภาคเรียน (บาท)', feeNote:'หมายเหตุ', feeDataMissing:'ยังไม่มีข้อมูลค่าธรรมเนียมที่ครบถ้วนสำหรับนักเรียน กรุณาติดต่อฝ่ายธุรการ', selectIntentionAfterFee:'กรุณาตรวจสอบข้อมูลค่าธรรมเนียมก่อนเลือกความประสงค์', selectIntentionAfterFeeHelp:'เมื่อข้อมูลถูกต้องแล้ว ให้เลือกศึกษาต่อหรือลาออกด้านล่าง', continueHelp:'ประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา', withdrawHelp:'ยืนยันการลาออกเมื่อจบระดับชั้นปัจจุบัน', thirdLanguageM1:'การเลือกเรียนภาษาที่สาม ระดับชั้นมัธยมศึกษาปีที่ 1-3', thirdLanguageM1Help:'เลือกเรียนภาษาที่สาม ตามความสนใจของนักเรียน และเรียนต่อเนื่องจนจบมัธยมศึกษาปีที่ 3', chinese:'ภาษาจีน', japanese:'ภาษาญี่ปุ่น', english:'ภาษาอังกฤษ', ackLanguageM1:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 3 โดยไม่มีการเปลี่ยนแปลง', studyPlanTitle:'การเลือกแผนการเรียน ระดับชั้นมัธยมศึกษาปีที่ 4-6', thirdLanguage:'ภาษาที่สาม', ackLanguageM4:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 6 โดยไม่มีการเปลี่ยนแปลง', nextSchool:'โรงเรียนที่นักเรียนจะไปศึกษาต่อ', statisticsOnly:'ใช้เพื่อบันทึกเป็นข้อมูลสถิติของโรงเรียนเท่านั้น', withdrawalReason:'สาเหตุสำคัญที่ตัดสินใจลาออก',
     page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG, WEBP ขนาดไม่เกิน 5 MB ต่อไฟล์ สูงสุด 4 ไฟล์ต่อหมวด และรวมทุกหมวดไม่เกิน 15 MB', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', motherDocuments:'แนบเอกสารของมารดา', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'บังคับแนบเมื่อผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น',
-    page6:'หน้าที่ 6', practiceTitle:'ระเบียบปฏิบัติ', practiceHelp:'เอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตรา', practiceAck:'ข้าพเจ้าได้ศึกษาข้อความในเอกสารเป็นที่เข้าใจดีแล้ว และยินดีปฏิบัติตามระเบียบของโรงเรียนทุกประการ',
-    page7:'หน้าที่ 7', paymentTitle:'ช่องทางการชำระค่าธรรมเนียมการศึกษา', withdrawPaymentNotice:'นักเรียนที่แจ้งความจำนงลาออก สามารถรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับ และสำเนา ภายหลังชำระค่าธรรมเนียมทุกประเภทจนถึงภาคเรียนที่ 2/2569 ครบถ้วนแล้ว', paymentPending:'กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ',
+    page6:'หน้าที่ 6', practiceTitle:'ระเบียบปฏิบัติ', practiceHelp:'กรุณาศึกษาเอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตราโดยละเอียด', practiceAck:'ข้าพเจ้าได้ศึกษาข้อความในเอกสารเป็นที่เข้าใจดีแล้ว และยินดีปฏิบัติตามระเบียบของโรงเรียนทุกประการ',
+    page7:'หน้าที่ 7', paymentTitle:'ช่องทางการชำระค่าธรรมเนียมการศึกษา', withdrawPaymentExplanation:'นักเรียนที่แจ้งความจำนงลาออก สามารถรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับ และสำเนา ภายหลังชำระค่าธรรมเนียมทุกประเภทจนถึงภาคเรียนที่ 2/2569 ครบถ้วนแล้ว', paymentPending:'กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ',
     page8:'หน้าที่ 8', reviewTitle:'ตรวจสอบและยืนยันข้อมูล', finalWarning:'เมื่อกด “ส่งแบบฟอร์ม” แล้ว จะไม่สามารถแก้ไขข้อมูลหรือส่งแบบฟอร์มซ้ำได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง', previous:'ย้อนกลับ', saveDraft:'บันทึกแบบร่าง', next:'ถัดไป', submitForm:'ส่งแบบฟอร์ม',
     formOpen:'ระบบเปิดรับแบบฟอร์ม', formClosed:'ระบบปิดรับแบบฟอร์ม', startForm:'เริ่มกรอกแบบฟอร์ม', dashboard:'Dashboard', responses:'ข้อมูลแบบฟอร์ม', reviewStudents:'ตรวจสอบรายชื่อนักเรียน', students:'จัดการนักเรียน', settings:'ตั้งค่าระบบ', users:'ผู้ใช้งาน', logs:'Log Activity', home:'หน้าหลัก', refresh:'Refresh', search:'ค้นหา', add:'เพิ่มข้อมูล', edit:'แก้ไข', delete:'ลบ', view:'ดูข้อมูล', total:'รวม', responded:'กรอกแล้ว', pending:'ยังไม่กรอก', continue:'ศึกษาต่อ', withdraw:'ลาออก', actions:'จัดการ', status:'สถานะ', className:'ชั้นเรียน', teacher:'ครูประจำชั้น', sequence:'ลำดับ', submittedDate:'วันที่กรอก'
   },
@@ -622,9 +639,9 @@ const I18N = {
     page2:'Page 2', parentInfo:'Declarant Information', parentInfoHelp:'The declarant must be the student’s father, mother, or legal guardian with full signing authority.', parentPrefix:'Title', otherPrefix:'Specify title', choose:'-- Select --', parentName:'Declarant’s Full Name', parentId:'National ID / Passport Number', identityHelp:'Used for identity verification only', phone:'Phone Number', emailDuplicateHelp:'This email is used to resume drafts and prevent duplicate submissions', relationship:'Relationship to Student', father:'Father', mother:'Mother', guardian:'Other Guardian', relationshipOther:'Relationship to Student', guardianDefinition:'"Parent/Guardian" shall mean the individual who is fully responsible for the student in all respects and who agrees to accept and comply with all conditions and regulations of Sarasas Ektra School, as specified in the attached documents, with effect from the date of enrolment.',
     page3:'Page 3', studentInfo:'Student Information', studentLookupHelp:'Enter the student ID and date of birth to verify the student against the school database', studentIdHelp:'This is not the classroom roll number', birthDate:'Student Date of Birth', birthDateHelp:'<ul class="list-disc pl-5 space-y-1"><li>Please select the student\'s date of birth using the calendar button.</li><li>This information is used to verify the student\'s identity before displaying student details.</li></ul>', birthDateVerified:'Verified against the school database', verifyStudent:'Verify Student', studentVerified:'Student verified', studentResultWaiting:'Student details will appear after the ID and date of birth are verified', thaiFullName:'Thai Full Name', englishFullName:'English Full Name', currentClass:'Current Class', homeroom:'Homeroom Teacher',
     page4:'Page 4', tuitionInformation:'Tuition Fee Information', currentTuition:'Current Tuition Fee', continueFeeCase:'If the student continues studying', returnFeeCase:'If the student withdraws and later wishes to return', feeItem:'Item', feeLevel:'Level', tuitionPerSemester:'Tuition per semester (THB)', feeNote:'Note', feeDataMissing:'Complete tuition fee information is not available for this student. Please contact the Administration Office.', selectIntentionAfterFee:'Please review the tuition information before selecting an intention', selectIntentionAfterFeeHelp:'After confirming the information, select Continue or Withdraw below.', continueHelp:'The student will continue at Sarasas Ektra School', withdrawHelp:'Confirm withdrawal after completing the current level', thirdLanguageM1:'Third-Language Selection for Years 7–9', thirdLanguageM1Help:'Students may choose a third language based on their interests and continue studying it through Year 9', chinese:'Chinese', japanese:'Japanese', english:'English', ackLanguageM1:'I acknowledge that the selected language must be studied continuously through Year 9 without change.', studyPlanTitle:'Study Plan Selection for Years 10–12', thirdLanguage:'Third Language', ackLanguageM4:'I acknowledge that the selected language must be studied continuously through Year 12 without change.', nextSchool:'Next School', statisticsOnly:'Used only for school statistical records', withdrawalReason:'Main Reason for Withdrawal',
-    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'PDF, JPG, PNG, or WEBP; maximum 5 MB per file and 4 files per category', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate/ID/passport and name-change document, if applicable', fatherDocuments:'Father’s Documents', motherDocuments:'Mother’s Documents', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'Optional; use only when the declarant is not the father or mother',
-    page6:'Page 6', practiceTitle:'Rules and Regulations', practiceHelp:'Attached document and regulations of Sarasas Ektra School', practiceAck:'I have read and well understood the terms and conditions in document',
-    page7:'Page 7', paymentTitle:'Tuition Payment Channels', withdrawPaymentNotice:'Students who have submitted a notice of withdrawal may collect academic documents and student certificates, including both original documents and copies, only after all types of fees through Semester 2/2026 have been fully paid.', paymentPending:'Please check the school announcement or contact the Administration Office for payment channels.',
+    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'PDF, JPG, PNG, or WEBP; maximum 5 MB per file and 4 files per category', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate/ID/passport and name-change document, if applicable', fatherDocuments:'Father’s Documents', motherDocuments:'Mother’s Documents', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'Required when the declarant is an Other Guardian',
+    page6:'Page 6', practiceTitle:'Rules and Regulations', practiceHelp:'Please read the attached Sarasas Ektra School rules and regulations carefully.', practiceAck:'I have read and well understood the terms and conditions in document',
+    page7:'Page 7', paymentTitle:'Tuition Payment Channels', withdrawPaymentExplanation:'Students who have submitted a notice of withdrawal may collect academic documents and student certificates, including both original documents and copies, only after all types of fees through Semester 2/2026 have been fully paid.', paymentPending:'Please check the school announcement or contact the Administration Office for payment channels.',
     page8:'Page 8', reviewTitle:'Review and Confirm', finalWarning:'After clicking “Submit Form,” the information cannot be edited and the form cannot be submitted again. Please verify everything carefully.', previous:'Previous', saveDraft:'Save Draft', next:'Next', submitForm:'Submit Form',
     formOpen:'Form is open', formClosed:'Form is closed', startForm:'Start Form', dashboard:'Dashboard', responses:'Form Responses', reviewStudents:'Student Review', students:'Student Management', settings:'System Settings', users:'Users', logs:'Activity Log', home:'Home', refresh:'Refresh', search:'Search', add:'Add', edit:'Edit', delete:'Delete', view:'View', total:'Total', responded:'Responded', pending:'Pending', continue:'Continue', withdraw:'Withdraw', actions:'Actions', status:'Status', className:'Class', teacher:'Homeroom Teacher', sequence:'No.', submittedDate:'Submitted Date'
   }
@@ -653,11 +670,6 @@ const stepTitles = {
   en: ['Information','Declarant','Student','Intention','Documents','Rules','Payment','Review']
 };
 
-const PRACTICE_DOCUMENT_URLS = Object.freeze({
-  th: 'https://lh5.googleusercontent.com/d/1O08KHa_MOBu80jMwuO-675uFgpb6AJgb',
-  en: 'https://lh5.googleusercontent.com/d/1cEjrx1TZicBoD5yOBoQwcexV5sS7Al-O'
-});
-
 window.addEventListener('DOMContentLoaded', initApp);
 document.addEventListener('click', handleGlobalActionAlert, true);
 document.addEventListener('keydown', event => {
@@ -681,21 +693,14 @@ async function initApp() {
     applyLanguage();
   } catch (error) {
     console.error('initApp', error);
-    const result=await Swal.fire({
-      icon:'error',
-      title:state.lang==='th'?'ไม่สามารถเปิดระบบได้':'Unable to load the system',
-      text:error.message,
-      showCancelButton:true,
-      confirmButtonText:state.lang==='th'?'ลองใหม่':'Retry',
-      cancelButtonText:state.lang==='th'?'ปิด':'Close'
-    });
-    if(result.isConfirmed) window.location.reload();
+    Swal.fire({ icon:'error', title:'ไม่สามารถเปิดระบบได้', text:error.message });
   } finally {
     document.getElementById('loadingOverlay').classList.add('hidden');
   }
 }
 
 function tr(key) { return (I18N[state.lang] && I18N[state.lang][key]) || key; }
+function displayFormCode(code){return ({P1:'Year 1',M1:'Year 7',M4:'Year 10',GLOBAL:'GLOBAL'})[String(code||'').toUpperCase()]||code||'';}
 
 function setting(key) {
   if (!state.formType || !state.bootstrap) return '';
@@ -865,8 +870,8 @@ function resetForm() {
   document.getElementById('m1LanguageBox').classList.add('hidden');
   document.getElementById('m4PlanBox').classList.add('hidden');
   document.getElementById('m4LanguageOptions').classList.add('hidden');
-  ['studentFiles','fatherFiles','motherFiles','guardianFiles'].forEach(id=>renderSelectedFiles(id));
-  if(document.getElementById('acknowledgedPractice')) document.getElementById('acknowledgedPractice').checked=false;
+  const practiceAck=document.getElementById('acknowledgedPractice'); if(practiceAck) practiceAck.checked=false;
+  ['studentFiles','fatherFiles','motherFiles','guardianFiles'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';const p=document.getElementById(id+'Preview');if(p)p.innerHTML='';});
   renderTuitionFeeSection();
   setIntentionChoicesEnabled(false);
 }
@@ -878,7 +883,6 @@ function renderFormMetadata() {
   document.getElementById('selectedFormTitle').textContent = title;
   document.getElementById('noticeText').textContent = setting('NOTICE_TEXT');
   document.getElementById('legalAckText').textContent = setting('LEGAL_ACK_TEXT');
-  renderRequiredDocumentsCards();
   const deadlineDisplay = formatDateOnlyValue(setting('FORM_DEADLINE'));
   document.getElementById('deadlineText').textContent = deadlineDisplay;
   document.getElementById('deadlineText2').textContent = deadlineDisplay;
@@ -893,7 +897,7 @@ function renderFormMetadata() {
 
   document.getElementById('m1LanguageBox').classList.toggle('hidden', state.formType !== 'M1');
   document.getElementById('m4PlanBox').classList.toggle('hidden', state.formType !== 'M4');
-  renderImageGallery('practiceGallery', [{url:PRACTICE_DOCUMENT_URLS[state.lang],label:state.lang==='th'?'เอกสารแนบท้ายและระเบียบปฏิบัติ':'Attached rules and regulations document'}], 'stack');
+  renderPracticeDocument();
 
   const paymentItems = toImageItems(setting('PAYMENT_IMAGE_URL'), state.lang==='th'?'ช่องทางการชำระค่าธรรมเนียม':'Payment channel');
   renderImageGallery('paymentGallery', paymentItems, 'stack');
@@ -1022,6 +1026,15 @@ function openGalleryImage(containerId,startIndex=0) {
   openImageViewer(state.galleries[containerId]||[],startIndex);
 }
 
+const PRACTICE_DOCUMENT_URLS = Object.freeze({
+  th: 'https://lh5.googleusercontent.com/d/1O08KHa_MOBu80jMwuO-675uFgpb6AJgb',
+  en: 'https://lh5.googleusercontent.com/d/1cEjrx1TZicBoD5yOBoQwcexV5sS7Al-O'
+});
+function renderPracticeDocument(){
+  const url=PRACTICE_DOCUMENT_URLS[state.lang]||PRACTICE_DOCUMENT_URLS.th;
+  renderImageGallery('practiceGallery',[{url,label:state.lang==='th'?'เอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตรา':'Sarasas Ektra School Rules and Regulations'}],'stack');
+}
+
 function renderExampleImages() {
   const data = [
     {url:setting('EXAMPLE_STUDENT_DOC_URL'),label:state.lang==='th'?'ตัวอย่างบัตรประชาชน':'ID Card Example'},
@@ -1092,17 +1105,15 @@ async function nextStep() {
   try {
     validateStep(state.currentStep);
     if (state.currentStep===2) await checkDuplicateBeforeContinue();
-    let next=state.currentStep+1;
-    if(state.currentStep===5 && radioValue('intention')==='WITHDRAW') next=7;
-    showStep(next);
+    if (state.currentStep===5 && radioValue('intention')==='WITHDRAW') return showStep(7);
+    showStep(state.currentStep+1);
   } catch (error) {
     Swal.fire({ icon:'warning', title:state.lang==='th'?'กรุณาตรวจสอบข้อมูล':'Please check the information', text:error.message });
   }
 }
 function prevStep() {
-  let prev=state.currentStep-1;
-  if(state.currentStep===7 && radioValue('intention')==='WITHDRAW') prev=5;
-  showStep(prev);
+  if (state.currentStep===7 && radioValue('intention')==='WITHDRAW') return showStep(5);
+  showStep(state.currentStep-1);
 }
 
 function validateStep(step) {
@@ -1131,7 +1142,7 @@ function validateStep(step) {
     const intention=radioValue('intention'); if(!intention) throw new Error(state.lang==='th'?'กรุณาเลือกความประสงค์':'Please select an intention.');
     if(intention==='WITHDRAW') {
       if(!value('nextSchool')) throw new Error(state.lang==='th'?'กรุณาระบุโรงเรียนที่ไปศึกษาต่อ':'Please enter the next school.');
-      if(!value('withdrawalReason')) throw new Error(state.lang==='th'?'กรุณาระบุสาเหตุที่ลาออก':'Please enter the withdrawal reason.');
+      if(!value('withdrawalReason')) throw new Error(state.lang==='th'?'กรุณาระบุสาเหตุที่ย้ายออก':'Please enter the withdrawal reason.');
     } else {
       if(state.formType==='M1') {
         if(!radioValue('thirdLanguage')) throw new Error(state.lang==='th'?'กรุณาเลือกภาษาที่สาม':'Please select a third language.');
@@ -1194,9 +1205,15 @@ function applyParentPrefix(prefix){
 function sanitizeEmailInput(input){input.value=String(input.value||'').replace(/[^\x00-\x7F]/g,'').replace(/\s+/g,'');}
 
 function toggleRelationshipOther() {
-  const guardian=radioValue('relationship')==='GUARDIAN';
-  document.getElementById('relationshipOtherWrap').classList.toggle('hidden',!guardian);
-  document.getElementById('guardianFileWrap').classList.toggle('hidden',!guardian);
+  const isGuardian=radioValue('relationship')==='GUARDIAN';
+  document.getElementById('relationshipOtherWrap').classList.toggle('hidden',!isGuardian);
+  document.getElementById('guardianFileWrap').classList.toggle('hidden',!isGuardian);
+  const label=document.getElementById('guardianFileLabel');
+  if(label) label.classList.toggle('required',isGuardian);
+  const help=document.getElementById('guardianFileHelp');
+  if(help) help.textContent=isGuardian
+    ? (state.lang==='th'?'บังคับแนบ เนื่องจากผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น':'Required because the declarant is an Other Guardian')
+    : tr('guardianFileHelp');
 }
 
 
@@ -1447,8 +1464,9 @@ function toggleIntention() {
   document.getElementById('withdrawOptions').classList.toggle('hidden',!withdraw);
   document.getElementById('uploadFields').classList.toggle('hidden',!cont);
   document.getElementById('uploadSkip').classList.toggle('hidden',cont);
-  document.getElementById('withdrawPaymentNotice')?.classList.toggle('hidden',!withdraw);
-  document.getElementById('paymentContent')?.classList.remove('hidden');
+  document.getElementById('practiceFields').classList.toggle('hidden',!cont);
+  document.getElementById('paymentContent').classList.remove('hidden');
+  document.getElementById('withdrawPaymentNotice').classList.toggle('hidden',!withdraw);
   document.getElementById('continueChoice').classList.toggle('selected',cont);
   document.getElementById('withdrawChoice').classList.toggle('selected',withdraw);
   if(cont) {
@@ -1625,7 +1643,7 @@ function applyDraft(draft) {
   setRadio('intention',draft.IntentionCode||draft.Intention); toggleIntention();
   setRadio('thirdLanguage',draft.ThirdLanguageCode||draft.ThirdLanguage); setRadio('studyPlan',draft.StudyPlanCode||draft.StudyPlan); toggleM4Language();
   document.getElementById('acknowledgedRules').checked=isTruthyClient(draft.AcknowledgedRules);
-  if(document.getElementById('acknowledgedPractice')) document.getElementById('acknowledgedPractice').checked=isTruthyClient(draft.AcknowledgedPractice);
+  document.getElementById('acknowledgedPractice').checked=isTruthyClient(draft.AcknowledgedPractice);
   if(state.formType==='M1') document.getElementById('acknowledgedLanguageM1').checked=isTruthyClient(draft.AcknowledgedLanguage);
   if(state.formType==='M4') document.getElementById('acknowledgedLanguageM4').checked=isTruthyClient(draft.AcknowledgedLanguage);
   state.studentVerified=false;
@@ -1642,8 +1660,8 @@ function getPayload() {
     intention:radioValue('intention'), targetLevel:state.formType,
     thirdLanguage:radioValue('thirdLanguage'), studyPlan:radioValue('studyPlan'),
     acknowledgedRules:document.getElementById('acknowledgedRules').checked,
+    acknowledgedPractice:radioValue('intention')==='CONTINUE' ? document.getElementById('acknowledgedPractice').checked : false,
     acknowledgedLanguage:state.formType==='M1'?document.getElementById('acknowledgedLanguageM1').checked:document.getElementById('acknowledgedLanguageM4').checked,
-    acknowledgedPractice:Boolean(document.getElementById('acknowledgedPractice')?.checked),
     nextSchool:value('nextSchool'), withdrawalReason:value('withdrawalReason'),
     meetingAttendance:'', meetingCount:0
   };
@@ -1660,6 +1678,41 @@ async function saveDraftFromForm() {
   } catch(error) { Swal.close(); Swal.fire({icon:'error',title:state.lang==='th'?'บันทึกไม่สำเร็จ':'Unable to save',text:error.message}); }
 }
 
+function formatFileSize(bytes){
+  const n=Number(bytes)||0;
+  if(n<1024)return `${n} B`;
+  if(n<1024*1024)return `${(n/1024).toFixed(1)} KB`;
+  return `${(n/1024/1024).toFixed(2)} MB`;
+}
+function renderSelectedFiles(inputId){
+  const input=document.getElementById(inputId);
+  const wrap=document.getElementById(inputId+'Preview');
+  if(!input||!wrap)return;
+  const files=[...(input.files||[])];
+  if(!files.length){wrap.innerHTML='';return;}
+  wrap.innerHTML=files.map((file,index)=>`<div class="file-preview-item"><div class="w-9 h-9 rounded-lg bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid ${file.type==='application/pdf'?'fa-file-pdf':'fa-file-image'}"></i></div><div class="file-preview-meta"><div class="file-preview-name">${escapeHtml(file.name)}</div><div class="text-xs text-slate-500">${escapeHtml(file.type||'File')} · ${formatFileSize(file.size)}</div></div><div class="file-preview-actions"><button type="button" class="file-preview-btn" data-no-action-alert="true" onclick="previewSelectedFile('${escapeAttr(inputId)}',${index})"><i class="fa-solid fa-eye mr-1"></i>${state.lang==='th'?'ดู':'Review'}</button><button type="button" class="file-preview-btn file-preview-delete" data-no-action-alert="true" onclick="removeSelectedFile('${escapeAttr(inputId)}',${index})"><i class="fa-solid fa-trash mr-1"></i>${state.lang==='th'?'ลบ':'Delete'}</button></div></div>`).join('');
+}
+function previewSelectedFile(inputId,index){
+  const file=document.getElementById(inputId)?.files?.[index];
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+  if(file.type==='application/pdf'){
+    const w=window.open(url,'_blank','noopener');
+    if(!w) Swal.fire({icon:'info',title:state.lang==='th'?'กรุณาอนุญาต Pop-up':'Please allow pop-ups',text:file.name});
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    return;
+  }
+  openImageViewer([{url,label:file.name}],0);
+  setTimeout(()=>URL.revokeObjectURL(url),120000);
+}
+function removeSelectedFile(inputId,index){
+  const input=document.getElementById(inputId); if(!input)return;
+  const dt=new DataTransfer();
+  [...input.files].forEach((file,i)=>{if(i!==index)dt.items.add(file);});
+  input.files=dt.files;
+  renderSelectedFiles(inputId);
+}
+
 function validateFileInputs() {
   let totalBytes=0;
   ['studentFiles','fatherFiles','motherFiles','guardianFiles'].forEach(id=>{
@@ -1674,46 +1727,6 @@ function validateFileInputs() {
   if(totalBytes>MAX_TOTAL_UPLOAD_BYTES) {
     throw new Error(state.lang==='th'?'ขนาดไฟล์แนบรวมทุกหมวดต้องไม่เกิน 15 MB':'The total attachment size must not exceed 15 MB.');
   }
-}
-
-function formatFileSize(bytes){
-  const n=Number(bytes)||0;
-  if(n<1024)return `${n} B`;
-  if(n<1024*1024)return `${(n/1024).toFixed(1)} KB`;
-  return `${(n/1024/1024).toFixed(1)} MB`;
-}
-function renderSelectedFiles(inputId){
-  const input=document.getElementById(inputId);
-  const list=document.getElementById(inputId+'List');
-  if(!input||!list)return;
-  const files=[...(input.files||[])];
-  list.innerHTML=files.map((file,index)=>{
-    const isPdf=/pdf/i.test(file.type)||/\.pdf$/i.test(file.name);
-    return `<div class="selected-file-card"><div class="selected-file-icon"><i class="fa-solid ${isPdf?'fa-file-pdf':'fa-file-image'}"></i></div><div class="selected-file-meta"><div class="selected-file-name">${escapeHtml(file.name)}</div><div class="text-xs text-slate-500 mt-0.5">${escapeHtml(formatFileSize(file.size))}</div></div><div class="selected-file-actions"><button type="button" class="file-review-btn" data-no-action-alert="true" onclick="reviewSelectedFile('${escapeAttr(inputId)}',${index})"><i class="fa-solid fa-eye"></i>${state.lang==='th'?'ดู':'Review'}</button><button type="button" class="file-delete-btn" data-no-action-alert="true" onclick="removeSelectedFile('${escapeAttr(inputId)}',${index})"><i class="fa-solid fa-trash"></i>${state.lang==='th'?'ลบ':'Delete'}</button></div></div>`;
-  }).join('');
-}
-function reviewSelectedFile(inputId,index){
-  const file=document.getElementById(inputId)?.files?.[index];
-  if(!file)return;
-  const url=URL.createObjectURL(file);
-  if(/^image\//i.test(file.type)){
-    openImageViewer([{url,label:file.name}],0);
-    setTimeout(()=>URL.revokeObjectURL(url),120000);
-  }else{
-    const popup=window.open(url,'_blank');
-    if(!popup) Swal.fire({icon:'info',title:state.lang==='th'?'ไม่สามารถเปิดตัวอย่างไฟล์ได้':'Unable to open preview',text:state.lang==='th'?'กรุณาอนุญาต Pop-up สำหรับเว็บไซต์นี้':'Please allow pop-ups for this website.'});
-    setTimeout(()=>URL.revokeObjectURL(url),120000);
-  }
-}
-async function removeSelectedFile(inputId,index){
-  const input=document.getElementById(inputId); if(!input)return;
-  const file=input.files?.[index]; if(!file)return;
-  const confirm=await Swal.fire({icon:'warning',title:state.lang==='th'?'ลบเอกสารที่เลือก?':'Remove selected document?',text:file.name,showCancelButton:true,confirmButtonText:state.lang==='th'?'ลบ':'Delete',cancelButtonText:state.lang==='th'?'ยกเลิก':'Cancel',confirmButtonColor:'#dc2626'});
-  if(!confirm.isConfirmed)return;
-  const dt=new DataTransfer();
-  [...input.files].forEach((f,i)=>{if(i!==index)dt.items.add(f);});
-  input.files=dt.files;
-  renderSelectedFiles(inputId);
 }
 
 async function filesToPayload(inputId) {
@@ -1788,7 +1801,7 @@ function renderReview() {
   if(p.thirdLanguage) rows.push([tr('thirdLanguage'),displayCode(p.thirdLanguage)]);
   if(p.studyPlan) rows.push([tr('studyPlanTitle'),displayCode(p.studyPlan)]);
   if(p.intention==='WITHDRAW') { rows.push([tr('nextSchool'),p.nextSchool],[tr('withdrawalReason'),p.withdrawalReason]); }
-  if(p.intention==='CONTINUE') rows.push([tr('practiceTitle'),p.acknowledgedPractice?(state.lang==='th'?'รับทราบ':'Acknowledged'):(state.lang==='th'?'ยังไม่รับทราบ':'Not acknowledged')]);
+  if(p.intention==='CONTINUE') rows.push([state.lang==='th'?'รับทราบระเบียบปฏิบัติ':'Rules and Regulations',p.acknowledgedPractice?(state.lang==='th'?'รับทราบ':'Acknowledged'):(state.lang==='th'?'ยังไม่รับทราบ':'Not acknowledged')]);
   document.getElementById('reviewContent').innerHTML=`<div class="table-wrap"><table><tbody>${rows.map(([a,b])=>`<tr><th class="w-1/3">${escapeHtml(a)}</th><td>${escapeHtml(b||'-')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 
@@ -1808,7 +1821,6 @@ function clientThaiThirdLanguage(value){const t=String(value||'').trim(),u=t.toU
 function clientThaiStudyPlan(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='GAC_SCI_MATH'||/GAC\s*\(SCIENCE-MATH\)/i.test(t))return'แผนการเรียน GAC (Science-Math)';if(u==='GAC_LANGUAGE'||/GAC\s*\(LANGUAGE\)/i.test(t))return'แผนการเรียน GAC (Language)';if(u==='EXTRA_LANGUAGE'||/EXTRA CLASS\s*\(LANGUAGE\)/i.test(t))return'แผนการเรียน Extra Class (Language)';if(u==='BILINGUAL_SCI_MATH'||/BILINGUAL\s*\(SCIENCE-MATH\)/i.test(t))return'แผนการเรียน Bilingual (Science-Math)';return t||'-';}
 function clientThaiMeeting(value,intention){if(normalizeClientIntention(intention)==='WITHDRAW')return'ไม่เกี่ยวข้อง (ลาออก)';const t=String(value||'').trim(),u=t.toUpperCase();if(u==='ATTEND'||t==='สามารถเข้าร่วมประชุมได้'||t==='เข้าร่วมประชุม')return'สามารถเข้าร่วมประชุมได้';if(u==='UNABLE'||t==='ไม่สามารถเข้าร่วมประชุมได้'||t==='ไม่เข้าร่วมประชุม')return'ไม่สามารถเข้าร่วมประชุมได้';return t||'-';}
 function clientThaiPrefix(value){const t=String(value||'').trim(),u=t.toUpperCase();return({'MR.':'นาย','MR':'นาย','MRS.':'นาง','MRS':'นาง','MS.':'นางสาว','MS':'นางสาว'})[u]||t||'-';}
-function displayFormCode(value){const code=String(value||'').toUpperCase();return({P1:'Year 1',M1:'Year 7',M4:'Year 10',GLOBAL:'GLOBAL'})[code]||value||'-';}
 function clientThaiFormType(value){const code=String(value||'').toUpperCase();return({P1:'ระดับชั้นประถมศึกษาปีที่ 1',M1:'ระดับชั้นมัธยมศึกษาปีที่ 1',M4:'ระดับชั้นมัธยมศึกษาปีที่ 4'})[code]||value||'-';}
 
 /* ------------------------------ ADMIN ------------------------------------ */
@@ -1940,7 +1952,7 @@ async function loadResponses() {
             </h3>
             <p class="text-sm text-slate-500 mt-1">
               ${state.lang==='th'
-                ? 'แสดงประวัติการแก้ไขข้อมูลความประสงค์'
+                ? 'แสดงเฉพาะการแก้ไขข้อมูลความประสงค์และการประชุมผู้ปกครอง'
                 : 'Shows edits to intention and parent-meeting information.'}
             </p>
           </div>
@@ -2170,7 +2182,7 @@ function viewSubmission(index) {
   }).join('');
   const sections=[
     submissionDetailSection('ข้อมูลระบบ',[
-      ['วันที่กรอก',formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)],['สถานะ',thaiStatus],['ID',r.SubmissionId],['ประเภทแบบฟอร์ม',clientThaiFormType(r.FormType)],['ภาษาที่ผู้ปกครองใช้',r.Language==='en'?'ภาษาอังกฤษ':'ภาษาไทย']
+      ['วันที่กรอก',formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)],['สถานะ',thaiStatus],['ID',r.SubmissionId],['ประเภทแบบฟอร์ม',displayFormCode(r.FormType)],['ภาษาที่ผู้ปกครองใช้',r.Language==='en'?'ภาษาอังกฤษ':'ภาษาไทย']
     ]),
     submissionDetailSection('ข้อมูลผู้แจ้งความจำนง',[
       ['คำนำหน้า',thaiPrefix],['ชื่อ-นามสกุลผู้แจ้งความจำนง',r.ParentName],['เลขประจำตัวประชาชน / Passport',r.ParentIdNo],['เบอร์โทรศัพท์',r.ParentPhone],['อีเมลผู้ปกครอง',r.ParentEmail],['ความสัมพันธ์กับนักเรียน',thaiRelationship],['เกี่ยวข้องกับนักเรียนเป็น',r.RelationshipOther]
@@ -2179,10 +2191,7 @@ function viewSubmission(index) {
       ['รหัสนักเรียน',r.StudentId],['ชื่อ-นามสกุลนักเรียนภาษาไทย',r.StudentNameTH||[r.StudentPrefix,r.StudentName].filter(Boolean).join(' ')],['ชั้นเรียน',r.CurrentClass]
     ]),
     submissionDetailSection('ข้อมูลความประสงค์',[
-      ['ความประสงค์',thaiIntention],['ระดับชั้นที่จะศึกษาต่อ',clientThaiFormType(r.FormType)],['ภาษาที่สาม',thaiThirdLanguage],['แผนการเรียน',thaiStudyPlan],['รับทราบระเบียบโรงเรียน',isTruthyClient(r.AcknowledgedRules)?'รับทราบ':'ยังไม่รับทราบ'],['รับทราบเงื่อนไขภาษา/แผนการเรียน',isTruthyClient(r.AcknowledgedLanguage)?'รับทราบ':'ไม่เกี่ยวข้อง'],['โรงเรียนที่นักเรียนจะไปศึกษาต่อ',r.NextSchool],['สาเหตุสำคัญที่ตัดสินใจลาออก',r.WithdrawalReason]
-    ]),
-    submissionDetailSection('ระเบียบปฏิบัติ',[
-      ['รับทราบเอกสารแนบท้ายและระเบียบปฏิบัติ',normalizeClientIntention(r.IntentionCode||r.Intention)==='CONTINUE'?(isTruthyClient(r.AcknowledgedPractice)?'รับทราบ':'ยังไม่รับทราบ'):'ไม่เกี่ยวข้อง (ลาออก)']
+      ['ความประสงค์',thaiIntention],['ระดับชั้นที่จะศึกษาต่อ',clientThaiFormType(r.FormType)],['ภาษาที่สาม',thaiThirdLanguage],['แผนการเรียน',thaiStudyPlan],['รับทราบระเบียบโรงเรียน',isTruthyClient(r.AcknowledgedRules)?'รับทราบ':'ยังไม่รับทราบ'],['รับทราบระเบียบปฏิบัติ',normalizeClientIntention(r.IntentionCode||r.Intention)==='CONTINUE'?(isTruthyClient(r.AcknowledgedPractice)?'รับทราบ':'ยังไม่รับทราบ'):'ไม่เกี่ยวข้อง'],['รับทราบเงื่อนไขภาษา/แผนการเรียน',isTruthyClient(r.AcknowledgedLanguage)?'รับทราบ':'ไม่เกี่ยวข้อง'],['โรงเรียนที่นักเรียนจะไปศึกษาต่อ',r.NextSchool],['สาเหตุสำคัญที่ตัดสินใจลาออก',r.WithdrawalReason]
     ]),
     `<div class="rounded-2xl border border-slate-200 overflow-hidden"><div class="bg-brand-navy text-white px-4 py-3 font-extrabold">เอกสารแนบและไฟล์ยืนยัน</div><table class="w-full"><tbody>${docs}${submissionDetailRow('PDF Confirmation',r.ConfirmationPdfUrl?`<a href="${escapeAttr(r.ConfirmationPdfUrl)}" target="_blank" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-50 text-rose-700 font-bold"><i class="fa-solid fa-file-pdf"></i>เปิด PDF Confirmation</a>`:'-',true)}</tbody></table></div>`
   ].join('<div class="h-4"></div>');
@@ -2213,6 +2222,8 @@ async function editSubmission(index) {
     normalizeClientThirdLanguage(r.ThirdLanguage);
   const studyPlanCode=r.StudyPlanCode||
     normalizeClientStudyPlan(r.StudyPlan);
+  const meetingCode=r.MeetingAttendanceCode||
+    normalizeClientMeeting(r.MeetingAttendance);
 
   const thaiStatus=clientThaiStatus(r.StatusCode||r.Status);
   const thaiRelationship=clientThaiRelationship(
@@ -2295,12 +2306,13 @@ async function editSubmission(index) {
         placeholder="สาเหตุสำคัญที่ตัดสินใจลาออก">${escapeHtml(r.WithdrawalReason||'')}</textarea>
     </div>`;
 
+
   const sections=[
     submissionDetailSection('ข้อมูลระบบ',[
       ['วันที่กรอก',formatDate(r.SubmittedAt||r.UpdatedAt||r.CreatedAt)],
       ['สถานะ',thaiStatus],
       ['ID',r.SubmissionId],
-      ['ประเภทแบบฟอร์ม',clientThaiFormType(r.FormType)],
+      ['ประเภทแบบฟอร์ม',displayFormCode(r.FormType)],
       ['ภาษาที่ผู้ปกครองใช้',r.Language==='en'?'ภาษาอังกฤษ':'ภาษาไทย']
     ]),
     submissionDetailSection('ข้อมูลผู้แจ้งความจำนง',[
@@ -2351,15 +2363,9 @@ async function editSubmission(index) {
         )}
       </tbody></table>
     </div>`,
-    `<div class="rounded-2xl border-2 border-blue-300 overflow-hidden">
-      <div class="bg-blue-700 text-white px-4 py-3 font-extrabold">
-        <i class="fa-solid fa-file-shield mr-2"></i>
-        ระเบียบปฏิบัติ
-      </div>
-      <table class="w-full"><tbody>
-        ${submissionDetailRow('รับทราบเอกสารแนบท้ายและระเบียบปฏิบัติ',intentionCode==='CONTINUE'?(isTruthyClient(r.AcknowledgedPractice)?'รับทราบ':'ยังไม่รับทราบ'):'ไม่เกี่ยวข้อง (ลาออก)')}
-      </tbody></table>
-    </div>`,
+    submissionDetailSection('ระเบียบปฏิบัติ',[
+      ['การรับทราบระเบียบปฏิบัติ',normalizeClientIntention(r.IntentionCode||r.Intention)==='CONTINUE'?(isTruthyClient(r.AcknowledgedPractice)?'รับทราบ':'ยังไม่รับทราบ'):'ไม่เกี่ยวข้อง']
+    ]),
     `<div class="rounded-2xl border border-slate-200 overflow-hidden">
       <div class="bg-brand-navy text-white px-4 py-3 font-extrabold">
         เอกสารแนบและไฟล์ยืนยัน
@@ -2503,6 +2509,7 @@ function syncSubmissionEditFields(formType) {
   const studyWrap=document.getElementById('editStudyPlanWrap');
   const nextWrap=document.getElementById('editNextSchoolWrap');
   const withdrawalWrap=document.getElementById('editWithdrawalReasonWrap');
+  const meeting=document.getElementById('editMeetingAttendance');
 
   const showThird=isContinue&&(
     formType==='M1'||
@@ -2523,11 +2530,20 @@ function syncSubmissionEditFields(formType) {
   }
 
   if(isWithdraw) {
+    document.getElementById('editMeetingCountWrap')?.classList.add('hidden');
   } else {
     syncSubmissionMeetingCount();
   }
 }
 
+function syncSubmissionMeetingCount() {
+  const intention=value('editIntention');
+  const attendance=value('editMeetingAttendance');
+  const show=intention==='CONTINUE'&&attendance==='ATTEND';
+
+  document.getElementById('editMeetingCountWrap')
+    ?.classList.toggle('hidden',!show);
+}
 
 async function removeSubmission(id) {
   const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',showCancelButton:true,confirmButtonColor:'#dc2626'}); if(!c.isConfirmed)return;
@@ -2902,10 +2918,9 @@ function gas(functionName,...args) {
     ));
   }
 
-  const defaultTimeout=Number(config.REQUEST_TIMEOUT_MS)||300000;
-  const bootstrapTimeout=Number(config.BOOTSTRAP_TIMEOUT_MS)||30000;
-  const timeout=['ping','getAppBootstrap'].includes(functionName)?bootstrapTimeout:defaultTimeout;
-  return callPublicApi_(apiUrl,functionName,args,timeout);
+  const configuredTimeout=Number(config.REQUEST_TIMEOUT_MS)||300000;
+  const timeoutMs=functionName==='getAppBootstrap'?Math.min(configuredTimeout,30000):configuredTimeout;
+  return callPublicApi_(apiUrl,functionName,args,timeoutMs);
 }
 
 async function callPublicApi_(apiUrl,action,args,timeoutMs) {
