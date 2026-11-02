@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ektra API Connection Test</title>
+  <style>
+    body{font-family:Arial,"Sarabun",sans-serif;background:#f6f8fb;color:#18324f;margin:0;padding:32px}
+    .card{max-width:760px;margin:auto;background:#fff;border:1px solid #dbe4ef;border-radius:18px;padding:24px;box-shadow:0 8px 30px rgba(15,39,71,.08)}
+    button{background:#173a63;color:#fff;border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer}
+    pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:14px}
+    .ok{color:#15803d}.bad{color:#b91c1c}.muted{color:#64748b}
+  </style>
+</head>
+<body>
+<div class="card">
+  <h2>Ektra GitHub Pages → Apps Script API Test</h2>
+  <p class="muted">ใช้หน้านี้ตรวจสอบว่า <code>config.js</code> ชี้ไปยัง Apps Script Web App <code>/exec</code> ที่ใช้งานได้หรือไม่</p>
+  <button id="testBtn">ทดสอบการเชื่อมต่อ</button>
+  <pre id="out">พร้อมทดสอบ</pre>
+</div>
+<script src="./config.js"></script>
+<script>
+const out=document.getElementById('out');
+const btn=document.getElementById('testBtn');
+btn.onclick=async()=>{
+  const url=String(window.EKTRA_CONFIG?.API_URL||'').trim();
+  out.className='';
+  if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/i.test(url)||/REPLACE_WITH|PASTE_/i.test(url)){
+    out.className='bad';out.textContent='ไม่พบ API_URL ที่ถูกต้องใน config.js';return;
+  }
+  btn.disabled=true;out.textContent='กำลังทดสอบ...\n'+url;
+  const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);
+  try{
+    const res=await fetch(url,{method:'POST',redirect:'follow',cache:'no-store',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({apiVersion:1,action:'ping',args:[]}),signal:controller.signal});
+    const raw=await res.text();
+    let data;try{data=JSON.parse(raw)}catch(e){throw new Error('API ตอบกลับไม่ใช่ JSON — ตรวจสอบสิทธิ์ Deploy เป็น Anyone และ URL /exec');}
+    if(!res.ok||data.ok!==true)throw new Error(data?.error?.message||('HTTP '+res.status));
+    out.className='ok';out.textContent='เชื่อมต่อสำเร็จ ✅\n'+JSON.stringify(data,null,2);
+  }catch(e){out.className='bad';out.textContent='เชื่อมต่อไม่สำเร็จ ❌\n'+(e.name==='AbortError'?'หมดเวลา 15 วินาที':e.message);}
+  finally{clearTimeout(timer);btn.disabled=false;}
+};
+</script>
+</body>
+</html>
