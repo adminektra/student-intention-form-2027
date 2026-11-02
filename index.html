@@ -503,7 +503,10 @@
               <div>
                 <p class="text-sm font-bold text-brand-gold" data-i18n="page5">หน้าที่ 5</p>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="uploadEvidence">แนบหลักฐานสำหรับการมอบตัวนักเรียน</h3>
-                <p class="text-sm text-slate-500" data-i18n="uploadHelp">รองรับ PDF, JPG, PNG, WEBP ขนาดไม่เกิน 5 MB ต่อไฟล์ สูงสุด 4 ไฟล์ต่อหมวด และรวมทุกหมวดไม่เกิน 15 MB</p>
+                <div class="mt-1 space-y-1 text-sm text-slate-500">
+                  <p data-i18n="uploadHelp">รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB</p>
+                  <p data-i18n="uploadHelpMultiPage">กรณีเอกสารมีหลายหน้า กรุณารวมเป็น 1 ไฟล์ ตามแต่ละประเภท</p>
+                </div>
               </div>
             </div>
             <div id="uploadSkip" class="hidden rounded-2xl bg-slate-50 border p-6 text-center text-slate-600">
@@ -513,10 +516,10 @@
             <div id="uploadFields" class="space-y-4">
               <div id="requiredDocumentsCardStep5"></div>
               <div id="exampleImages"></div>
-              <div class="dropzone"><label class="label required" data-i18n="studentDocuments">แนบเอกสารของนักเรียน</label><input id="studentFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('studentFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)</p><div id="studentFilesPreview" class="file-preview-list"></div></div>
-              <div class="dropzone"><label class="label required" data-i18n="fatherDocuments">แนบเอกสารของบิดา</label><input id="fatherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('fatherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="fatherFilesPreview" class="file-preview-list"></div></div>
-              <div class="dropzone"><label class="label required" data-i18n="motherDocuments">แนบเอกสารของมารดา</label><input id="motherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('motherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="motherFilesPreview" class="file-preview-list"></div></div>
-              <div id="guardianFileWrap" class="dropzone hidden"><label id="guardianFileLabel" class="label" data-i18n="guardianDocuments">แนบเอกสารของผู้ปกครองอื่น</label><input id="guardianFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png,image/webp" class="block w-full text-sm" onchange="renderSelectedFiles('guardianFiles')"><p id="guardianFileHelp" class="text-xs text-slate-500 mt-2" data-i18n="guardianFileHelp">ใช้เฉพาะกรณีผู้แจ้งความจำนงไม่ใช่บิดาหรือมารดา</p><div id="guardianFilesPreview" class="file-preview-list"></div></div>
+              <div class="dropzone"><label class="label required" data-i18n="studentDocuments">แนบเอกสารของนักเรียน</label><input id="studentFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('studentFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)</p><div id="studentFilesPreview" class="file-preview-list"></div></div>
+              <div class="dropzone"><label class="label required" data-i18n="fatherDocuments">แนบเอกสารของบิดา</label><input id="fatherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('fatherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="fatherFilesPreview" class="file-preview-list"></div></div>
+              <div class="dropzone"><label class="label required" data-i18n="motherDocuments">แนบเอกสารของมารดา</label><input id="motherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('motherFiles')"><p class="text-xs text-slate-500 mt-2" data-i18n="missingEvidenceHelp">หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</p><div id="motherFilesPreview" class="file-preview-list"></div></div>
+              <div id="guardianFileWrap" class="dropzone hidden"><label id="guardianFileLabel" class="label" data-i18n="guardianDocuments">แนบเอกสารของผู้ปกครองอื่น</label><input id="guardianFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('guardianFiles')"><p id="guardianFileHelp" class="text-xs text-slate-500 mt-2" data-i18n="guardianFileHelp">ใช้เฉพาะกรณีผู้แจ้งความจำนงไม่ใช่บิดาหรือมารดา</p><div id="guardianFilesPreview" class="file-preview-list"></div></div>
             </div>
           </section>
 
@@ -624,7 +627,7 @@ const I18N = {
     page2:'หน้าที่ 2', parentInfo:'ข้อมูลผู้แจ้งความจำนง', parentInfoHelp:'ต้องเป็นบิดา มารดา หรือผู้ปกครองตามกฎหมายที่มีอำนาจลงนาม', parentPrefix:'คำนำหน้า', otherPrefix:'ระบุคำนำหน้า', choose:'-- เลือก --', parentName:'ชื่อ-นามสกุล ผู้แจ้งความจำนง', parentId:'เลขประจำตัวประชาชน / Passport', identityHelp:'ใช้เพื่อยืนยันตัวตนเท่านั้น', phone:'เบอร์โทรศัพท์', emailDuplicateHelp:'อีเมลนี้ใช้สำหรับติดต่อและเปิดแบบร่างที่บันทึกไว้ โดยผู้ปกครองสามารถใช้อีเมลเดียวกันกับนักเรียนมากกว่า 1 คนได้', relationship:'ความสัมพันธ์กับนักเรียน', father:'บิดา', mother:'มารดา', guardian:'ผู้ปกครองอื่น', relationshipOther:'เกี่ยวข้องกับนักเรียนเป็น', guardianDefinition:'"ผู้ปกครอง" หมายถึง ผู้ดูแลรับผิดชอบนักเรียนในทุกกรณี และยินยอมรับเงื่อนไขของโรงเรียนทุกประการ ตามที่ระบุในเอกสารแนบท้ายและระเบียบปฏิบัติของโรงเรียนสารสาสน์เอกตรา นับตั้งแต่วันที่มอบตัวเป็นต้นไป',
     page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียนและวันเดือนปีเกิด เพื่อยืนยันข้อมูลกับฐานข้อมูลโรงเรียน', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', birthDate:'วันเดือนปีเกิดนักเรียน (ค.ศ.)', birthDateHelp:'<ul class="list-disc pl-5 space-y-1"><li>กรุณากดเลือกวันเดือนปีเกิดจากปุ่มปฏิทิน</li><li>ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</li></ul>', birthDateVerified:'ยืนยันตรงกับฐานข้อมูลแล้ว', verifyStudent:'ตรวจสอบและยืนยันนักเรียน', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังยืนยันรหัสและวันเกิด', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
     page4:'หน้าที่ 4', tuitionInformation:'ข้อมูลค่าธรรมเนียมการศึกษา', currentTuition:'ค่าธรรมเนียมปัจจุบัน', continueFeeCase:'กรณีแจ้งความจำนงศึกษาต่อ', returnFeeCase:'กรณีแจ้งความจำนงลาออก แต่ประสงค์กลับเข้าศึกษาต่อ', feeItem:'รายการ', feeLevel:'ระดับชั้น', tuitionPerSemester:'ค่าธรรมเนียมต่อภาคเรียน (บาท)', feeNote:'หมายเหตุ', feeDataMissing:'ยังไม่มีข้อมูลค่าธรรมเนียมที่ครบถ้วนสำหรับนักเรียน กรุณาติดต่อฝ่ายธุรการ', selectIntentionAfterFee:'กรุณาตรวจสอบข้อมูลค่าธรรมเนียมก่อนเลือกความประสงค์', selectIntentionAfterFeeHelp:'เมื่อข้อมูลถูกต้องแล้ว ให้เลือกศึกษาต่อหรือลาออกด้านล่าง', continueHelp:'ประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา', withdrawHelp:'ยืนยันการลาออกเมื่อจบระดับชั้นปัจจุบัน', thirdLanguageM1:'การเลือกเรียนภาษาที่สาม ระดับชั้นมัธยมศึกษาปีที่ 1-3', thirdLanguageM1Help:'เลือกเรียนภาษาที่สาม ตามความสนใจของนักเรียน และเรียนต่อเนื่องจนจบมัธยมศึกษาปีที่ 3', chinese:'ภาษาจีน', japanese:'ภาษาญี่ปุ่น', english:'ภาษาอังกฤษ', ackLanguageM1:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 3 โดยไม่มีการเปลี่ยนแปลง', studyPlanTitle:'การเลือกแผนการเรียน ระดับชั้นมัธยมศึกษาปีที่ 4-6', thirdLanguage:'ภาษาที่สาม', ackLanguageM4:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 6 โดยไม่มีการเปลี่ยนแปลง', nextSchool:'โรงเรียนที่นักเรียนจะไปศึกษาต่อ', statisticsOnly:'ใช้เพื่อบันทึกเป็นข้อมูลสถิติของโรงเรียนเท่านั้น', withdrawalReason:'สาเหตุสำคัญที่ตัดสินใจลาออก',
-    page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG, WEBP ขนาดไม่เกิน 5 MB ต่อไฟล์ สูงสุด 4 ไฟล์ต่อหมวด และรวมทุกหมวดไม่เกิน 15 MB', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', motherDocuments:'แนบเอกสารของมารดา', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'บังคับแนบเมื่อผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น',
+    page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB', uploadHelpMultiPage:'กรณีเอกสารมีหลายหน้า กรุณารวมเป็น 1 ไฟล์ ตามแต่ละประเภท', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', motherDocuments:'แนบเอกสารของมารดา', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'บังคับแนบเมื่อผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น',
     page6:'หน้าที่ 6', practiceTitle:'ระเบียบปฏิบัติ', practiceHelp:'กรุณาศึกษาเอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตราโดยละเอียด', practiceAck:'ข้าพเจ้าได้ศึกษาข้อความในเอกสารเป็นที่เข้าใจดีแล้ว และยินดีปฏิบัติตามระเบียบของโรงเรียนทุกประการ',
     page7:'หน้าที่ 7', paymentTitle:'ช่องทางการชำระค่าธรรมเนียมการศึกษา', withdrawPaymentExplanation:'นักเรียนที่แจ้งความจำนงลาออก สามารถรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับ และสำเนา ภายหลังชำระค่าธรรมเนียมทุกประเภทจนถึงภาคเรียนที่ 2/2569 ครบถ้วนแล้ว', paymentPending:'กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ',
     page8:'หน้าที่ 8', reviewTitle:'ตรวจสอบและยืนยันข้อมูล', finalWarning:'เมื่อกด “ส่งแบบฟอร์ม” แล้ว จะไม่สามารถแก้ไขข้อมูลหรือส่งแบบฟอร์มซ้ำได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง', previous:'ย้อนกลับ', saveDraft:'บันทึกแบบร่าง', next:'ถัดไป', submitForm:'ส่งแบบฟอร์ม',
@@ -639,7 +642,7 @@ const I18N = {
     page2:'Page 2', parentInfo:'Declarant Information', parentInfoHelp:'The declarant must be the student’s father, mother, or legal guardian with full signing authority.', parentPrefix:'Title', otherPrefix:'Specify title', choose:'-- Select --', parentName:'Declarant’s Full Name', parentId:'National ID / Passport Number', identityHelp:'Used for identity verification only', phone:'Phone Number', emailDuplicateHelp:'This email is used for contact and to reopen saved drafts. The same parent email may be used for more than one child.', relationship:'Relationship to Student', father:'Father', mother:'Mother', guardian:'Other Guardian', relationshipOther:'Relationship to Student', guardianDefinition:'"Parent/Guardian" shall mean the individual who is fully responsible for the student in all respects and who agrees to accept and comply with all conditions and regulations of Sarasas Ektra School, as specified in the attached documents, with effect from the date of enrolment.',
     page3:'Page 3', studentInfo:'Student Information', studentLookupHelp:'Enter the student ID and date of birth to verify the student against the school database', studentIdHelp:'This is not the classroom roll number', birthDate:'Student Date of Birth', birthDateHelp:'<ul class="list-disc pl-5 space-y-1"><li>Please select the student\'s date of birth using the calendar button.</li><li>This information is used to verify the student\'s identity before displaying student details.</li></ul>', birthDateVerified:'Verified against the school database', verifyStudent:'Verify Student', studentVerified:'Student verified', studentResultWaiting:'Student details will appear after the ID and date of birth are verified', thaiFullName:'Thai Full Name', englishFullName:'English Full Name', currentClass:'Current Class', homeroom:'Homeroom Teacher',
     page4:'Page 4', tuitionInformation:'Tuition Fee Information', currentTuition:'Current Tuition Fee', continueFeeCase:'If the student continues studying', returnFeeCase:'If the student withdraws and later wishes to return', feeItem:'Item', feeLevel:'Level', tuitionPerSemester:'Tuition per semester (THB)', feeNote:'Note', feeDataMissing:'Complete tuition fee information is not available for this student. Please contact the Administration Office.', selectIntentionAfterFee:'Please review the tuition information before selecting an intention', selectIntentionAfterFeeHelp:'After confirming the information, select Continue or Withdraw below.', continueHelp:'The student will continue at Sarasas Ektra School', withdrawHelp:'Confirm withdrawal after completing the current level', thirdLanguageM1:'Third-Language Selection for Years 7–9', thirdLanguageM1Help:'Students may choose a third language based on their interests and continue studying it through Year 9', chinese:'Chinese', japanese:'Japanese', english:'English', ackLanguageM1:'I acknowledge that the selected language must be studied continuously through Year 9 without change.', studyPlanTitle:'Study Plan Selection for Years 10–12', thirdLanguage:'Third Language', ackLanguageM4:'I acknowledge that the selected language must be studied continuously through Year 12 without change.', nextSchool:'Next School', statisticsOnly:'Used only for school statistical records', withdrawalReason:'Main Reason for Withdrawal',
-    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'PDF, JPG, PNG, or WEBP; maximum 5 MB per file and 4 files per category', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate/ID/passport and name-change document, if applicable', fatherDocuments:'Father’s Documents', motherDocuments:'Mother’s Documents', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'Required when the declarant is an Other Guardian',
+    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'Supports PDF, JPG, PNG up to 5 MB per file and 15 MB total.', uploadHelpMultiPage:'If a document has multiple pages, please combine all pages into one file for each document type.', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate/ID/passport and name-change document, if applicable', fatherDocuments:'Father’s Documents', motherDocuments:'Mother’s Documents', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'Required when the declarant is an Other Guardian',
     page6:'Page 6', practiceTitle:'Rules and Regulations', practiceHelp:'Please read the attached Sarasas Ektra School rules and regulations carefully.', practiceAck:'I have read and well understood the terms and conditions in document',
     page7:'Page 7', paymentTitle:'Tuition Payment Channels', withdrawPaymentExplanation:'Students who have submitted a notice of withdrawal may collect academic documents and student certificates, including both original documents and copies, only after all types of fees through Semester 2/2026 have been fully paid.', paymentPending:'Please check the school announcement or contact the Administration Office for payment channels.',
     page8:'Page 8', reviewTitle:'Review and Confirm', finalWarning:'After clicking “Submit Form,” the information cannot be edited and the form cannot be submitted again. Please verify everything carefully.', previous:'Previous', saveDraft:'Save Draft', next:'Next', submitForm:'Submit Form',
@@ -908,7 +911,7 @@ function renderFormMetadata() {
 
 function renderRequiredDocumentsCards() {
   const th = {
-    intro: 'กรณีผู้ปกครองประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา กรุณาจัดเตรียมไฟล์เอกสารเพื่อมอบตัวนักเรียน ตามรายการดังนี้',
+    intro: 'กรณีผู้ปกครองประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา กรุณาจัดเตรียมไฟล์เอกสารตามรายการด้านล่าง เพื่อแนบไฟล์ในระบบ จึงจะสามารถส่งแบบฟอร์มแจ้งความจำนงได้',
     studentTitle: 'เอกสารของนักเรียน',
     studentItems: [
       'สำเนาสูติบัตร หรือ สำเนาบัตรประจำตัวประชาชน หรือ Passport เล่มปัจจุบัน (เฉพาะชาวต่างชาติ)',
@@ -924,7 +927,7 @@ function renderRequiredDocumentsCards() {
   };
 
   const en = {
-    intro: 'If the parent wishes the student to continue studying at Sarasas Ektra School, please prepare the following electronic documents for student enrolment.',
+    intro: "Parents wishing to continue their child's education at Sarasas Ektra School are required to prepare and upload the digital copies of the documents listed below in order to successfully submit the Intention to Continue Education Form.",
     studentTitle: 'Student documents',
     studentItems: [
       'Copy of the current birth certificate, national identification card, or current passport for a foreign national',
@@ -1026,13 +1029,12 @@ function openGalleryImage(containerId,startIndex=0) {
   openImageViewer(state.galleries[containerId]||[],startIndex);
 }
 
-const PRACTICE_DOCUMENT_URLS = Object.freeze({
-  th: 'https://lh5.googleusercontent.com/d/1O08KHa_MOBu80jMwuO-675uFgpb6AJgb',
-  en: 'https://lh5.googleusercontent.com/d/1cEjrx1TZicBoD5yOBoQwcexV5sS7Al-O'
-});
 function renderPracticeDocument(){
-  const url=PRACTICE_DOCUMENT_URLS[state.lang]||PRACTICE_DOCUMENT_URLS.th;
-  renderImageGallery('practiceGallery',[{url,label:state.lang==='th'?'เอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตรา':'Sarasas Ektra School Rules and Regulations'}],'stack');
+  const label=state.lang==='th'
+    ? 'เอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตรา'
+    : 'Sarasas Ektra School Rules and Regulations';
+  const items=toImageItems(setting('NOTICE_IMAGE_URL'),label);
+  renderImageGallery('practiceGallery',items,'stack');
 }
 
 function renderExampleImages() {
@@ -1081,8 +1083,10 @@ function renderStepper() {
   const wrap = document.getElementById('stepper');
   if (!wrap) return;
   const labels = stepTitles[state.lang];
-  wrap.innerHTML = labels.map((label,i)=>{
-    const n=i+1;
+  const withdrawFlow = radioValue('intention') === 'WITHDRAW';
+  const visibleSteps = labels.map((label,i)=>({label,n:i+1})).filter(item=>!(withdrawFlow && (item.n===5 || item.n===6)));
+  wrap.innerHTML = visibleSteps.map((item,i)=>{
+    const label=item.label, n=item.n;
     const cls = n < state.currentStep ? 'done' : n===state.currentStep ? 'active' : '';
     const icon = n < state.currentStep ? '<i class="fa-solid fa-check"></i>' : n;
     return `${i?`<div class="step-line ${n<=state.currentStep?'done':''}"></div>`:''}<div class="flex flex-col items-center min-w-[64px]"><div class="step-dot ${cls}">${icon}</div><span class="step-label text-[11px] mt-2 text-center ${n===state.currentStep?'font-bold text-brand-navy':'text-slate-500'}">${escapeHtml(label)}</span></div>`;
@@ -1090,6 +1094,8 @@ function renderStepper() {
 }
 
 function showStep(step) {
+  // Withdrawal flow never enters Pages 5 or 6.
+  if (radioValue('intention')==='WITHDRAW' && (Number(step)===5 || Number(step)===6)) step=7;
   state.currentStep = Math.max(1, Math.min(8, step));
   document.querySelectorAll('.form-step').forEach(s=>s.classList.toggle('active', Number(s.dataset.step)===state.currentStep));
   document.getElementById('prevBtn').classList.toggle('invisible', state.currentStep===1);
@@ -1518,6 +1524,9 @@ function toggleIntention() {
     document.getElementById('m1LanguageBox').classList.toggle('hidden',state.formType!=='M1');
     document.getElementById('m4PlanBox').classList.toggle('hidden',state.formType!=='M4');
   }
+  // Immediately reflect the active path in the stepper. Pages 5–6 disappear
+  // from the withdrawal flow, while returning to Continue restores them.
+  renderStepper();
 }
 
 function toggleM4Language() {
@@ -1791,7 +1800,7 @@ function validateFileInputs() {
     [...input.files].forEach(file=>{
       totalBytes+=file.size;
       if(file.size>5*1024*1024) throw new Error(`${file.name} ${state.lang==='th'?'มีขนาดเกิน 5 MB':'exceeds 5 MB'}`);
-      if(!['application/pdf','image/jpeg','image/png','image/webp'].includes(file.type)) throw new Error(`${file.name} ${state.lang==='th'?'เป็นชนิดไฟล์ที่ไม่รองรับ':'is not a supported file type'}`);
+      if(!['application/pdf','image/jpeg','image/png'].includes(file.type)) throw new Error(`${file.name} ${state.lang==='th'?'เป็นชนิดไฟล์ที่ไม่รองรับ':'is not a supported file type'}`);
     });
   });
   if(totalBytes>MAX_TOTAL_UPLOAD_BYTES) {
@@ -1855,17 +1864,53 @@ async function submitFinal() {
       confirmButtonText:state.lang==='th'?'กลับหน้าหลัก':'Back to Home'
     });
     showHome(); resetForm();
-  } catch(error) { Swal.close(); console.error('submitFinal',error); Swal.fire({icon:'error',title:state.lang==='th'?'ส่งแบบฟอร์มไม่สำเร็จ':'Submission Failed',text:error.message}); }
+  } catch(error) {
+    Swal.close();
+    console.error('submitFinal',error);
+
+    // A network/timeout error can happen after Apps Script has already committed
+    // the submission. Reconcile by Student ID before telling the parent to retry.
+    try {
+      const studentId=value('studentId');
+      if(studentId) {
+        const status=await gas('checkExistingSubmission',studentId,value('parentEmail'));
+        if(status?.status==='SUBMITTED') {
+          await Swal.fire({
+            icon:'success',
+            title:state.lang==='th'?'ระบบได้รับแบบฟอร์มแล้ว':'Form Received',
+            html:`<p>${state.lang==='th'?'ข้อมูลของรหัสนักเรียนนี้ถูกบันทึกเรียบร้อยแล้ว กรุณาอย่ากดส่งซ้ำ':'This student submission has already been saved. Please do not submit it again.'}</p>${status.submissionId?`<p class="mt-2 text-sm"><strong>ID:</strong> ${escapeHtml(status.submissionId)}</p>`:''}`,
+            allowOutsideClick:false,
+            confirmButtonText:state.lang==='th'?'กลับหน้าหลัก':'Back to Home'
+          });
+          showHome(); resetForm();
+          return;
+        }
+        if(status?.status==='PROCESSING') {
+          await Swal.fire({
+            icon:'info',
+            title:state.lang==='th'?'ระบบได้รับข้อมูลแล้วและกำลังประมวลผล':'Submission is being processed',
+            text:state.lang==='th'?'กรุณาอย่ากดส่งซ้ำ ระบบกำลังดำเนินการกับแบบฟอร์มของรหัสนักเรียนนี้':'Please do not submit again. The system is processing this student submission.',
+            allowOutsideClick:false
+          });
+          return;
+        }
+      }
+    } catch(reconcileError) {
+      console.warn('Submission reconciliation failed',reconcileError);
+    }
+
+    Swal.fire({icon:'error',title:state.lang==='th'?'ส่งแบบฟอร์มไม่สำเร็จ':'Submission Failed',text:error.message});
+  }
   finally { state.submitting=false; if(submitButton) submitButton.disabled=false; }
 }
 
 function reviewAttachmentsHtml() {
   const intention=radioValue('intention');
   if(intention!=='CONTINUE') {
-    return `<div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-      <div class="font-extrabold text-brand-navy mb-1"><i class="fa-solid fa-paperclip mr-2"></i>${state.lang==='th'?'เอกสารแนบ':'Attachments'}</div>
-      <div class="text-sm text-slate-500">${state.lang==='th'?'กรณีลาออก ไม่ต้องแนบเอกสารสำหรับการมอบตัว':'No enrolment documents are required for withdrawal.'}</div>
-    </div>`;
+    return `<section class="rounded-2xl border-2 border-slate-200 bg-slate-50 p-4 sm:p-5">
+      <div class="flex items-center gap-2 font-extrabold text-brand-navy text-lg"><i class="fa-solid fa-paperclip"></i>${state.lang==='th'?'เอกสารแนบ':'Attachments'}</div>
+      <div class="mt-3 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600">${state.lang==='th'?'กรณีลาออก ไม่ต้องแนบเอกสารสำหรับการมอบตัว':'No enrolment documents are required for withdrawal.'}</div>
+    </section>`;
   }
 
   const groups=[
@@ -1877,30 +1922,39 @@ function reviewAttachmentsHtml() {
     groups.push(['guardianFiles', state.lang==='th'?'เอกสารของผู้ปกครองอื่น':'Other Guardian Documents']);
   }
 
+  let totalFiles=0;
   const groupHtml=groups.map(([inputId,label])=>{
     const files=[...(document.getElementById(inputId)?.files||[])];
+    totalFiles+=files.length;
     const fileHtml=files.length
-      ? files.map((file,index)=>`<div class="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-3 py-2">
-          <div class="min-w-0">
-            <div class="font-semibold text-slate-700 break-all">${escapeHtml(file.name)}</div>
-            <div class="text-xs text-slate-500">${escapeHtml(file.type||'File')} · ${formatFileSize(file.size)}</div>
+      ? files.map((file,index)=>`<div class="flex items-center justify-between gap-3 rounded-xl border border-blue-100 bg-white px-3 py-3 shadow-sm">
+          <div class="flex items-start gap-3 min-w-0">
+            <div class="w-9 h-9 rounded-lg bg-blue-50 text-brand-navy flex items-center justify-center shrink-0"><i class="fa-solid ${file.type==='application/pdf'?'fa-file-pdf':'fa-file-image'}"></i></div>
+            <div class="min-w-0">
+              <div class="font-semibold text-slate-700 break-all">${escapeHtml(file.name)}</div>
+              <div class="text-xs text-slate-500">${escapeHtml(file.type||'File')} · ${formatFileSize(file.size)}</div>
+            </div>
           </div>
           <button type="button" class="btn-light !px-3 !py-2 shrink-0" data-no-action-alert="true" onclick="previewSelectedFile('${escapeAttr(inputId)}',${index})">
-            <i class="fa-solid fa-eye mr-1"></i>${state.lang==='th'?'ดู':'Review'}
+            <i class="fa-solid fa-eye mr-1"></i>${state.lang==='th'?'ตรวจสอบ':'Review'}
           </button>
         </div>`).join('')
-      : `<div class="text-sm text-rose-600">${state.lang==='th'?'ยังไม่ได้แนบไฟล์':'No file selected'}</div>`;
+      : `<div class="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700"><i class="fa-solid fa-circle-exclamation mr-2"></i>${state.lang==='th'?'ยังไม่ได้แนบไฟล์':'No file selected'}</div>`;
 
-    return `<div class="rounded-2xl border border-slate-200 bg-slate-50/70 p-4">
-      <div class="font-extrabold text-brand-navy mb-2">${escapeHtml(label)} <span class="text-xs font-normal text-slate-500">(${files.length})</span></div>
+    return `<div class="rounded-2xl border border-blue-100 bg-blue-50/40 p-4">
+      <div class="font-extrabold text-brand-navy mb-2">${escapeHtml(label)} <span class="ml-1 rounded-full bg-white px-2 py-0.5 text-xs font-bold text-slate-500">${files.length}</span></div>
       <div class="space-y-2">${fileHtml}</div>
     </div>`;
   }).join('');
 
-  return `<div class="mt-4">
-    <div class="font-extrabold text-brand-navy mb-3"><i class="fa-solid fa-paperclip mr-2"></i>${state.lang==='th'?'ตรวจสอบเอกสารแนบ':'Review Attachments'}</div>
+  return `<section class="rounded-2xl border-2 border-blue-200 bg-blue-50/30 p-4 sm:p-5">
+    <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+      <div class="flex items-center gap-2 font-extrabold text-brand-navy text-lg"><i class="fa-solid fa-paperclip"></i>${state.lang==='th'?'เอกสารแนบ':'Attachments'}</div>
+      <span class="badge bg-blue-100 text-brand-navy">${state.lang==='th'?'รวม':'Total'} ${totalFiles} ${state.lang==='th'?'ไฟล์':'files'}</span>
+    </div>
+    <p class="text-sm text-slate-600 mb-4">${state.lang==='th'?'กรุณากด “ตรวจสอบ” เพื่อเปิดดูเอกสารแต่ละไฟล์ก่อนส่งแบบฟอร์ม':'Please click “Review” to inspect each attachment before submitting the form.'}</p>
     <div class="grid md:grid-cols-2 gap-3">${groupHtml}</div>
-  </div>`;
+  </section>`;
 }
 
 function renderReview() {
@@ -1920,6 +1974,11 @@ function renderReview() {
     {label:tr('currentClass'), value:p.currentClass},
     {label:state.lang==='th'?'ความประสงค์':'Intention', raw:intentionHtml}
   ];
+
+  if(p.intention==='CONTINUE') {
+    const attachmentCount=['studentFiles','fatherFiles','motherFiles','guardianFiles'].reduce((sum,id)=>sum+(document.getElementById(id)?.files?.length||0),0);
+    rows.push({label:state.lang==='th'?'เอกสารแนบ':'Attachments', raw:`<span class="inline-flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 font-bold text-brand-navy"><i class="fa-solid fa-paperclip"></i>${attachmentCount} ${state.lang==='th'?'ไฟล์':'files'}</span>`});
+  }
 
   if(p.thirdLanguage) rows.push({label:tr('thirdLanguage'),value:displayCode(p.thirdLanguage)});
   if(p.studyPlan) rows.push({label:tr('studyPlanTitle'),value:displayCode(p.studyPlan)});
@@ -3057,7 +3116,11 @@ function gas(functionName,...args) {
   }
 
   const configuredTimeout=Number(config.REQUEST_TIMEOUT_MS)||300000;
-  const timeoutMs=functionName==='getAppBootstrap'?Math.min(configuredTimeout,30000):configuredTimeout;
+  const timeoutMs=functionName==='getAppBootstrap'
+    ? Math.min(configuredTimeout,30000)
+    : functionName==='submitForm'
+      ? Math.max(configuredTimeout,360000)
+      : configuredTimeout;
   return callPublicApi_(apiUrl,functionName,args,timeoutMs);
 }
 
