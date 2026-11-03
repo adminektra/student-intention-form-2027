@@ -2368,6 +2368,12 @@ function intentionBadge(value) {
   return `<span class="badge bg-slate-100 text-slate-700">-</span>`;
 }
 
+function reportResponseStatusBadge(code) {
+  const responded=String(code||'').toUpperCase()==='RESPONDED';
+  if(responded) return `<span class="badge bg-emerald-100 text-emerald-800 border border-emerald-200"><i class="fa-solid fa-circle-check mr-1"></i>${state.lang==='th'?'กรอกแล้ว':'Responded'}</span>`;
+  return `<span class="badge bg-amber-100 text-amber-800 border border-amber-200"><i class="fa-solid fa-hourglass-half mr-1"></i>${state.lang==='th'?'ยังไม่กรอก':'Not submitted'}</span>`;
+}
+
 function viewSubmission(index) {
   const r=window.__responses[index]; if(!r)return;
   const thaiStatus=clientThaiStatus(r.StatusCode||r.Status);
@@ -2868,6 +2874,7 @@ async function refreshReports() {
       <td class="font-bold text-brand-navy">${escapeHtml(r.studentId||'-')}</td>
       <td>${escapeHtml(r.studentNameTH||'-')}</td>
       <td><span class="badge bg-blue-50 text-blue-800 border border-blue-200">${escapeHtml(r.className||'-')}</span></td>
+      <td>${reportResponseStatusBadge(r.responseStatusCode)}</td>
       <td>${intentionBadge(r.intentionCode||r.intention)}</td>
       <td>${escapeHtml(r.nextSchool||'-')}</td>
       <td>${r.historyCount?`<button onclick="showReportHistory(${i})" class="btn-light !py-1.5 !px-3 text-xs"><i class="fa-solid fa-clock-rotate-left mr-1"></i>${state.lang==='th'?'ดูประวัติ':'History'} (${r.historyCount})</button>`:'-'}</td>
@@ -2884,7 +2891,7 @@ async function refreshReports() {
       </div>
       <div class="card p-5 mt-5 border-2 border-emerald-200 bg-emerald-50/20">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4"><h3 class="text-xl font-extrabold text-brand-navy">3. ${state.lang==='th'?'รายงานข้อมูลการแจ้งความจำนง':'Intention Report'}</h3><span class="badge bg-white border text-brand-navy">${tr('total')} ${(data.intentionRows||[]).length}</span></div>
-        <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>Sequence</th><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name'}</th><th>${tr('className')}</th><th>${state.lang==='th'?'ความประสงค์':'Intention'}</th><th>${state.lang==='th'?'โรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next School'}</th><th>${state.lang==='th'?'ประวัติการแก้ไข':'Edit History'}</th></tr></thead><tbody>${intentionRows||`<tr><td colspan="7" class="text-center py-6">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`}</tbody></table></div>
+        <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>Sequence</th><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name'}</th><th>${tr('className')}</th><th>${state.lang==='th'?'สถานะ':'Status'}</th><th>${state.lang==='th'?'ความประสงค์':'Intention'}</th><th>${state.lang==='th'?'โรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next School'}</th><th>${state.lang==='th'?'ประวัติการแก้ไข':'Edit History'}</th></tr></thead><tbody>${intentionRows||`<tr><td colspan="8" class="text-center py-6">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`}</tbody></table></div>
       </div>`;
   } catch(error) {
     holder.innerHTML=`<div class="card p-8 text-center"><i class="fa-solid fa-triangle-exclamation text-4xl text-rose-500"></i><h3 class="mt-3 font-extrabold text-xl">${state.lang==='th'?'ไม่สามารถเรียกรายงานได้':'Unable to load report'}</h3><p class="text-slate-500 mt-2">${escapeHtml(error.message)}</p></div>`;
