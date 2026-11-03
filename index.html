@@ -298,9 +298,9 @@
                 <span id="deadlineText" class="text-lg sm:text-xl underline decoration-2 underline-offset-4"></span>
               </div>
 
-              <div class="mt-3 rounded-xl border border-amber-300 bg-amber-50 px-4 py-3 text-amber-900">
+              <div class="mt-3 rounded-xl border-2 border-rose-200 bg-rose-50 px-4 py-3 text-rose-900">
                 <div class="flex items-start gap-3">
-                  <span class="text-xl leading-none mt-0.5">⚠️</span>
+                  <span class="text-xl leading-none mt-0.5 text-rose-700">⚠️</span>
                   <div class="leading-relaxed">
                     <strong data-i18n="deadlineWarningTitle">โปรดส่งแบบฟอร์มภายในกำหนด</strong>
                     <span data-i18n="deadlineWarningText"> หากไม่ส่งแบบฟอร์มภายในวันดังกล่าว โรงเรียนจะถือปฏิบัติตามหลักเกณฑ์ที่ระบุไว้ในเอกสาร เรื่อง ระเบียบปฏิบัติการศึกษาต่อฯ (หัวข้อ 6. หมายเหตุสำคัญ) ที่แสดงด้านล่างนี้</span>
@@ -631,7 +631,7 @@ const I18N = {
     page6:'หน้าที่ 6', practiceTitle:'ระเบียบปฏิบัติ', practiceHelp:'กรุณาศึกษาเอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตราโดยละเอียด', practiceAck:'ข้าพเจ้าได้ศึกษาข้อความในเอกสารเป็นที่เข้าใจดีแล้ว และยินดีปฏิบัติตามระเบียบของโรงเรียนทุกประการ',
     page7:'หน้าที่ 7', paymentTitle:'ช่องทางการชำระค่าธรรมเนียมการศึกษา', withdrawPaymentExplanation:'นักเรียนที่แจ้งความจำนงลาออก สามารถรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับ และสำเนา ภายหลังชำระค่าธรรมเนียมทุกประเภทจนถึงภาคเรียนที่ 2/2569 ครบถ้วนแล้ว', paymentPending:'กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ',
     page8:'หน้าที่ 8', reviewTitle:'ตรวจสอบและยืนยันข้อมูล', finalWarning:'เมื่อกด “ส่งแบบฟอร์ม” แล้ว จะไม่สามารถแก้ไขข้อมูลหรือส่งแบบฟอร์มซ้ำได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง', previous:'ย้อนกลับ', saveDraft:'บันทึกแบบร่าง', next:'ถัดไป', submitForm:'ส่งแบบฟอร์ม',
-    formOpen:'ระบบเปิดรับแบบฟอร์ม', formClosed:'ระบบปิดรับแบบฟอร์ม', startForm:'เริ่มกรอกแบบฟอร์ม', dashboard:'Dashboard', responses:'ข้อมูลแบบฟอร์ม', reviewStudents:'ตรวจสอบรายชื่อนักเรียน', students:'จัดการนักเรียน', settings:'ตั้งค่าระบบ', users:'ผู้ใช้งาน', logs:'Log Activity', home:'หน้าหลัก', refresh:'Refresh', search:'ค้นหา', add:'เพิ่มข้อมูล', edit:'แก้ไข', delete:'ลบ', view:'ดูข้อมูล', total:'รวม', responded:'กรอกแล้ว', pending:'ยังไม่กรอก', continue:'ศึกษาต่อ', withdraw:'ลาออก', actions:'จัดการ', status:'สถานะ', className:'ชั้นเรียน', teacher:'ครูประจำชั้น', sequence:'ลำดับ', submittedDate:'วันที่กรอก'
+    formOpen:'ระบบเปิดรับแบบฟอร์ม', formClosed:'ระบบปิดรับแบบฟอร์ม', startForm:'เริ่มกรอกแบบฟอร์ม', dashboard:'Dashboard', responses:'ข้อมูลแบบฟอร์ม', reviewStudents:'ตรวจสอบรายชื่อนักเรียน', reports:'รายงาน', students:'จัดการนักเรียน', settings:'ตั้งค่าระบบ', users:'ผู้ใช้งาน', logs:'Log Activity', home:'หน้าหลัก', refresh:'Refresh', search:'ค้นหา', add:'เพิ่มข้อมูล', edit:'แก้ไข', delete:'ลบ', view:'ดูข้อมูล', total:'รวม', responded:'กรอกแล้ว', pending:'ยังไม่กรอก', continue:'ศึกษาต่อ', withdraw:'ลาออก', actions:'จัดการ', status:'สถานะ', className:'ชั้นเรียน', teacher:'ครูประจำชั้น', sequence:'ลำดับ', submittedDate:'วันที่กรอก'
   },
   en: {
     loading:'Loading application...', appTitle:'Continuation of Study Intention Form — Academic Year 2027', schoolName:'Sarasas Ektra School', academicYear:'Academic Year 2027',
@@ -646,7 +646,7 @@ const I18N = {
     page6:'Page 6', practiceTitle:'Rules and Regulations', practiceHelp:'Please read the attached Sarasas Ektra School rules and regulations carefully.', practiceAck:'I have read and well understood the terms and conditions in document',
     page7:'Page 7', paymentTitle:'Tuition Payment Channels', withdrawPaymentExplanation:'Students who have submitted a notice of withdrawal may collect academic documents and student certificates, including both original documents and copies, only after all types of fees through Semester 2/2026 have been fully paid.', paymentPending:'Please check the school announcement or contact the Administration Office for payment channels.',
     page8:'Page 8', reviewTitle:'Review and Confirm', finalWarning:'After clicking “Submit Form,” the information cannot be edited and the form cannot be submitted again. Please verify everything carefully.', previous:'Previous', saveDraft:'Save Draft', next:'Next', submitForm:'Submit Form',
-    formOpen:'Form is open', formClosed:'Form is closed', startForm:'Start Form', dashboard:'Dashboard', responses:'Form Responses', reviewStudents:'Student Review', students:'Student Management', settings:'System Settings', users:'Users', logs:'Activity Log', home:'Home', refresh:'Refresh', search:'Search', add:'Add', edit:'Edit', delete:'Delete', view:'View', total:'Total', responded:'Responded', pending:'Pending', continue:'Continue', withdraw:'Withdraw', actions:'Actions', status:'Status', className:'Class', teacher:'Homeroom Teacher', sequence:'No.', submittedDate:'Submitted Date'
+    formOpen:'Form is open', formClosed:'Form is closed', startForm:'Start Form', dashboard:'Dashboard', responses:'Form Responses', reviewStudents:'Student Review', reports:'Reports', students:'Student Management', settings:'System Settings', users:'Users', logs:'Activity Log', home:'Home', refresh:'Refresh', search:'Search', add:'Add', edit:'Edit', delete:'Delete', view:'View', total:'Total', responded:'Responded', pending:'Pending', continue:'Continue', withdraw:'Withdraw', actions:'Actions', status:'Status', className:'Class', teacher:'Homeroom Teacher', sequence:'No.', submittedDate:'Submitted Date'
   }
 };
 
@@ -796,7 +796,7 @@ function renderFormCards() {
 function renderAdminNavigation() {
   if (!state.bootstrap) return;
   const user = state.bootstrap.user || { role:'User' };
-  const allowed = ['Admin','SuperAdmin','Teacher'].includes(user.role);
+  const allowed = ['Admin','SuperAdmin','Teacher','Registration'].includes(user.role);
   const nav = document.getElementById('adminNav');
   const mobile = document.getElementById('mobileMenu');
   const mobileBtn = document.getElementById('mobileMenuBtn');
@@ -809,10 +809,14 @@ function renderAdminNavigation() {
   nav.classList.remove('hidden');
   mobileBtn.classList.remove('hidden');
   const adminAccess = user.role === 'Admin' || user.role === 'SuperAdmin';
+  const dashboardAccess = adminAccess || user.role === 'Registration';
+  const reportAccess = adminAccess || user.role === 'Registration';
   const items = [
     ['home','fa-house'],
-    ...(adminAccess ? [['dashboard','fa-chart-pie'], ['responses','fa-file-lines']] : []),
+    ...(dashboardAccess ? [['dashboard','fa-chart-pie']] : []),
+    ...(adminAccess ? [['responses','fa-file-lines']] : []),
     ['reviewStudents','fa-clipboard-user'],
+    ...(reportAccess ? [['reports','fa-file-excel']] : []),
     ...(user.role === 'SuperAdmin' ? [['students','fa-user-graduate']] : []),
     ...(adminAccess ? [['settings','fa-gears']] : []),
     ...(user.role === 'SuperAdmin' ? [['users','fa-users-gear'],['logs','fa-clock-rotate-left']] : [])
@@ -2032,6 +2036,7 @@ async function showAdminSection(section, refreshOnly=false) {
     if(section==='dashboard') await loadDashboard();
     else if(section==='responses') await loadResponses();
     else if(section==='studentReview') await loadStudentReview();
+    else if(section==='reports') await loadReports();
     else if(section==='students') await loadStudents();
     else if(section==='settings') await loadSettings();
     else if(section==='users') await loadUsers();
@@ -2221,7 +2226,7 @@ async function refreshResponsesTable() {
           <i class="fa-solid fa-eye"></i>
         </button>
         ${canEdit?`
-          <button onclick="editSubmission(${i})"
+          <button onclick="editSubmissionById('${escapeAttr(r.SubmissionId)}')"
             class="w-9 h-9 rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100"
             title="${tr('edit')}">
             <i class="fa-solid fa-pen"></i>
@@ -2400,7 +2405,7 @@ function submissionDetailSection(title,rows){
 }
 function submissionDetailRow(label,value,raw=false){return `<tr class="border-b last:border-b-0"><th class="w-[34%] bg-slate-50 px-4 py-3 text-brand-navy align-top">${escapeHtml(label)}</th><td class="px-4 py-3 break-words">${raw?value:escapeHtml(value||'-')}</td></tr>`;}
 
-async function editSubmission(index) {
+async function editSubmissionById(submissionId) {
   const role=state.bootstrap.user.role;
   if(!['SuperAdmin','Admin'].includes(role)) {
     await Swal.fire({
@@ -2411,8 +2416,22 @@ async function editSubmission(index) {
     return;
   }
 
-  const r=window.__responses[index];
-  if(!r) return;
+  let r;
+  try {
+    showBusy(state.lang==='th'?'กำลังเปิดข้อมูลสำหรับแก้ไข...':'Loading submission...');
+    const result=await gas('getSubmissionForEdit',submissionId);
+    Swal.close();
+    r=result&&result.row;
+    if(!r) throw new Error(state.lang==='th'?'ไม่พบข้อมูลแบบฟอร์ม':'Submission not found');
+  } catch(error) {
+    Swal.close();
+    await Swal.fire({
+      icon:'error',
+      title:state.lang==='th'?'ไม่สามารถเปิดข้อมูลเพื่อแก้ไขได้':'Unable to open submission',
+      text:error.message||String(error)
+    });
+    return;
+  }
 
   const intentionCode=r.IntentionCode||normalizeClientIntention(r.Intention);
   const thirdLanguageCode=r.ThirdLanguageCode||
@@ -2782,6 +2801,136 @@ function reviewStatusBadge(status) {
   return `<span class="badge bg-emerald-100 text-emerald-700">${escapeHtml(status||tr('responded'))}</span>`;
 }
 
+
+async function loadReports() {
+  const role=state.bootstrap.user.role;
+  if(!['SuperAdmin','Admin','Registration'].includes(role)) {
+    document.getElementById('adminContent').innerHTML=`<div class="card p-8 text-center"><i class="fa-solid fa-lock text-4xl text-rose-500"></i><h3 class="mt-3 font-extrabold text-xl">${state.lang==='th'?'ไม่มีสิทธิ์ใช้งานรายงาน':'No report access'}</h3></div>`;
+    return;
+  }
+  document.getElementById('adminContent').innerHTML=adminHeader(
+    tr('reports'),
+    'fa-file-excel',
+    `<button onclick="downloadReportExcel()" class="btn-gold"><i class="fa-solid fa-file-arrow-down mr-2"></i>${state.lang==='th'?'Export Excel':'Export Excel'}</button>
+     <button onclick="refreshReports()" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`
+  )+`
+    <div class="card p-4 mb-5 border-2 border-emerald-200 bg-emerald-50/30">
+      <div class="grid md:grid-cols-[280px_auto] gap-3 items-end">
+        <div>
+          <label class="label">${state.lang==='th'?'กรองรายงานตาม Form':'Filter by Form'}</label>
+          <select id="reportFormType" class="input">
+            <option value="ALL">${state.lang==='th'?'ทั้งหมด':'All'}</option>
+            <option value="P1">Year 1</option>
+            <option value="M1">Year 7</option>
+            <option value="M4">Year 10</option>
+          </select>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="refreshReports()" class="btn-primary"><i class="fa-solid fa-filter mr-2"></i>${state.lang==='th'?'เรียกรายงาน':'Load Report'}</button>
+          <span class="text-xs text-slate-500 self-center">${state.lang==='th'?'ไฟล์ Excel จะประกอบด้วย 3 Sheet: Dashboard, Class Summary และ Intention Report':'Excel contains 3 sheets: Dashboard, Class Summary and Intention Report'}</span>
+        </div>
+      </div>
+    </div>
+    <div id="reportsContent">${adminLoading()}</div>`;
+  await refreshReports();
+}
+
+async function refreshReports() {
+  const formType=value('reportFormType')||'ALL';
+  const holder=document.getElementById('reportsContent');
+  if(!holder) return;
+  holder.innerHTML=adminLoading();
+  try {
+    const data=await gas('getReportsData',{formType});
+    window.__reportData=data;
+    window.__reportRows=data.intentionRows||[];
+    const o=data.dashboard.overall;
+    const cards=[
+      [state.lang==='th'?'นักเรียนทั้งหมด':'Total Students',o.total,'fa-users','border-blue-300 bg-blue-50/50'],
+      [tr('responded'),`${o.responded} (${o.responsePercent}%)`,'fa-circle-check','border-emerald-300 bg-emerald-50/50'],
+      [tr('pending'),`${o.pending} (${o.pendingPercent}%)`,'fa-hourglass-half','border-amber-300 bg-amber-50/50'],
+      [tr('continue'),`${o.continueCount} (${o.continuePercent}%)`,'fa-graduation-cap','border-indigo-300 bg-indigo-50/50'],
+      [tr('withdraw'),`${o.withdrawCount} (${o.withdrawPercent}%)`,'fa-right-from-bracket','border-rose-300 bg-rose-50/50']
+    ];
+    const levelRows=(data.dashboard.levels||[]).map(r=>`<tr>
+      <td class="font-extrabold text-brand-navy">${escapeHtml(displayFormCode(r.formType))}</td>
+      <td>${r.total}</td><td>${r.responded} (${r.responsePercent}%)</td><td>${r.pending} (${r.pendingPercent}%)</td>
+      <td><span class="badge bg-emerald-100 text-emerald-700">${r.continueCount} (${r.continuePercent}%)</span></td>
+      <td><span class="badge bg-rose-100 text-rose-700">${r.withdrawCount} (${r.withdrawPercent}%)</span></td>
+    </tr>`).join('');
+    const classRows=(data.classSummary||[]).map(r=>`<tr>
+      <td class="font-bold">${escapeHtml(r.className||'-')}</td><td>${escapeHtml(r.teacher||'-')}</td>
+      <td>${r.total}</td><td>${r.responded} (${r.respondedPercent}%)</td><td>${r.pending} (${r.pendingPercent}%)</td>
+      <td>${r.continueCount} (${r.continuePercent}%)</td><td>${r.withdrawCount} (${r.withdrawPercent}%)</td>
+    </tr>`).join('');
+    const intentionRows=(data.intentionRows||[]).map((r,i)=>`<tr>
+      <td class="text-center font-bold">${escapeHtml(r.sequence||i+1)}</td>
+      <td class="font-bold text-brand-navy">${escapeHtml(r.studentId||'-')}</td>
+      <td>${escapeHtml(r.studentNameTH||'-')}</td>
+      <td><span class="badge bg-blue-50 text-blue-800 border border-blue-200">${escapeHtml(r.className||'-')}</span></td>
+      <td>${intentionBadge(r.intentionCode||r.intention)}</td>
+      <td>${escapeHtml(r.nextSchool||'-')}</td>
+      <td>${r.historyCount?`<button onclick="showReportHistory(${i})" class="btn-light !py-1.5 !px-3 text-xs"><i class="fa-solid fa-clock-rotate-left mr-1"></i>${state.lang==='th'?'ดูประวัติ':'History'} (${r.historyCount})</button>`:'-'}</td>
+    </tr>`).join('');
+    holder.innerHTML=`
+      <div class="card p-5 border-2 border-blue-200 bg-blue-50/20">
+        <div class="flex flex-wrap justify-between gap-3 mb-4"><div><h3 class="text-xl font-extrabold text-brand-navy">1. Dashboard</h3><p class="text-sm text-slate-500">${state.lang==='th'?'สรุปตามตัวกรองที่เลือก':'Summary for selected filter'} · ${escapeHtml(data.filterLabel)}</p></div><span class="text-xs text-slate-400">${escapeHtml(data.generatedAt||'')}</span></div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-3">${cards.map(([label,val,icon,cls])=>`<div class="rounded-2xl border-2 ${cls} p-4"><i class="fa-solid ${icon} text-brand-navy"></i><p class="text-xs text-slate-500 mt-2">${label}</p><p class="text-2xl font-extrabold text-brand-navy">${val}</p></div>`).join('')}</div>
+        <div class="table-wrap enhanced-table-wrap mt-5"><table class="enhanced-table"><thead><tr><th>Form</th><th>${tr('total')}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${tr('continue')}</th><th>${tr('withdraw')}</th></tr></thead><tbody>${levelRows||`<tr><td colspan="6" class="text-center py-6">-</td></tr>`}</tbody></table></div>
+      </div>
+      <div class="card p-5 mt-5 border-2 border-indigo-200 bg-indigo-50/20">
+        <h3 class="text-xl font-extrabold text-brand-navy mb-4">2. ${state.lang==='th'?'สรุปตามชั้นเรียนและครูประจำชั้น':'Summary by Class and Homeroom Teacher'}</h3>
+        <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('className')}</th><th>${tr('teacher')}</th><th>${tr('total')}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${tr('continue')}</th><th>${tr('withdraw')}</th></tr></thead><tbody>${classRows||`<tr><td colspan="7" class="text-center py-6">-</td></tr>`}</tbody></table></div>
+      </div>
+      <div class="card p-5 mt-5 border-2 border-emerald-200 bg-emerald-50/20">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4"><h3 class="text-xl font-extrabold text-brand-navy">3. ${state.lang==='th'?'รายงานข้อมูลการแจ้งความจำนง':'Intention Report'}</h3><span class="badge bg-white border text-brand-navy">${tr('total')} ${(data.intentionRows||[]).length}</span></div>
+        <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>Sequence</th><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name'}</th><th>${tr('className')}</th><th>${state.lang==='th'?'ความประสงค์':'Intention'}</th><th>${state.lang==='th'?'โรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next School'}</th><th>${state.lang==='th'?'ประวัติการแก้ไข':'Edit History'}</th></tr></thead><tbody>${intentionRows||`<tr><td colspan="7" class="text-center py-6">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`}</tbody></table></div>
+      </div>`;
+  } catch(error) {
+    holder.innerHTML=`<div class="card p-8 text-center"><i class="fa-solid fa-triangle-exclamation text-4xl text-rose-500"></i><h3 class="mt-3 font-extrabold text-xl">${state.lang==='th'?'ไม่สามารถเรียกรายงานได้':'Unable to load report'}</h3><p class="text-slate-500 mt-2">${escapeHtml(error.message)}</p></div>`;
+  }
+}
+
+async function showReportHistory(index) {
+  const row=(window.__reportRows||[])[index];
+  if(!row) return;
+  const items=row.historyItems||[];
+  const html=items.length?items.map(item=>`
+    <div class="rounded-xl border border-slate-200 p-4 mb-3 bg-slate-50">
+      <div class="flex flex-wrap justify-between gap-2"><strong class="text-brand-navy">${escapeHtml(item.topic||'-')}</strong><span class="text-xs text-slate-500">${escapeHtml(item.timestamp||'')}</span></div>
+      <p class="text-sm mt-2"><strong>${state.lang==='th'?'เหตุผล':'Reason'}:</strong> ${escapeHtml(item.reason||'-')}</p>
+      <p class="text-xs text-slate-500 mt-1">${escapeHtml(item.editorName||item.editorEmail||'-')}</p>
+    </div>`).join(''):`<p class="text-slate-500">${state.lang==='th'?'ยังไม่มีประวัติการแก้ไข':'No edit history'}</p>`;
+  await Swal.fire({width:800,title:`${state.lang==='th'?'ประวัติการแก้ไข':'Edit History'} · ${escapeHtml(row.studentId||'')}`,html:`<div class="text-left max-h-[65vh] overflow-y-auto">${html}</div>`,confirmButtonText:state.lang==='th'?'ปิด':'Close'});
+}
+
+async function downloadReportExcel() {
+  const formType=value('reportFormType')||'ALL';
+  try {
+    showBusy(state.lang==='th'?'กำลังสร้างไฟล์ Excel...':'Creating Excel report...');
+    const result=await gas('exportReportsExcel',{formType});
+    Swal.close();
+    if(!result||!result.base64) throw new Error(state.lang==='th'?'ไม่พบข้อมูลไฟล์ Excel':'Excel file data not found');
+    const binary=atob(result.base64);
+    const bytes=new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+    const blob=new Blob([bytes],{type:result.mimeType||'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download=result.filename||'Ektra_Intention_Report.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+    await Swal.fire({icon:'success',title:state.lang==='th'?'สร้างรายงาน Excel เรียบร้อยแล้ว':'Excel report created',timer:1600,showConfirmButton:false});
+  } catch(error) {
+    Swal.close();
+    await Swal.fire({icon:'error',title:state.lang==='th'?'Export Excel ไม่สำเร็จ':'Excel export failed',text:error.message||String(error)});
+  }
+}
+
+
 async function loadStudents() {
   document.getElementById('adminContent').innerHTML=adminHeader(tr('students'),'fa-user-graduate',`<button onclick="studentDialog()" class="btn-gold"><i class="fa-solid fa-plus mr-2"></i>${tr('add')}</button><button onclick="refreshAdminSection('students')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`) + `<div class="card p-4 mb-5"><div class="grid md:grid-cols-[1fr_260px_auto] gap-3"><input id="studentSearchAdmin" class="input" placeholder="${tr('search')}..."><select id="studentClassFilter" class="input"><option value="">${state.lang==='th'?'ทุกชั้นเรียน':'All Classes'}</option></select><button onclick="refreshStudentsTable()" class="btn-primary">${tr('search')}</button></div></div><div id="studentsTable" class="card p-5 border-2 border-slate-200 bg-slate-50/30">${adminLoading()}</div>`;
   await refreshStudentsTable();
@@ -3067,7 +3216,7 @@ async function settingDialog(index){const r=index===undefined?{}:window.__settin
 async function removeSetting(key,form){const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',text:`${key} · ${form}`,showCancelButton:true,confirmButtonColor:'#dc2626'});if(!c.isConfirmed)return;showBusy(state.lang==='th'?'กำลังลบการตั้งค่า...':'Deleting setting...');await gas('deleteSetting',key,form);state.bootstrap=await gas('getAppBootstrap');Swal.close();await loadSettings();await Swal.fire({icon:'success',title:state.lang==='th'?'ลบการตั้งค่าแล้ว':'Setting deleted',timer:1400,showConfirmButton:false});}
 
 async function loadUsers(){const data=await gas('getUsers');window.__users=data.rows;document.getElementById('adminContent').innerHTML=adminHeader(tr('users'),'fa-users-gear',`<button onclick="userDialog()" class="btn-gold"><i class="fa-solid fa-plus mr-2"></i>${tr('add')}</button><button onclick="refreshAdminSection('users')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`)+`<div class="card p-5"><div class="table-wrap"><table><thead><tr><th>Email</th><th>Name</th><th>Role</th><th>AssignedClasses</th><th>Status</th><th>${tr('actions')}</th></tr></thead><tbody>${data.rows.map((r,i)=>`<tr><td>${escapeHtml(r.Email)}</td><td>${escapeHtml(r.Name||'')}</td><td><span class="badge bg-blue-100 text-blue-700">${escapeHtml(r.Role)}</span></td><td>${escapeHtml(r.AssignedClasses||'-')}</td><td>${Boolean(r.Active)?'Active':'Inactive'}</td><td><button onclick="userDialog(${i})" class="px-2 text-amber-700"><i class="fa-solid fa-pen"></i></button><button onclick="removeUser('${escapeAttr(r.Email)}')" class="px-2 text-rose-700"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div></div>`;}
-async function userDialog(index){const r=index===undefined?{}:window.__users[index];const result=await Swal.fire({title:index===undefined?tr('add'):tr('edit'),width:700,html:`<div class="text-left space-y-3"><div><label class="label">Email</label><input id="usEmail" class="input" value="${escapeAttr(r.Email||'')}" ${index!==undefined?'readonly':''}></div><div><label class="label">Name</label><input id="usName" class="input" value="${escapeAttr(r.Name||'')}"></div><div><label class="label">Role</label><select id="usRole" class="input"><option ${r.Role==='SuperAdmin'?'selected':''}>SuperAdmin</option><option ${r.Role==='Admin'?'selected':''}>Admin</option><option ${r.Role==='Teacher'?'selected':''}>Teacher</option><option ${r.Role==='User'?'selected':''}>User</option></select></div><div><label class="label">AssignedClasses</label><input id="usClasses" class="input" value="${escapeAttr(r.AssignedClasses||'')}" placeholder="Y.6A,Y.6B"><p class="text-xs text-slate-500 mt-1">${state.lang==='th'?'สำหรับ Role Teacher ให้ระบุชั้นเรียนที่อนุญาต คั่นด้วยเครื่องหมายจุลภาค':'For Teacher role, enter permitted classes separated by commas.'}</p></div><label><input id="usActive" type="checkbox" ${r.Active===false?'':'checked'}> Active</label></div>`,showCancelButton:true,confirmButtonText:'Save',preConfirm:()=>({Email:document.getElementById('usEmail').value,Name:document.getElementById('usName').value,Role:document.getElementById('usRole').value,AssignedClasses:document.getElementById('usClasses').value,Active:document.getElementById('usActive').checked})});if(result.isConfirmed){showBusy(state.lang==='th'?'กำลังบันทึกผู้ใช้งาน...':'Saving user...');await gas('saveUser',result.value);Swal.close();await loadUsers();await Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกผู้ใช้งานแล้ว':'User saved',timer:1400,showConfirmButton:false});}}
+async function userDialog(index){const r=index===undefined?{}:window.__users[index];const result=await Swal.fire({title:index===undefined?tr('add'):tr('edit'),width:700,html:`<div class="text-left space-y-3"><div><label class="label">Email</label><input id="usEmail" class="input" value="${escapeAttr(r.Email||'')}" ${index!==undefined?'readonly':''}></div><div><label class="label">Name</label><input id="usName" class="input" value="${escapeAttr(r.Name||'')}"></div><div><label class="label">Role</label><select id="usRole" class="input"><option ${r.Role==='SuperAdmin'?'selected':''}>SuperAdmin</option><option ${r.Role==='Admin'?'selected':''}>Admin</option><option ${r.Role==='Teacher'?'selected':''}>Teacher</option><option ${r.Role==='Registration'?'selected':''}>Registration</option><option ${r.Role==='User'?'selected':''}>User</option></select></div><div><label class="label">AssignedClasses</label><input id="usClasses" class="input" value="${escapeAttr(r.AssignedClasses||'')}" placeholder="Y.6A,Y.6B"><p class="text-xs text-slate-500 mt-1">${state.lang==='th'?'สำหรับ Role Teacher ให้ระบุชั้นเรียนที่อนุญาต คั่นด้วยเครื่องหมายจุลภาค':'For Teacher role, enter permitted classes separated by commas.'}</p></div><label><input id="usActive" type="checkbox" ${r.Active===false?'':'checked'}> Active</label></div>`,showCancelButton:true,confirmButtonText:'Save',preConfirm:()=>({Email:document.getElementById('usEmail').value,Name:document.getElementById('usName').value,Role:document.getElementById('usRole').value,AssignedClasses:document.getElementById('usClasses').value,Active:document.getElementById('usActive').checked})});if(result.isConfirmed){showBusy(state.lang==='th'?'กำลังบันทึกผู้ใช้งาน...':'Saving user...');await gas('saveUser',result.value);Swal.close();await loadUsers();await Swal.fire({icon:'success',title:state.lang==='th'?'บันทึกผู้ใช้งานแล้ว':'User saved',timer:1400,showConfirmButton:false});}}
 async function removeUser(email){const c=await Swal.fire({icon:'warning',title:tr('delete')+'?',text:email,showCancelButton:true,confirmButtonColor:'#dc2626'});if(!c.isConfirmed)return;showBusy(state.lang==='th'?'กำลังลบผู้ใช้งาน...':'Deleting user...');await gas('deleteUser',email);Swal.close();await loadUsers();await Swal.fire({icon:'success',title:state.lang==='th'?'ลบผู้ใช้งานแล้ว':'User deleted',timer:1400,showConfirmButton:false});}
 
 async function loadLogs(){const data=await gas('getActivityLogs',500);document.getElementById('adminContent').innerHTML=adminHeader(tr('logs'),'fa-clock-rotate-left',`<button onclick="refreshAdminSection('logs')" class="btn-light"><i class="fa-solid fa-rotate"></i></button>`)+`<div class="card p-5"><p class="font-bold text-brand-navy mb-3">${tr('total')}: ${data.total}</p><div class="table-wrap"><table><thead><tr><th>Timestamp</th><th>Email</th><th>Role</th><th>Action</th><th>Entity</th><th>Entity ID</th><th>Details</th></tr></thead><tbody>${data.rows.map(r=>`<tr><td class="whitespace-nowrap">${formatDate(r.Timestamp)}</td><td>${escapeHtml(r.Email||'')}</td><td>${escapeHtml(r.Role||'')}</td><td class="font-bold">${escapeHtml(r.Action||'')}</td><td>${escapeHtml(r.Entity||'')}</td><td class="text-xs max-w-[140px] truncate">${escapeHtml(r.EntityId||'')}</td><td><pre class="text-xs whitespace-pre-wrap max-w-[350px]">${escapeHtml(r.Details||'')}</pre></td></tr>`).join('')}</tbody></table></div></div>`;}
