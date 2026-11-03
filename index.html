@@ -1097,6 +1097,16 @@ function renderStepper() {
   }).join('');
 }
 
+function scrollFormToTop_() {
+  const formView=document.getElementById('formView');
+  if(!formView) {
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+  const top=Math.max(0,formView.getBoundingClientRect().top + window.scrollY - 12);
+  window.scrollTo({top,behavior:'smooth'});
+}
+
 function showStep(step) {
   // Withdrawal flow never enters Pages 5 or 6.
   if (radioValue('intention')==='WITHDRAW' && (Number(step)===5 || Number(step)===6)) step=7;
@@ -1108,7 +1118,11 @@ function showStep(step) {
   document.getElementById('draftBtn').classList.toggle('hidden', state.currentStep<2 || state.currentStep===8);
   if (state.currentStep===8) renderReview();
   renderStepper();
-  window.scrollTo({top:0, behavior:'smooth'});
+
+  // Remove focus from the navigation button/input before scrolling. Browsers
+  // can otherwise restore the focused control into view after the step changes.
+  try { if(document.activeElement && typeof document.activeElement.blur==='function') document.activeElement.blur(); } catch(ignore) {}
+  requestAnimationFrame(()=>requestAnimationFrame(scrollFormToTop_));
 }
 
 async function nextStep() {
@@ -1858,10 +1872,14 @@ async function submitFinal() {
             : `Your form has been submitted successfully, but the confirmation email could not be sent at this time. Please do not submit the form again.`}
         </div>`;
 
+    const submittedMessage = state.lang==='th'
+      ? (result.messageTH || result.message || 'ส่งแบบฟอร์มเรียบร้อยแล้ว ระบบได้บันทึกข้อมูลเรียบร้อยแล้ว')
+      : (result.messageEN || 'Your form has been submitted successfully. Your information has been saved in the system.');
+
     await Swal.fire({
       icon:result.confirmationEmailSent?'success':'warning',
       title:state.lang==='th'?'ส่งแบบฟอร์มเรียบร้อยแล้ว':'Form Submitted',
-      html:`<p>${escapeHtml(result.message)}</p>
+      html:`<p>${escapeHtml(submittedMessage)}</p>
         <p class="mt-2 text-sm"><strong>ID:</strong> ${escapeHtml(result.submissionId)}</p>
         ${emailNotice}${pdfButton}`,
       allowOutsideClick:false,
