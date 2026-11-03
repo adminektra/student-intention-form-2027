@@ -2015,6 +2015,27 @@ function displayCode(code) {
 function isTruthyClient(value){return value===true||value===1||['true','1','yes','รับทราบ','ใช่'].includes(String(value||'').trim().toLowerCase());}
 function normalizeClientStatus(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='SUBMITTED'||['ส่งแล้ว','ส่งแบบฟอร์มแล้ว'].includes(t))return'SUBMITTED';if(u==='DRAFT'||t==='แบบร่าง')return'DRAFT';if(u==='PROCESSING'||t==='กำลังประมวลผล')return'PROCESSING';if(u==='ERROR'||t==='เกิดข้อผิดพลาด')return'ERROR';return u;}
 function normalizeClientIntention(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='CONTINUE'||t.startsWith('ศึกษาต่อ'))return'CONTINUE';if(u==='WITHDRAW'||t.startsWith('ลาออก'))return'WITHDRAW';return'';}
+function normalizeClientThirdLanguage(value){
+  const t=String(value||'').trim(),u=t.toUpperCase();
+  if(u==='ENGLISH'||t==='ภาษาอังกฤษ')return'ENGLISH';
+  if(u==='CHINESE'||t==='ภาษาจีน')return'CHINESE';
+  if(u==='JAPANESE'||t==='ภาษาญี่ปุ่น')return'JAPANESE';
+  return'';
+}
+function normalizeClientStudyPlan(value){
+  const t=String(value||'').trim(),u=t.toUpperCase();
+  if(u==='GAC_SCI_MATH'||/GAC\s*\(SCIENCE-MATH\)/i.test(t))return'GAC_SCI_MATH';
+  if(u==='GAC_LANGUAGE'||/GAC\s*\(LANGUAGE\)/i.test(t))return'GAC_LANGUAGE';
+  if(u==='EXTRA_LANGUAGE'||/EXTRA CLASS\s*\(LANGUAGE\)/i.test(t))return'EXTRA_LANGUAGE';
+  if(u==='BILINGUAL_SCI_MATH'||/BILINGUAL\s*\(SCIENCE-MATH\)/i.test(t))return'BILINGUAL_SCI_MATH';
+  return'';
+}
+function normalizeClientMeeting(value){
+  const t=String(value||'').trim(),u=t.toUpperCase();
+  if(u==='ATTEND'||t==='สามารถเข้าร่วมประชุมได้'||t==='เข้าร่วมประชุม')return'ATTEND';
+  if(u==='UNABLE'||t==='ไม่สามารถเข้าร่วมประชุมได้'||t==='ไม่เข้าร่วมประชุม')return'UNABLE';
+  return'';
+}
 function clientThaiStatus(value){return({SUBMITTED:'ส่งแล้ว',DRAFT:'แบบร่าง',PROCESSING:'กำลังประมวลผล',ERROR:'เกิดข้อผิดพลาด'})[normalizeClientStatus(value)]||value||'-';}
 function clientThaiIntention(value){return normalizeClientIntention(value)==='CONTINUE'?'ศึกษาต่อ':normalizeClientIntention(value)==='WITHDRAW'?'ลาออก':value||'-';}
 function clientThaiRelationship(value){const t=String(value||'').trim(),u=t.toUpperCase();if(u==='FATHER'||t==='บิดา')return'บิดา';if(u==='MOTHER'||t==='มารดา')return'มารดา';if(u==='GUARDIAN'||t==='ผู้ปกครอง'||t==='ผู้ปกครองอื่น')return'ผู้ปกครองอื่น';return t||'-';}
@@ -2439,15 +2460,15 @@ async function editSubmissionById(submissionId) {
     return;
   }
 
-  const intentionCode=r.IntentionCode||normalizeClientIntention(r.Intention);
-  const thirdLanguageCode=r.ThirdLanguageCode||
-    normalizeClientThirdLanguage(r.ThirdLanguage);
-  const studyPlanCode=r.StudyPlanCode||
-    normalizeClientStudyPlan(r.StudyPlan);
-  const meetingCode=r.MeetingAttendanceCode||
-    normalizeClientMeeting(r.MeetingAttendance);
+  let result;
+  try {
+    const intentionCode=r.IntentionCode||normalizeClientIntention(r.Intention);
+    const thirdLanguageCode=r.ThirdLanguageCode||
+      normalizeClientThirdLanguage(r.ThirdLanguage);
+    const studyPlanCode=r.StudyPlanCode||
+      normalizeClientStudyPlan(r.StudyPlan);
 
-  const thaiStatus=clientThaiStatus(r.StatusCode||r.Status);
+    const thaiStatus=clientThaiStatus(r.StatusCode||r.Status);
   const thaiRelationship=clientThaiRelationship(
     r.RelationshipCode||r.Relationship
   );
@@ -2619,7 +2640,7 @@ async function editSubmissionById(submissionId) {
     </div>`
   ].join('<div class="h-4"></div>');
 
-  const result=await Swal.fire({
+    result=await Swal.fire({
     width:1080,
     title:`แก้ไขข้อมูล · ${escapeHtml(r.StudentId||'')} · ${escapeHtml(r.StudentNameTH||r.StudentName||'')}`,
     html:`<div class="text-left max-h-[72vh] overflow-y-auto pr-1">${sections}</div>`,
@@ -2693,9 +2714,19 @@ async function editSubmissionById(submissionId) {
         EditReason:editReason
       };
     }
-  });
+    });
+  } catch(error) {
+    console.error('editSubmissionById dialog error',error);
+    Swal.close();
+    await Swal.fire({
+      icon:'error',
+      title:'ไม่สามารถเปิดหน้าต่างแก้ไขได้',
+      text:error&&error.message?error.message:String(error)
+    });
+    return;
+  }
 
-  if(!result.isConfirmed) return;
+  if(!result||!result.isConfirmed) return;
 
   try {
     showBusy('กำลังบันทึกข้อมูลและประวัติการแก้ไข...');
