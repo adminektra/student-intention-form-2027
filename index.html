@@ -1980,7 +1980,7 @@ async function submitFinal() {
     try {
         for (let step = 1; step <= 6; step++)
             validateStep(step);
-        const confirm = await Swal.fire({ icon: 'warning', title: state.lang === 'th' ? 'ยืนยันการส่งแบบฟอร์ม' : 'Confirm Submission', html: "<p>" + escapeHtml(tr('finalWarning')) + "</p>", showCancelButton: true, confirmButtonText: state.lang === 'th' ? 'ยืนยัน ส่งแบบฟอร์ม' : 'Confirm and Submit', cancelButtonText: state.lang === 'th' ? 'กลับไปตรวจสอบ' : 'Review Again', confirmButtonColor: '#0f2747' });
+        const confirm = await Swal.fire({ icon: 'warning', title: state.lang === 'th' ? 'ยืนยันการส่งแบบฟอร์ม' : 'Confirm Submission', html: "<p>" + escapeHtml(tr('finalWarning')) + "</p>", showCancelButton: true, reverseButtons: true, confirmButtonText: state.lang === 'th' ? 'ยืนยัน ส่งแบบฟอร์ม' : 'Confirm and Submit', cancelButtonText: state.lang === 'th' ? 'กลับไปตรวจสอบ' : 'Review Again', confirmButtonColor: '#0f2747' });
         if (!confirm.isConfirmed)
             return;
         const payload = getPayload();
