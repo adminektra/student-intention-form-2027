@@ -8,6 +8,33 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570</title>
+  <script>
+    // V23: start Apps Script bootstrap as early as possible so the direct
+    // Apps Script URL does not wait for all external UI libraries first.
+    (function(){
+      const isAppsScriptHost=/script\.google\.com|googleusercontent\.com/i.test(window.location.hostname);
+      window.__EKTRA_EARLY_BOOTSTRAP__=null;
+      window.__startEktraEarlyBootstrap=function(){
+        if(!isAppsScriptHost || window.__EKTRA_EARLY_BOOTSTRAP__) return window.__EKTRA_EARLY_BOOTSTRAP__;
+        if(!(window.google&&google.script&&google.script.run)) return null;
+        window.__EKTRA_EARLY_BOOTSTRAP__=new Promise(resolve=>{
+          let settled=false;
+          const finish=result=>{ if(settled)return; settled=true; clearTimeout(timer); resolve(result); };
+          const timer=setTimeout(()=>finish({ok:false,error:'BOOTSTRAP_TIMEOUT'}),20000);
+          try {
+            google.script.run
+              .withSuccessHandler(data=>finish({ok:true,data}))
+              .withFailureHandler(err=>finish({ok:false,error:(err&&err.message)||String(err)}))
+              .getAppBootstrap();
+          } catch(error) {
+            finish({ok:false,error:error&&error.message?error.message:String(error)});
+          }
+        });
+        return window.__EKTRA_EARLY_BOOTSTRAP__;
+      };
+      window.__startEktraEarlyBootstrap();
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -35,7 +62,7 @@
     };
   </script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script async id="apexchartsScript" src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
   <script>
     // GitHub Pages needs config.js for the Apps Script /exec URL.
     // Apps Script HTML Service must skip it and use google.script.run directly.
@@ -661,7 +688,7 @@
 <script>
 'use strict';
 
-console.info('Ektra Intention Form UI v22 loaded');
+console.info('Ektra Intention Form UI v23 loaded');
 const I18N = {
   th: {
     loading:'กำลังโหลดระบบ...', appTitle:'แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570', schoolName:'โรงเรียนสารสาสน์เอกตรา', academicYear:'ปีการศึกษา 2570',
@@ -733,7 +760,19 @@ document.addEventListener('keydown', event => {
 
 async function initApp() {
   try {
-    state.bootstrap = await gas('getAppBootstrap');
+    // V23: direct Apps Script pages may already be fetching bootstrap data
+    // from the early <head> request while CDN libraries are still loading.
+    const earlyPromise=typeof window.__startEktraEarlyBootstrap==='function'
+      ? window.__startEktraEarlyBootstrap()
+      : window.__EKTRA_EARLY_BOOTSTRAP__;
+    if(earlyPromise) {
+      const earlyResult=await earlyPromise;
+      state.bootstrap=earlyResult&&earlyResult.ok&&earlyResult.data
+        ? earlyResult.data
+        : await gas('getAppBootstrap');
+    } else {
+      state.bootstrap = await gas('getAppBootstrap');
+    }
     document.getElementById('siteLogo').src = highResImageUrl(state.bootstrap.app.logoUrl);
     document.getElementById('heroLogo').src = highResImageUrl(state.bootstrap.app.logoUrl);
     document.getElementById('footerText').textContent = state.bootstrap.app.footer;
@@ -1139,37 +1178,55 @@ function openImageViewer(items,startIndex=0) {
   renderImageViewer();
 }
 function closeImageViewer(){document.getElementById('imageViewer').classList.remove('active');document.body.style.overflow='';}
-function renderImageViewer(){
-  const item=state.imageViewer.items[state.imageViewer.index]; if(!item)return;
-  const levels=[1,1.5,2,3]; const zoom=levels[state.imageViewer.zoomIndex]||1;
+function getViewerZoom_(){
+  const levels=[1,1.5,2,3];
+  return levels[state.imageViewer.zoomIndex]||1;
+}
+function applyViewerZoom_(resetScroll=false){
   const image=document.getElementById('viewerImage');
   const canvas=document.getElementById('viewerCanvas');
   const stage=document.getElementById('imageViewerStage');
+  if(!image||!canvas||!stage||!image.complete||!image.naturalWidth)return;
+  const zoom=getViewerZoom_();
+  const available=Math.max(320,stage.clientWidth-32);
+  const natural=Math.max(1,image.naturalWidth||available);
+  const fitWidth=Math.min(natural,available);
+  // V23: zoom is a visual zoom. Do not cap the displayed width at naturalWidth,
+  // otherwise desktop images that already fit the screen cannot zoom at all.
+  // The high-resolution source is still used, so the browser has the best source available.
+  const targetWidth=Math.max(1,Math.round(fitWidth*zoom));
+  image.style.width=`${targetWidth}px`;
+  image.style.maxWidth='none';
+  canvas.style.width=`${Math.max(targetWidth,Math.min(available,natural))}px`;
+  canvas.style.minWidth=canvas.style.width;
+  document.getElementById('viewerZoomLabel').textContent=`${Math.round(zoom*100)}%`;
+  requestAnimationFrame(()=>{
+    if(resetScroll) stage.scrollTop=0;
+    stage.scrollLeft=Math.max(0,(stage.scrollWidth-stage.clientWidth)/2);
+  });
+}
+function renderImageViewer(){
+  const item=state.imageViewer.items[state.imageViewer.index]; if(!item)return;
+  const image=document.getElementById('viewerImage');
   const source=highResImageUrl(item.url);
   image.alt=item.label||'Image';
   image.style.transform='none';
-  image.onload=()=>{
-    const available=Math.max(320,stage.clientWidth-32);
-    const natural=Math.max(1,image.naturalWidth||available);
-    const fitWidth=Math.min(natural,available);
-    // Zoom up to the source's real pixel width. This avoids artificial enlargement / blur.
-    const targetWidth=Math.max(1,Math.min(natural,Math.round(fitWidth*zoom)));
-    image.style.width=`${targetWidth}px`;
-    canvas.style.width=`${Math.max(targetWidth,Math.min(available,natural))}px`;
-    canvas.style.minWidth=canvas.style.width;
-    requestAnimationFrame(()=>{
-      stage.scrollTop=0;
-      stage.scrollLeft=Math.max(0,(stage.scrollWidth-stage.clientWidth)/2);
-    });
-  };
-  image.src=source;
+  image.onload=()=>applyViewerZoom_(true);
+  // Reassigning the same cached src does not reliably fire onload on desktop.
+  // Apply zoom immediately when the current image is already loaded.
+  if(image.dataset.source!==source){
+    image.dataset.source=source;
+    image.src=source;
+  } else {
+    applyViewerZoom_(false);
+  }
   document.getElementById('viewerTitle').textContent=item.label|| (state.lang==='th'?'รูปภาพ':'Image');
   document.getElementById('viewerCounter').textContent=`${state.imageViewer.index+1} / ${state.imageViewer.items.length}`;
-  document.getElementById('viewerZoomLabel').textContent=`${Math.round(zoom*100)}%`;
+  document.getElementById('viewerZoomLabel').textContent=`${Math.round(getViewerZoom_()*100)}%`;
 }
 function changeViewerImage(delta){const total=state.imageViewer.items.length;if(!total)return;state.imageViewer.index=(state.imageViewer.index+delta+total)%total;state.imageViewer.zoomIndex=0;renderImageViewer();}
-function changeViewerZoom(delta){state.imageViewer.zoomIndex=Math.max(0,Math.min(3,state.imageViewer.zoomIndex+delta));renderImageViewer();}
-function resetViewerZoom(){state.imageViewer.zoomIndex=0;renderImageViewer();}
+function changeViewerZoom(delta){state.imageViewer.zoomIndex=Math.max(0,Math.min(3,state.imageViewer.zoomIndex+delta));applyViewerZoom_(false);}
+function resetViewerZoom(){state.imageViewer.zoomIndex=0;applyViewerZoom_(false);}
 
 function renderStepper() {
   const wrap = document.getElementById('stepper');
@@ -2201,6 +2258,27 @@ async function refreshAdminSection(section){
   }
 }
 
+async function ensureApexCharts_(){
+  if(window.ApexCharts) return;
+  if(window.__EKTRA_APEX_PROMISE__) return window.__EKTRA_APEX_PROMISE__;
+  window.__EKTRA_APEX_PROMISE__=new Promise((resolve,reject)=>{
+    let script=document.getElementById('apexchartsScript');
+    const done=()=>window.ApexCharts?resolve():reject(new Error(state.lang==='th'?'ไม่สามารถโหลดระบบกราฟได้':'Unable to load chart library'));
+    if(!script){
+      script=document.createElement('script');
+      script.id='apexchartsScript';
+      script.async=true;
+      script.src='https://cdn.jsdelivr.net/npm/apexcharts';
+      document.head.appendChild(script);
+    }
+    if(window.ApexCharts){resolve();return;}
+    script.addEventListener('load',done,{once:true});
+    script.addEventListener('error',()=>reject(new Error(state.lang==='th'?'ไม่สามารถโหลดระบบกราฟได้':'Unable to load chart library')),{once:true});
+    setTimeout(()=>{if(window.ApexCharts)resolve();else reject(new Error(state.lang==='th'?'โหลดระบบกราฟใช้เวลานานเกินไป':'Chart library loading timed out'));},15000);
+  }).finally(()=>{ if(!window.ApexCharts) window.__EKTRA_APEX_PROMISE__=null; });
+  return window.__EKTRA_APEX_PROMISE__;
+}
+
 async function loadDashboard() {
   destroyCharts();
   const data=await gas('getDashboardData',{formType:state.dashboardFormType||'ALL'}); const o=data.overall;
@@ -2225,6 +2303,7 @@ async function loadDashboard() {
     <div class="card p-5 mt-5 border-2 border-slate-200 bg-slate-50/50"><h3 class="font-extrabold text-brand-navy mb-4">${state.lang==='th'?'สรุปตามชั้นเรียนและครูประจำชั้น':'Summary by Class and Homeroom Teacher'}</h3>${dashboardTable(data.table)}<p class="text-xs text-slate-400 mt-3">${state.lang==='th'?'อัปเดตล่าสุด':'Last updated'}: ${escapeHtml(data.generatedAt)}</p></div>
     <div class="card p-5 mt-5 border-2 border-rose-200 bg-rose-50/30"><div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'สรุปโรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next-school Summary'}</h3><p class="text-sm text-slate-500">${state.lang==='th'?'เฉพาะนักเรียนที่เลือกลาออก':'Students who selected withdrawal only'}</p></div><span class="badge bg-rose-100 text-rose-700">${tr('withdraw')} ${o.withdrawCount}</span></div>${nextSchoolsTable(data.nextSchools||[])}</div>`;
   await new Promise(resolve=>requestAnimationFrame(resolve));
+  await ensureApexCharts_();
   const makeDonutOptions=(series,labels)=>({
     chart:{type:'donut',height:320,width:'100%',parentHeightOffset:0,redrawOnParentResize:true,redrawOnWindowResize:true,toolbar:{show:false},animations:{enabled:true}},
     series,
@@ -3502,6 +3581,31 @@ function handleGlobalActionAlert(event){
   actionToast.fire({icon:'info',title:label?`${title}: ${label}`:title});
 }
 
+function callAppsScriptRun_(functionName,args,timeoutMs){
+  return new Promise((resolve,reject)=>{
+    let settled=false;
+    const finish=(ok,value)=>{
+      if(settled)return;
+      settled=true;
+      clearTimeout(timer);
+      ok?resolve(value):reject(value instanceof Error?value:new Error(String(value||'Unknown Apps Script error')));
+    };
+    const timer=setTimeout(()=>finish(false,new Error(
+      state.lang==='th'
+        ? 'การเชื่อมต่อ Apps Script ใช้เวลานานเกินไป กรุณารีเฟรชหน้าเว็บแล้วลองใหม่'
+        : 'The Apps Script connection timed out. Please refresh the page and try again.'
+    )),Math.max(5000,Number(timeoutMs)||25000));
+    try {
+      google.script.run
+        .withSuccessHandler(result=>finish(true,result))
+        .withFailureHandler(err=>finish(false,new Error(err?.message||String(err))))
+        [functionName](...(args||[]));
+    } catch(error) {
+      finish(false,error);
+    }
+  });
+}
+
 function gas(functionName,...args) {
   const config=window.EKTRA_CONFIG||{};
   const apiUrl=String(config.API_URL||'').trim();
@@ -3511,12 +3615,9 @@ function gas(functionName,...args) {
   // If opened inside Apps Script HTML Service, preserve google.script.run
   // for the internal/admin deployment.
   if(!hasConfiguredApi && window.google&&google.script&&google.script.run) {
-    return new Promise((resolve,reject)=>{
-      google.script.run
-        .withSuccessHandler(resolve)
-        .withFailureHandler(err=>reject(new Error(err?.message||String(err))))
-        [functionName](...args);
-    });
+    const configuredTimeout=Number(config.REQUEST_TIMEOUT_MS)||300000;
+    const timeoutMs=functionName==='getAppBootstrap' ? 25000 : configuredTimeout;
+    return callAppsScriptRun_(functionName,args,timeoutMs);
   }
 
   if(!hasConfiguredApi) {
