@@ -4,6 +4,9 @@
   <base target="_top">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -87,6 +90,22 @@
     .enhanced-table th:last-child, .enhanced-table td:last-child { border-right:none; }
     .enhanced-table tbody tr:nth-child(even) td { background:#f8fafc; }
     .enhanced-table tbody tr:hover td { background:#fff9e8; }
+    /* V21: desktop navigation fits without horizontal scrolling. */
+    .desktop-nav { overflow-x:visible !important; flex-wrap:wrap; justify-content:center; }
+    .desktop-nav .nav-btn { flex:0 1 auto; padding-left:.55rem !important; padding-right:.55rem !important; font-size:clamp(.72rem,.82vw,.84rem) !important; white-space:nowrap; }
+    /* V21: report table keeps header and identity columns visible while scrolling. */
+    .intention-report-wrap { max-height:72vh; overflow:auto; position:relative; }
+    .intention-report-table { min-width:2700px; table-layout:auto; }
+    .intention-report-table thead th { position:sticky; top:0; z-index:20; box-shadow:0 1px 0 #cbd5e1; }
+    .intention-report-table th:nth-child(1), .intention-report-table td:nth-child(1) { position:sticky; left:0; min-width:92px; z-index:12; }
+    .intention-report-table th:nth-child(2), .intention-report-table td:nth-child(2) { position:sticky; left:92px; min-width:118px; z-index:12; }
+    .intention-report-table th:nth-child(3), .intention-report-table td:nth-child(3) { position:sticky; left:210px; min-width:240px; z-index:12; }
+    .intention-report-table th:nth-child(4), .intention-report-table td:nth-child(4) { position:sticky; left:450px; min-width:105px; z-index:12; box-shadow:2px 0 0 #cbd5e1; }
+    .intention-report-table tbody td:nth-child(-n+4) { background:#fff; }
+    .intention-report-table tbody tr:nth-child(even) td:nth-child(-n+4) { background:#f8fafc; }
+    .intention-report-table tbody tr:hover td:nth-child(-n+4) { background:#fff9e8; }
+    .intention-report-table thead th:nth-child(-n+4) { z-index:30; }
+    @media (max-width:1279px) { .desktop-nav { display:none !important; } }
     .action-group { display:inline-flex; align-items:center; gap:.65rem; }
     .action-icon-btn { width:2.35rem; height:2.35rem; display:inline-flex; align-items:center; justify-content:center; border-radius:.75rem; border:1px solid transparent; transition:.18s; }
     .action-icon-btn:hover { transform:translateY(-1px); box-shadow:0 5px 12px rgba(15,39,71,.12); }
@@ -138,6 +157,15 @@
     .file-preview-btn:hover { background:#f1f5f9; }
     .file-preview-delete { border-color:#fecaca; color:#b91c1c; background:#fff7f7; }
     .file-preview-delete:hover { background:#fee2e2; }
+    .upload-warning-card { border:2px solid #fca5a5; background:linear-gradient(135deg,#fff1f2 0%,#fff7ed 100%); color:#991b1b; border-radius:1rem; padding:1rem 1.1rem; box-shadow:0 8px 22px rgba(185,28,28,.08); }
+    .upload-warning-card .upload-warning-line { display:flex; align-items:flex-start; gap:.6rem; font-size:.98rem; line-height:1.7; font-weight:650; }
+    .upload-warning-card .upload-warning-line + .upload-warning-line { margin-top:.45rem; }
+    .upload-warning-card .upload-warning-icon { color:#dc2626; margin-top:.28rem; flex:0 0 auto; }
+    .document-help-card { margin:0 0 .8rem; border:1px solid #bfdbfe; border-left:4px solid #2563eb; background:#eff6ff; color:#1e3a5f; border-radius:.8rem; padding:.75rem .9rem; font-size:.84rem; line-height:1.7; }
+    .document-help-card ul { margin:0; }
+    .document-help-card li::marker { color:#2563eb; }
+    .image-gallery-item img { image-rendering:auto; -webkit-font-smoothing:antialiased; width:auto; max-width:100%; margin-left:auto; margin-right:auto; }
+    .image-viewer-stage img { image-rendering:auto; }
     .responses-table-wrap { overflow-x:hidden; }
     .responses-table { table-layout:fixed; width:100%; }
     .responses-table th, .responses-table td { white-space:normal; overflow-wrap:anywhere; word-break:break-word; padding:.65rem .55rem; }
@@ -184,7 +212,7 @@
   </div>
 
   <header class="sticky top-0 z-40 bg-brand-navy text-white shadow-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center gap-3">
+    <div class="w-full max-w-[1800px] mx-auto px-3 sm:px-4 xl:px-5 py-3 flex flex-wrap items-center gap-3">
       <button onclick="showHome()" class="bg-white rounded-xl p-2 shrink-0 shadow-sm" aria-label="Home">
         <img id="siteLogo" src="" alt="Sarasas Ektra School" class="h-11 sm:h-14 w-auto max-w-[180px] object-contain">
       </button>
@@ -193,19 +221,19 @@
         <p class="text-xs sm:text-sm text-blue-100 truncate" data-i18n="schoolName">โรงเรียนสารสาสน์เอกตรา</p>
       </div>
 
-      <nav id="adminNav" class="desktop-nav hidden lg:flex order-3 w-full items-center gap-1 pt-2 mt-1 border-t border-white/10 overflow-x-auto"></nav>
+      <nav id="adminNav" class="desktop-nav hidden xl:flex order-3 w-full items-center gap-1 pt-2 mt-1 border-t border-white/10"></nav>
 
       <button onclick="toggleLanguage()" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 font-bold text-sm border border-white/15">
         <i class="fa-solid fa-language mr-1"></i><span id="langLabel">EN</span>
       </button>
-      <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="lg:hidden px-3 py-2 rounded-xl bg-white/10 hidden">
+      <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="xl:hidden px-3 py-2 rounded-xl bg-white/10 hidden">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
-    <div id="mobileMenu" class="hidden lg:hidden border-t border-white/10 px-4 py-3 bg-brand-navy2"></div>
+    <div id="mobileMenu" class="hidden xl:hidden border-t border-white/10 px-4 py-3 bg-brand-navy2"></div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-9">
+  <main class="w-full max-w-[1800px] mx-auto px-3 sm:px-4 xl:px-5 py-6 sm:py-9">
     <!-- HOME -->
     <section id="homeView" class="view active">
       <div class="relative overflow-hidden card bg-gradient-to-br from-brand-navy via-brand-navy2 to-[#204c7b] text-white p-6 sm:p-10">
@@ -381,7 +409,7 @@
                 <div class="mt-4">
                   <label class="label required" data-i18n="birthDate">วันเดือนปีเกิดนักเรียน (ค.ศ.)</label>
                   <input id="studentBirthDate" type="date" class="input" autocomplete="bday">
-                  <div class="text-xs text-slate-500 mt-2" data-i18n-html="birthDateHelp"><ul class="list-disc pl-5 space-y-1"><li>กรุณากดเลือกวันเดือนปีเกิดจากปุ่มปฏิทิน</li><li>ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</li></ul></div>
+                  <div class="text-xs text-slate-600 mt-2 leading-relaxed" data-i18n-html="birthDateHelp"><ul class="list-disc pl-5 space-y-1.5"><li>ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</li><li>กรุณากดเลือกวันเดือนปีเกิดจากปุ่มปฏิทิน</li><li>ปฏิทินบนมือถืออาจแสดงปี พ.ศ. ตามการตั้งค่าภาษา/ภูมิภาคของอุปกรณ์ ระบบจะปรับวันที่เป็นรูปแบบมาตรฐานเพื่อค้นหาข้อมูลโดยอัตโนมัติ</li></ul></div>
                 </div>
                 <button type="button" onclick="lookupStudent()" class="btn-gold mt-4 w-full">
                   <i class="fa-solid fa-shield-check mr-2"></i>
@@ -496,9 +524,9 @@
               <div>
                 <p class="text-sm font-bold text-brand-gold" data-i18n="page5">หน้าที่ 5</p>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="uploadEvidence">แนบหลักฐานสำหรับการมอบตัวนักเรียน</h3>
-                <div class="mt-1 space-y-1 text-sm text-slate-500">
-                  <p data-i18n="uploadHelp">รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB</p>
-                  <p data-i18n="uploadHelpMultiPage">หลักฐานแต่ละประเภทสามารถแนบได้มากกว่า 1 ไฟล์ โดยหากต้องการเลือกหลายไฟล์พร้อมกันจากเครื่องคอมพิวเตอร์ ให้กดปุ่ม Ctrl บนแป้นพิมพ์ค้างไว้ แล้วคลิกเลือกไฟล์ที่ต้องการ</p>
+                <div class="upload-warning-card mt-3">
+                  <div class="upload-warning-line"><i class="fa-solid fa-circle-exclamation upload-warning-icon"></i><div data-i18n="uploadHelp">รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB</div></div>
+                  <div class="upload-warning-line"><i class="fa-solid fa-paperclip upload-warning-icon"></i><div data-i18n-html="uploadHelpMultiPage">หลักฐานแต่ละประเภทสามารถแนบได้มากกว่า 1 ไฟล์ โดยหากต้องการเลือกหลายไฟล์พร้อมกันจากเครื่องคอมพิวเตอร์ ให้กดปุ่ม <strong>Ctrl</strong> บนแป้นพิมพ์ค้างไว้ แล้วคลิกเลือกทุกไฟล์ที่ต้องการแนบ</div></div>
                 </div>
               </div>
             </div>
@@ -511,25 +539,25 @@
               <div id="exampleImages"></div>
               <div class="dropzone">
                 <label class="label required" data-i18n="studentDocuments">แนบเอกสารของนักเรียน</label>
-                <p class="text-xs text-slate-500 mb-3 leading-relaxed" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</p>
+                <div class="document-help-card" data-i18n="studentFileHelp">สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</div>
                 <input id="studentFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('studentFiles')">
                 <div id="studentFilesPreview" class="file-preview-list"></div>
               </div>
               <div class="dropzone">
                 <label class="label required" data-i18n="fatherDocuments">แนบเอกสารของบิดา</label>
-                <div class="text-xs text-slate-500 mb-3 leading-relaxed" data-i18n-html="fatherFileHelp"><ul class="list-disc pl-5 space-y-1"><li>สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul></div>
+                <div class="document-help-card" data-i18n-html="fatherFileHelp"><ul class="list-disc pl-5 space-y-1"><li>บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul></div>
                 <input id="fatherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('fatherFiles')">
                 <div id="fatherFilesPreview" class="file-preview-list"></div>
               </div>
               <div class="dropzone">
                 <label class="label required" data-i18n="motherDocuments">แนบเอกสารของมารดา</label>
-                <div class="text-xs text-slate-500 mb-3 leading-relaxed" data-i18n-html="motherFileHelp"><ul class="list-disc pl-5 space-y-1"><li>สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul></div>
+                <div class="document-help-card" data-i18n-html="motherFileHelp"><ul class="list-disc pl-5 space-y-1"><li>บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul></div>
                 <input id="motherFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('motherFiles')">
                 <div id="motherFilesPreview" class="file-preview-list"></div>
               </div>
               <div id="guardianFileWrap" class="dropzone hidden">
                 <label id="guardianFileLabel" class="label" data-i18n="guardianDocuments">แนบเอกสารของผู้ปกครองอื่น</label>
-                <div id="guardianFileHelp" class="text-xs text-slate-500 mb-3 leading-relaxed" data-i18n-html="guardianFileHelp"><ul class="list-disc pl-5 space-y-1"><li>บังคับแนบเมื่อผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น</li><li>สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li></ul></div>
+                <div id="guardianFileHelp" class="document-help-card" data-i18n-html="guardianFileHelp"><ul class="list-disc pl-5 space-y-1"><li>บังคับแนบ เนื่องจากผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น</li><li>บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li></ul></div>
                 <input id="guardianFiles" type="file" multiple accept="application/pdf,image/jpeg,image/png" class="block w-full text-sm" onchange="renderSelectedFiles('guardianFiles')">
                 <div id="guardianFilesPreview" class="file-preview-list"></div>
               </div>
@@ -633,6 +661,7 @@
 <script>
 'use strict';
 
+console.info('Ektra Intention Form UI v22 loaded');
 const I18N = {
   th: {
     loading:'กำลังโหลดระบบ...', appTitle:'แบบฟอร์มแจ้งความจำนงศึกษาต่อ ปีการศึกษา 2570', schoolName:'โรงเรียนสารสาสน์เอกตรา', academicYear:'ปีการศึกษา 2570',
@@ -641,13 +670,13 @@ const I18N = {
     studentId:'รหัสนักเรียน', parentEmail:'อีเมลผู้ปกครอง', backHome:'กลับหน้าหลัก', selectedForm:'แบบฟอร์มที่เลือก',
     page1:'หน้าที่ 1', importantInfo:'ข้อควรทราบ', documentPreparationNotice:'กรณีผู้ปกครองประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา กรุณาจัดเตรียมไฟล์เอกสารตามรายการด้านล่าง เพื่อแนบไฟล์ในระบบ จึงจะสามารถส่งแบบฟอร์มแจ้งความจำนงได้', deadlineLabel:'กำหนดส่ง:', deadlineWarningTitle:'โปรดส่งแบบฟอร์มภายในกำหนด', deadlineWarningText:' หากไม่ส่งแบบฟอร์มภายในวันดังกล่าว โรงเรียนจะถือปฏิบัติตามหลักเกณฑ์ที่ระบุไว้ในเอกสาร เรื่อง ระเบียบปฏิบัติการศึกษาต่อฯ (หัวข้อ 6. หมายเหตุสำคัญ) ที่แสดงด้านล่างนี้', studentDocsTitle:'เอกสารของนักเรียน', studentDoc1:'สำเนาสูติบัตร หรือบัตรประชาชน หรือ Passport เล่มปัจจุบัน', studentDoc2:'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)', parentDocsTitle:'เอกสารของบิดา มารดา หรือผู้ปกครอง', parentDoc1:'สำเนาบัตรประชาชน หรือ Passport เล่มปัจจุบัน', parentDoc2:'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)',
     page2:'หน้าที่ 2', parentInfo:'ข้อมูลผู้แจ้งความจำนง', parentInfoHelp:'ต้องเป็นบิดา มารดา หรือผู้ปกครองตามกฎหมายที่มีอำนาจลงนาม', parentPrefix:'คำนำหน้า', otherPrefix:'ระบุคำนำหน้า', choose:'-- เลือก --', parentName:'ชื่อ-นามสกุล ผู้แจ้งความจำนง', parentId:'เลขประจำตัวประชาชน / Passport', identityHelp:'ใช้เพื่อยืนยันตัวตนเท่านั้น', phone:'เบอร์โทรศัพท์', emailDuplicateHelp:'อีเมลนี้ใช้สำหรับติดต่อและเปิดแบบร่างที่บันทึกไว้ โดยผู้ปกครองสามารถใช้อีเมลเดียวกันกับนักเรียนมากกว่า 1 คนได้', relationship:'ความสัมพันธ์กับนักเรียน', father:'บิดา', mother:'มารดา', guardian:'ผู้ปกครองอื่น', relationshipOther:'เกี่ยวข้องกับนักเรียนเป็น', guardianDefinition:'"ผู้ปกครอง" หมายถึง ผู้ดูแลรับผิดชอบนักเรียนในทุกกรณี และยินยอมรับเงื่อนไขของโรงเรียนทุกประการ ตามที่ระบุในเอกสารแนบท้ายและระเบียบปฏิบัติของโรงเรียนสารสาสน์เอกตรา นับตั้งแต่วันที่มอบตัวเป็นต้นไป',
-    page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียนและวันเดือนปีเกิด เพื่อยืนยันข้อมูลกับฐานข้อมูลโรงเรียน', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', birthDate:'วันเดือนปีเกิดนักเรียน (ค.ศ.)', birthDateHelp:'<ul class="list-disc pl-5 space-y-1"><li>กรุณากดเลือกวันเดือนปีเกิดจากปุ่มปฏิทิน</li><li>ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</li></ul>', birthDateVerified:'ยืนยันตรงกับฐานข้อมูลแล้ว', verifyStudent:'ตรวจสอบและยืนยันนักเรียน', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังยืนยันรหัสและวันเกิด', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
+    page3:'หน้าที่ 3', studentInfo:'ข้อมูลนักเรียน', studentLookupHelp:'กรอกรหัสนักเรียนและวันเดือนปีเกิด เพื่อยืนยันข้อมูลกับฐานข้อมูลโรงเรียน', studentIdHelp:'ไม่ใช่เลขที่นักเรียนในห้องเรียน', birthDate:'วันเดือนปีเกิดนักเรียน (ค.ศ.)', birthDateHelp:'<ul class="list-disc pl-5 space-y-1.5"><li>ใช้ยืนยันตัวตนของนักเรียนก่อนแสดงข้อมูล</li><li>กรุณากดเลือกวันเดือนปีเกิดจากปุ่มปฏิทิน</li><li>ปฏิทินบนมือถืออาจแสดงปี พ.ศ. ตามการตั้งค่าภาษา/ภูมิภาคของอุปกรณ์ ระบบจะปรับวันที่เป็นรูปแบบมาตรฐานเพื่อค้นหาข้อมูลโดยอัตโนมัติ</li></ul>', birthDateVerified:'ยืนยันตรงกับฐานข้อมูลแล้ว', verifyStudent:'ตรวจสอบและยืนยันนักเรียน', studentVerified:'ตรวจสอบข้อมูลนักเรียนแล้ว', studentResultWaiting:'ข้อมูลนักเรียนจะแสดงหลังยืนยันรหัสและวันเกิด', thaiFullName:'ชื่อ-นามสกุลภาษาไทย', englishFullName:'ชื่อ-นามสกุลภาษาอังกฤษ', currentClass:'ชั้นเรียนปัจจุบัน', homeroom:'ครูประจำชั้น',
     page4:'หน้าที่ 4', tuitionInformation:'ข้อมูลค่าธรรมเนียมการศึกษา', currentTuition:'ค่าธรรมเนียมปัจจุบัน', continueFeeCase:'กรณีแจ้งความจำนงศึกษาต่อ', returnFeeCase:'กรณีแจ้งความจำนงลาออก แต่ประสงค์กลับเข้าศึกษาต่อ', feeItem:'รายการ', feeLevel:'ระดับชั้น', tuitionPerSemester:'ค่าธรรมเนียมต่อภาคเรียน (บาท)', feeNote:'หมายเหตุ', feeDataMissing:'ยังไม่มีข้อมูลค่าธรรมเนียมที่ครบถ้วนสำหรับนักเรียน กรุณาติดต่อฝ่ายธุรการ', selectIntentionAfterFee:'กรุณาตรวจสอบข้อมูลค่าธรรมเนียมก่อนเลือกความประสงค์', selectIntentionAfterFeeHelp:'เมื่อข้อมูลถูกต้องแล้ว ให้เลือกศึกษาต่อหรือลาออกด้านล่าง', continueHelp:'ประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา', withdrawHelp:'ยืนยันการลาออกเมื่อจบระดับชั้นปัจจุบัน', thirdLanguageM1:'การเลือกเรียนภาษาที่สาม ระดับชั้นมัธยมศึกษาปีที่ 1-3', thirdLanguageM1Help:'เลือกเรียนภาษาที่สาม ตามความสนใจของนักเรียน และเรียนต่อเนื่องจนจบมัธยมศึกษาปีที่ 3', chinese:'ภาษาจีน', japanese:'ภาษาญี่ปุ่น', english:'ภาษาอังกฤษ', ackLanguageM1:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 3 โดยไม่มีการเปลี่ยนแปลง', studyPlanTitle:'การเลือกแผนการเรียน ระดับชั้นมัธยมศึกษาปีที่ 4-6', gacEligibilityHelp:'แผนการเรียน GAC สำหรับนักเรียนที่สมัครและสอบผ่าน เข้าเรียนหลักสูตร GAC เท่านั้น', thirdLanguage:'ภาษาที่สาม', ackLanguageM4:'รับทราบว่าจะต้องเรียนภาษาที่เลือกต่อเนื่องจนจบมัธยมศึกษาปีที่ 6 โดยไม่มีการเปลี่ยนแปลง', nextSchool:'โรงเรียนที่นักเรียนจะไปศึกษาต่อ', statisticsOnly:'ใช้เพื่อบันทึกเป็นข้อมูลสถิติของโรงเรียนเท่านั้น', withdrawalReason:'สาเหตุสำคัญที่ตัดสินใจลาออก',
-    page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB', uploadHelpMultiPage:'หลักฐานแต่ละประเภทสามารถแนบได้มากกว่า 1 ไฟล์ โดยหากต้องการเลือกหลายไฟล์พร้อมกันจากเครื่องคอมพิวเตอร์ ให้กดปุ่ม Ctrl บนแป้นพิมพ์ค้างไว้ แล้วคลิกเลือกไฟล์ที่ต้องการ', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', fatherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul>', motherDocuments:'แนบเอกสารของมารดา', motherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul>', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>บังคับแนบเมื่อผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น</li><li>สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li></ul>',
+    page5:'หน้าที่ 5', uploadEvidence:'แนบหลักฐานสำหรับการมอบตัวนักเรียน', uploadHelp:'รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB', uploadHelpMultiPage:'หลักฐานแต่ละประเภทสามารถแนบได้มากกว่า 1 ไฟล์ โดยหากต้องการเลือกหลายไฟล์พร้อมกันจากเครื่องคอมพิวเตอร์ ให้กดปุ่ม <strong>Ctrl</strong> บนแป้นพิมพ์ค้างไว้ แล้วคลิกเลือกทุกไฟล์ที่ต้องการแนบ', withdrawNoUpload:'กรณีลาออกไม่ต้องแนบเอกสารสำหรับการมอบตัว', studentDocuments:'แนบเอกสารของนักเรียน', studentFileHelp:'สูติบัตร/บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)', fatherDocuments:'แนบเอกสารของบิดา', fatherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul>', motherDocuments:'แนบเอกสารของมารดา', motherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li><li>หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล</li></ul>', missingEvidenceHelp:'หากไม่มีหลักฐาน ให้แนบเอกสารข้อความ “ไม่มีหลักฐาน” พร้อมระบุเหตุผล', guardianDocuments:'แนบเอกสารของผู้ปกครองอื่น', guardianFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>บังคับแนบ เนื่องจากผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น</li><li>บัตรประชาชน/Passport และใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)</li></ul>',
     page6:'หน้าที่ 6', practiceTitle:'ระเบียบปฏิบัติ', practiceHelp:'กรุณาศึกษาเอกสารแนบท้ายและระเบียบปฏิบัติโรงเรียนสารสาสน์เอกตราโดยละเอียด', practiceAck:'ข้าพเจ้าได้ศึกษาข้อความในเอกสารเป็นที่เข้าใจดีแล้ว และยินดีปฏิบัติตามระเบียบของโรงเรียนทุกประการ',
     page7:'หน้าที่ 7', paymentTitle:'ช่องทางการชำระค่าธรรมเนียมการศึกษา', continuePaymentExplanation:'กำหนดชำระค่าธรรมเนียมการศึกษา ภาคเรียนที่ 1/2570 เต็มจำนวน ภายในวันศุกร์ที่ 19 กุมภาพันธ์ 2570 หรือ ก่อนรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับและสำเนา', withdrawPaymentExplanation:'นักเรียนที่แจ้งความจำนงลาออก สามารถรับเอกสารทางการศึกษา และเอกสารรับรองความเป็นนักเรียนทุกประเภท ทั้งต้นฉบับ และสำเนา ภายหลังชำระค่าธรรมเนียมทุกประเภทจนถึงภาคเรียนที่ 2/2569 ครบถ้วนแล้ว', paymentPending:'กรุณาตรวจสอบช่องทางการชำระเงินจากประกาศของโรงเรียน หรือสอบถามฝ่ายธุรการ',
     page8:'หน้าที่ 8', reviewTitle:'ตรวจสอบและยืนยันข้อมูล', finalWarning:'เมื่อกด “ส่งแบบฟอร์ม” แล้ว จะไม่สามารถแก้ไขข้อมูลหรือส่งแบบฟอร์มซ้ำได้ กรุณาตรวจสอบข้อมูลให้ถูกต้อง', previous:'ย้อนกลับ', saveDraft:'บันทึกแบบร่าง', next:'ถัดไป', submitForm:'ส่งแบบฟอร์ม',
-    formOpen:'ระบบเปิดรับแบบฟอร์ม', formClosed:'ระบบปิดรับแบบฟอร์ม', startForm:'เริ่มกรอกแบบฟอร์ม', dashboard:'Dashboard', responses:'ข้อมูลแบบฟอร์ม', reviewStudents:'ตรวจสอบรายชื่อนักเรียน', reports:'รายงาน', students:'จัดการนักเรียน', settings:'ตั้งค่าระบบ', users:'ผู้ใช้งาน', logs:'Log Activity', home:'หน้าหลัก', refresh:'Refresh', search:'ค้นหา', add:'เพิ่มข้อมูล', edit:'แก้ไข', delete:'ลบ', view:'ดูข้อมูล', total:'รวม', responded:'กรอกแล้ว', pending:'ยังไม่กรอก', continue:'ศึกษาต่อ', withdraw:'ลาออก', actions:'จัดการ', status:'สถานะ', className:'ชั้นเรียน', teacher:'ครูประจำชั้น', sequence:'ลำดับ', submittedDate:'วันที่กรอก'
+    formOpen:'ระบบเปิดรับแบบฟอร์ม', formClosed:'ระบบปิดรับแบบฟอร์ม', startForm:'เริ่มกรอกแบบฟอร์ม', dashboard:'Dashboard', responses:'ข้อมูลแบบฟอร์ม', reviewStudents:'ตรวจสอบรายชื่อนักเรียน', summerDiscount:'ส่วนลด Summer', reports:'รายงาน', students:'จัดการนักเรียน', settings:'ตั้งค่าระบบ', users:'ผู้ใช้งาน', logs:'Log Activity', home:'หน้าหลัก', refresh:'Refresh', search:'ค้นหา', add:'เพิ่มข้อมูล', edit:'แก้ไข', delete:'ลบ', view:'ดูข้อมูล', total:'รวม', responded:'กรอกแล้ว', pending:'ยังไม่กรอก', continue:'ศึกษาต่อ', withdraw:'ลาออก', actions:'จัดการ', status:'สถานะ', className:'ชั้นเรียน', teacher:'ครูประจำชั้น', sequence:'ลำดับ', submittedDate:'วันที่กรอก'
   },
   en: {
     loading:'Loading application...', appTitle:'Continuation of Study Intention Form — Academic Year 2027', schoolName:'Sarasas Ektra School', academicYear:'Academic Year 2027',
@@ -656,13 +685,13 @@ const I18N = {
     studentId:'Student ID', parentEmail:'Parent Email', backHome:'Back to Home', selectedForm:'Selected Form',
     page1:'Page 1', importantInfo:'Important Information', documentPreparationNotice:"Parents wishing to continue their child's education at Sarasas Ektra School are required to prepare and upload the digital copies of the documents listed below in order to successfully submit the Intention to Continue Education Form.", deadlineLabel:'Deadline:', deadlineWarningTitle:'Please submit the form by the deadline.', deadlineWarningText:' If the form is not submitted by the specified date, the School will proceed in accordance with the policy stated in the document entitled Regulations for Continuing Enrollment, Section 6: Important Note, as shown below.', studentDocsTitle:'Student Documents', studentDoc1:'Birth certificate, national ID card, or current passport', studentDoc2:'Name-change document, if applicable', parentDocsTitle:'Father, Mother, or Guardian Documents', parentDoc1:'National ID card or current passport', parentDoc2:'Name-change document, if applicable',
     page2:'Page 2', parentInfo:'Declarant Information', parentInfoHelp:'The declarant must be the student’s father, mother, or legal guardian with full signing authority.', parentPrefix:'Title', otherPrefix:'Specify title', choose:'-- Select --', parentName:'Declarant’s Full Name', parentId:'National ID / Passport Number', identityHelp:'Used for identity verification only', phone:'Phone Number', emailDuplicateHelp:'This email is used for contact and to reopen saved drafts. The same parent email may be used for more than one child.', relationship:'Relationship to Student', father:'Father', mother:'Mother', guardian:'Other Guardian', relationshipOther:'Relationship to Student', guardianDefinition:'"Parent/Guardian" shall mean the individual who is fully responsible for the student in all respects and who agrees to accept and comply with all conditions and regulations of Sarasas Ektra School, as specified in the attached documents, with effect from the date of enrolment.',
-    page3:'Page 3', studentInfo:'Student Information', studentLookupHelp:'Enter the student ID and date of birth to verify the student against the school database', studentIdHelp:'This is not the classroom roll number', birthDate:'Student Date of Birth', birthDateHelp:'<ul class="list-disc pl-5 space-y-1"><li>Please select the student\'s date of birth using the calendar button.</li><li>This information is used to verify the student\'s identity before displaying student details.</li></ul>', birthDateVerified:'Verified against the school database', verifyStudent:'Verify Student', studentVerified:'Student verified', studentResultWaiting:'Student details will appear after the ID and date of birth are verified', thaiFullName:'Thai Full Name', englishFullName:'English Full Name', currentClass:'Current Class', homeroom:'Homeroom Teacher',
+    page3:'Page 3', studentInfo:'Student Information', studentLookupHelp:'Enter the student ID and date of birth to verify the student against the school database', studentIdHelp:'This is not the classroom roll number', birthDate:'Student Date of Birth', birthDateHelp:'<ul class="list-disc pl-5 space-y-1.5"><li>This information is used to verify the student\'s identity before displaying student details.</li><li>Please select the student\'s date of birth using the calendar button.</li><li>On some mobile devices, the calendar may display the Buddhist Era according to the device language/region settings. The system will normalize the selected date automatically for student lookup.</li></ul>', birthDateVerified:'Verified against the school database', verifyStudent:'Verify Student', studentVerified:'Student verified', studentResultWaiting:'Student details will appear after the ID and date of birth are verified', thaiFullName:'Thai Full Name', englishFullName:'English Full Name', currentClass:'Current Class', homeroom:'Homeroom Teacher',
     page4:'Page 4', tuitionInformation:'Tuition Fee Information', currentTuition:'Current Tuition Fee', continueFeeCase:'If the student continues studying', returnFeeCase:'If the student withdraws and later wishes to return', feeItem:'Item', feeLevel:'Level', tuitionPerSemester:'Tuition per semester (THB)', feeNote:'Note', feeDataMissing:'Complete tuition fee information is not available for this student. Please contact the Administration Office.', selectIntentionAfterFee:'Please review the tuition information before selecting an intention', selectIntentionAfterFeeHelp:'After confirming the information, select Continue or Withdraw below.', continueHelp:'The student will continue at Sarasas Ektra School', withdrawHelp:'Confirm withdrawal after completing the current level', thirdLanguageM1:'Third-Language Selection for Years 7–9', thirdLanguageM1Help:'Students may choose a third language based on their interests and continue studying it through Year 9', chinese:'Chinese', japanese:'Japanese', english:'English', ackLanguageM1:'I acknowledge that the selected language must be studied continuously through Year 9 without change.', studyPlanTitle:'Study Plan Selection for Years 10–12', gacEligibilityHelp:'For students who have applied for and passed the entrance examination for the GAC Program only.', thirdLanguage:'Third Language', ackLanguageM4:'I acknowledge that the selected language must be studied continuously through Year 12 without change.', nextSchool:'Next School', statisticsOnly:'Used only for school statistical records', withdrawalReason:'Main Reason for Withdrawal',
-    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'Supports PDF, JPG, PNG up to 5 MB per file and 15 MB total.', uploadHelpMultiPage:'You can attach more than one file for each type of supporting document. To select multiple files at once from your computer, hold down the Ctrl key on your keyboard, then click each file you want to attach.', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate / ID card / Passport, and name-change certificate (if applicable).', fatherDocuments:'Father’s Documents', fatherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', motherDocuments:'Mother’s Documents', motherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>Required when the declarant is an Other Guardian</li><li>ID card / Passport, and name-change certificate (if applicable).</li></ul>',
+    page5:'Page 5', uploadEvidence:'Upload Enrolment Documents', uploadHelp:'Supported file formats: PDF, JPG, and PNG. Each file must not exceed 5 MB, and the total size of all uploaded files must not exceed 15 MB.', uploadHelpMultiPage:'You may attach more than one file for each type of supporting document. To select multiple files at the same time on a computer, hold down the <strong>Ctrl</strong> key on your keyboard and click each file you wish to upload.', withdrawNoUpload:'No enrolment documents are required for withdrawal', studentDocuments:'Student Documents', studentFileHelp:'Birth certificate / ID card / Passport, and name-change certificate (if applicable).', fatherDocuments:'Father’s Documents', fatherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', motherDocuments:'Mother’s Documents', motherFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', missingEvidenceHelp:'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments:'Other Guardian’s Documents', guardianFileHelp:'<ul class="list-disc pl-5 space-y-1"><li>Required when the declarant is an Other Guardian</li><li>ID card / Passport, and name-change certificate (if applicable).</li></ul>',
     page6:'Page 6', practiceTitle:'Rules and Regulations', practiceHelp:'Please read the attached Sarasas Ektra School rules and regulations carefully.', practiceAck:'I have read and well understood the terms and conditions in document',
     page7:'Page 7', paymentTitle:'Tuition Payment Channels', continuePaymentExplanation:'The tuition fee for Academic Year 2027 must be paid in full by Friday, 19 February 2027, OR before the collection of any educational documents or student status certificates, whether originals or copies.', withdrawPaymentExplanation:'Students who have submitted a notice of withdrawal may collect academic documents and student certificates, including both original documents and copies, only after all types of fees through Semester 2/2026 have been fully paid.', paymentPending:'Please check the school announcement or contact the Administration Office for payment channels.',
     page8:'Page 8', reviewTitle:'Review and Confirm', finalWarning:'After clicking “Submit Form,” the information cannot be edited and the form cannot be submitted again. Please verify everything carefully.', previous:'Previous', saveDraft:'Save Draft', next:'Next', submitForm:'Submit Form',
-    formOpen:'Form is open', formClosed:'Form is closed', startForm:'Start Form', dashboard:'Dashboard', responses:'Form Responses', reviewStudents:'Student Review', reports:'Reports', students:'Student Management', settings:'System Settings', users:'Users', logs:'Activity Log', home:'Home', refresh:'Refresh', search:'Search', add:'Add', edit:'Edit', delete:'Delete', view:'View', total:'Total', responded:'Responded', pending:'Pending', continue:'Continue', withdraw:'Withdraw', actions:'Actions', status:'Status', className:'Class', teacher:'Homeroom Teacher', sequence:'No.', submittedDate:'Submitted Date'
+    formOpen:'Form is open', formClosed:'Form is closed', startForm:'Start Form', dashboard:'Dashboard', responses:'Form Responses', reviewStudents:'Student Review', summerDiscount:'Summer Discount', reports:'Reports', students:'Student Management', settings:'System Settings', users:'Users', logs:'Activity Log', home:'Home', refresh:'Refresh', search:'Search', add:'Add', edit:'Edit', delete:'Delete', view:'View', total:'Total', responded:'Responded', pending:'Pending', continue:'Continue', withdraw:'Withdraw', actions:'Actions', status:'Status', className:'Class', teacher:'Homeroom Teacher', sequence:'No.', submittedDate:'Submitted Date'
   }
 };
 
@@ -681,7 +710,9 @@ const state = {
   charts: [],
   imageViewer: { items: [], index: 0, zoomIndex: 0 },
   galleries: {},
-  submitting: false
+  submitting: false,
+  dashboardFormType: 'ALL',
+  summerMode: 'summer'
 };
 
 const stepTitles = {
@@ -703,8 +734,8 @@ document.addEventListener('keydown', event => {
 async function initApp() {
   try {
     state.bootstrap = await gas('getAppBootstrap');
-    document.getElementById('siteLogo').src = state.bootstrap.app.logoUrl;
-    document.getElementById('heroLogo').src = state.bootstrap.app.logoUrl;
+    document.getElementById('siteLogo').src = highResImageUrl(state.bootstrap.app.logoUrl);
+    document.getElementById('heroLogo').src = highResImageUrl(state.bootstrap.app.logoUrl);
     document.getElementById('footerText').textContent = state.bootstrap.app.footer;
     renderParentPrefixOptions();
     renderFormCards();
@@ -824,22 +855,33 @@ function renderAdminNavigation() {
   }
   nav.classList.remove('hidden');
   mobileBtn.classList.remove('hidden');
-  const adminAccess = user.role === 'Admin' || user.role === 'SuperAdmin';
-  const dashboardAccess = adminAccess || user.role === 'Registration';
-  const reportAccess = adminAccess || user.role === 'Registration';
-  const items = [
-    ['home','fa-house'],
-    ...(dashboardAccess ? [['dashboard','fa-chart-pie']] : []),
-    ...(adminAccess ? [['responses','fa-file-lines']] : []),
-    ['reviewStudents','fa-clipboard-user'],
-    ...(reportAccess ? [['reports','fa-file-excel']] : []),
-    ...(user.role === 'SuperAdmin' ? [['students','fa-user-graduate']] : []),
-    ...(adminAccess ? [['settings','fa-gears']] : []),
-    ...(user.role === 'SuperAdmin' ? [['users','fa-users-gear'],['logs','fa-clock-rotate-left']] : [])
-  ];
+
+  let items=[];
+  if(user.role==='SuperAdmin') {
+    items=[
+      ['home','fa-house'],['dashboard','fa-chart-pie'],['responses','fa-file-lines'],
+      ['reviewStudents','fa-clipboard-user'],['summerDiscount','fa-tags'],
+      ['reports','fa-file-excel'],['students','fa-user-graduate'],['settings','fa-gears'],
+      ['users','fa-users-gear'],['logs','fa-clock-rotate-left']
+    ];
+  } else if(user.role==='Admin') {
+    items=[
+      ['home','fa-house'],['dashboard','fa-chart-pie'],['responses','fa-file-lines'],
+      ['reviewStudents','fa-clipboard-user'],['summerDiscount','fa-tags'],
+      ['reports','fa-file-excel']
+    ];
+  } else if(user.role==='Teacher') {
+    items=[['reviewStudents','fa-clipboard-user']];
+  } else if(user.role==='Registration') {
+    items=[['dashboard','fa-chart-pie'],['reviewStudents','fa-clipboard-user'],['reports','fa-file-excel']];
+  }
+
+  // V21: never render the retired Tuition Payment menu, even if legacy state survives in cache.
+  items = items.filter(([key]) => key !== 'tuitionPayments');
+
   const buttonHtml = items.map(([key,icon]) => {
     const section = key === 'reviewStudents' ? 'studentReview' : key;
-    return `<button class="nav-btn shrink-0 px-3 py-2 rounded-lg text-sm font-semibold hover:bg-white/10 ${state.adminSection===section?'active':''}" onclick="${key==='home'?'showHome()':`showAdminSection('${section}')`}"><i class="fa-solid ${icon} mr-1.5"></i>${tr(key)}</button>`;
+    return `<button class="nav-btn px-2.5 py-2 rounded-lg font-semibold hover:bg-white/10 ${state.adminSection===section?'active':''}" onclick="${key==='home'?'showHome()':`showAdminSection('${section}')`}"><i class="fa-solid ${icon} mr-1.5"></i>${tr(key)}</button>`;
   }).join('');
   nav.innerHTML = buttonHtml;
   mobile.innerHTML = `<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">${buttonHtml}</div><div class="mt-3 text-xs text-blue-100">${escapeHtml(user.name || user.email)} · ${escapeHtml(user.role)}</div>`;
@@ -1019,6 +1061,27 @@ function renderRequiredDocumentsCards() {
   });
 }
 
+function highResImageUrl(rawUrl) {
+  const raw=String(rawUrl||'').trim();
+  if(!raw || raw.startsWith('blob:') || raw.startsWith('data:')) return raw;
+  try {
+    let url=raw;
+    // Google Drive share URLs -> direct image endpoint at original quality.
+    const driveFile=url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/i);
+    const driveIdQuery=url.match(/[?&]id=([a-zA-Z0-9_-]+)/i);
+    if(driveFile?.[1] || (/drive\.google\.com/i.test(url) && driveIdQuery?.[1])) {
+      const id=(driveFile&&driveFile[1]) || driveIdQuery[1];
+      return `https://lh3.googleusercontent.com/d/${id}`;
+    }
+    // Remove Google image resizing suffixes such as =w800, =s600, =w800-h600.
+    if(/googleusercontent\.com/i.test(url)) {
+      url=url.replace(/=(?:w|s)\d+(?:-[a-z0-9]+)*/ig,'');
+      url=url.replace(/=w\d+-h\d+(?:-[a-z0-9]+)*/ig,'');
+    }
+    return url;
+  } catch(ignore) { return raw; }
+}
+
 function parseImageUrls(raw) {
   if(Array.isArray(raw)) return raw.map(String).map(v=>v.trim()).filter(Boolean);
   const text=String(raw||'').trim();
@@ -1031,7 +1094,7 @@ function parseImageUrls(raw) {
 
 function toImageItems(raw, baseLabel) {
   const urls=parseImageUrls(raw);
-  return urls.map((url,index)=>({url,label:`${baseLabel}${urls.length>1?` ${index+1}`:''}`}));
+  return urls.map((url,index)=>({url:highResImageUrl(url),label:`${baseLabel}${urls.length>1?` ${index+1}`:''}`}));
 }
 
 function renderImageGallery(containerId, items, layout='stack') {
@@ -1059,9 +1122,9 @@ function renderPracticeDocument(){
 
 function renderExampleImages() {
   const data = [
-    {url:setting('EXAMPLE_STUDENT_DOC_URL'),label:state.lang==='th'?'ตัวอย่างบัตรประชาชน':'ID Card Example'},
-    {url:setting('EXAMPLE_PASSPORT_URL'),label:state.lang==='th'?'ตัวอย่าง Passport':'Passport Example'},
-    {url:setting('EXAMPLE_NAME_CHANGE_URL'),label:state.lang==='th'?'ตัวอย่างใบเปลี่ยนชื่อ':'Name-change Document Example'}
+    {url:highResImageUrl(setting('EXAMPLE_STUDENT_DOC_URL')),label:state.lang==='th'?'ตัวอย่างบัตรประชาชน':'ID Card Example'},
+    {url:highResImageUrl(setting('EXAMPLE_PASSPORT_URL')),label:state.lang==='th'?'ตัวอย่าง Passport':'Passport Example'},
+    {url:highResImageUrl(setting('EXAMPLE_NAME_CHANGE_URL')),label:state.lang==='th'?'ตัวอย่างใบเปลี่ยนชื่อ':'Name-change Document Example'}
   ].filter(item=>item.url);
   renderImageGallery('exampleImages',data,'row');
 }
@@ -1082,18 +1145,27 @@ function renderImageViewer(){
   const image=document.getElementById('viewerImage');
   const canvas=document.getElementById('viewerCanvas');
   const stage=document.getElementById('imageViewerStage');
-  canvas.style.width=`${Math.round(zoom*100)}%`;
-  canvas.style.minWidth=`${Math.round(zoom*100)}%`;
-  image.src=item.url;
+  const source=highResImageUrl(item.url);
   image.alt=item.label||'Image';
   image.style.transform='none';
+  image.onload=()=>{
+    const available=Math.max(320,stage.clientWidth-32);
+    const natural=Math.max(1,image.naturalWidth||available);
+    const fitWidth=Math.min(natural,available);
+    // Zoom up to the source's real pixel width. This avoids artificial enlargement / blur.
+    const targetWidth=Math.max(1,Math.min(natural,Math.round(fitWidth*zoom)));
+    image.style.width=`${targetWidth}px`;
+    canvas.style.width=`${Math.max(targetWidth,Math.min(available,natural))}px`;
+    canvas.style.minWidth=canvas.style.width;
+    requestAnimationFrame(()=>{
+      stage.scrollTop=0;
+      stage.scrollLeft=Math.max(0,(stage.scrollWidth-stage.clientWidth)/2);
+    });
+  };
+  image.src=source;
   document.getElementById('viewerTitle').textContent=item.label|| (state.lang==='th'?'รูปภาพ':'Image');
   document.getElementById('viewerCounter').textContent=`${state.imageViewer.index+1} / ${state.imageViewer.items.length}`;
   document.getElementById('viewerZoomLabel').textContent=`${Math.round(zoom*100)}%`;
-  requestAnimationFrame(()=>{
-    stage.scrollTop=0;
-    stage.scrollLeft=Math.max(0,(stage.scrollWidth-stage.clientWidth)/2);
-  });
 }
 function changeViewerImage(delta){const total=state.imageViewer.items.length;if(!total)return;state.imageViewer.index=(state.imageViewer.index+delta+total)%total;state.imageViewer.zoomIndex=0;renderImageViewer();}
 function changeViewerZoom(delta){state.imageViewer.zoomIndex=Math.max(0,Math.min(3,state.imageViewer.zoomIndex+delta));renderImageViewer();}
@@ -1271,9 +1343,7 @@ function toggleRelationshipOther() {
   const label=document.getElementById('guardianFileLabel');
   if(label) label.classList.toggle('required',isGuardian);
   const help=document.getElementById('guardianFileHelp');
-  if(help) help.textContent=isGuardian
-    ? (state.lang==='th'?'บังคับแนบ เนื่องจากผู้แจ้งความจำนงเลือกเป็นผู้ปกครองอื่น':'Required because the declarant is an Other Guardian')
-    : tr('guardianFileHelp');
+  if(help) help.innerHTML=tr('guardianFileHelp');
 }
 
 
@@ -2104,6 +2174,7 @@ async function showAdminSection(section, refreshOnly=false) {
     else if(section==='responses') await loadResponses();
     else if(section==='studentReview') await loadStudentReview();
     else if(section==='reports') await loadReports();
+    else if(section==='summerDiscount') await loadSummerDiscount('summer');
     else if(section==='students') await loadStudents();
     else if(section==='settings') await loadSettings();
     else if(section==='users') await loadUsers();
@@ -2132,7 +2203,7 @@ async function refreshAdminSection(section){
 
 async function loadDashboard() {
   destroyCharts();
-  const data=await gas('getDashboardData'); const o=data.overall;
+  const data=await gas('getDashboardData',{formType:state.dashboardFormType||'ALL'}); const o=data.overall;
   const cards=[
     [tr('total'),o.total,o.totalPercent,'fa-users','border-blue-300 bg-blue-50 text-blue-700',state.lang==='th'?'นักเรียนทั้งหมด':'All students'],
     [tr('responded'),o.responded,o.responsePercent,'fa-file-circle-check','border-emerald-300 bg-emerald-50 text-emerald-700',state.lang==='th'?'เทียบกับนักเรียนทั้งหมด':'of all students'],
@@ -2147,7 +2218,8 @@ async function loadDashboard() {
     return `<div class="card p-5 border-2 ${tone}"><div class="flex items-start justify-between gap-3"><div><p class="text-sm font-bold text-slate-600">${escapeHtml(titles[level.formType]||level.formType)}</p><p class="text-3xl font-extrabold text-brand-navy mt-1">${level.total}</p><p class="text-xs text-slate-500">${state.lang==='th'?'นักเรียนทั้งหมด':'Total students'}</p></div><div class="w-11 h-11 rounded-xl bg-white border text-brand-navy flex items-center justify-center"><i class="fa-solid ${icons[index]||'fa-school'}"></i></div></div><div class="mt-4 grid grid-cols-2 gap-2 text-xs"><span class="badge justify-center bg-emerald-100 text-emerald-700">${tr('responded')} ${level.responded} (${level.responsePercent}%)</span><span class="badge justify-center bg-amber-100 text-amber-700">${tr('pending')} ${level.pending} (${level.pendingPercent}%)</span><span class="badge justify-center bg-indigo-100 text-indigo-700">${tr('continue')} ${level.continueCount} (${level.continuePercent}%)</span><span class="badge justify-center bg-rose-100 text-rose-700">${tr('withdraw')} ${level.withdrawCount} (${level.withdrawPercent}%)</span></div></div>`;
   }).join('');
   document.getElementById('adminContent').innerHTML=adminHeader(tr('dashboard'),'fa-chart-pie',`<button onclick="refreshAdminSection('dashboard')" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
-    `<div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">${cards.map(([label,num,pct,icon,cls,note])=>`<div class="card p-5 border-2 ${cls}"><div class="flex items-start justify-between"><div class="w-10 h-10 rounded-xl bg-white/80 border flex items-center justify-center"><i class="fa-solid ${icon}"></i></div><span class="badge bg-white/80 text-current border">${pct}%</span></div><p class="text-slate-600 text-sm mt-3">${label}</p><p class="text-3xl font-extrabold text-brand-navy">${num}</p><p class="text-xs text-slate-500 mt-1">${escapeHtml(note)}</p></div>`).join('')}</div>
+    `<div class="card p-4 mb-5 border-2 border-blue-200 bg-blue-50/30"><div class="grid md:grid-cols-[280px_auto] gap-3 items-end"><div><label class="label">${state.lang==='th'?'กรองข้อมูลตาม Form':'Filter by Form'}</label><select id="dashboardFormType" class="input" onchange="changeDashboardFormFilter(this.value)"><option value="ALL" ${(state.dashboardFormType||'ALL')==='ALL'?'selected':''}>${state.lang==='th'?'ทั้งหมด':'All'}</option><option value="P1" ${state.dashboardFormType==='P1'?'selected':''}>Year 1</option><option value="M1" ${state.dashboardFormType==='M1'?'selected':''}>Year 7</option><option value="M4" ${state.dashboardFormType==='M4'?'selected':''}>Year 10</option></select></div><div class="text-sm text-slate-500 pb-3">${state.lang==='th'?'ตัวกรองมีผลกับการ์ด ตาราง กราฟ และโรงเรียนปลายทางทั้งหมด':'The filter applies to all cards, tables, charts, and next-school data.'}</div></div></div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">${cards.map(([label,num,pct,icon,cls,note])=>`<div class="card p-5 border-2 ${cls}"><div class="flex items-start justify-between"><div class="w-10 h-10 rounded-xl bg-white/80 border flex items-center justify-center"><i class="fa-solid ${icon}"></i></div><span class="badge bg-white/80 text-current border">${pct}%</span></div><p class="text-slate-600 text-sm mt-3">${label}</p><p class="text-3xl font-extrabold text-brand-navy">${num}</p><p class="text-xs text-slate-500 mt-1">${escapeHtml(note)}</p></div>`).join('')}</div>
     <div class="mt-5"><h3 class="font-extrabold text-brand-navy mb-3">${state.lang==='th'?'จำนวนนักเรียนแยกตามระดับชั้นที่จะศึกษาต่อ':'Students by Target Level'}</h3><div class="grid md:grid-cols-3 gap-4">${levelCards}</div></div>
     <div class="grid lg:grid-cols-2 gap-5 mt-5 items-stretch"><div class="card chart-card p-5 border border-indigo-200 bg-indigo-50/20"><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'สรุปความประสงค์':'Intention Summary'}</h3><div id="intentionChart" class="chart-container"></div></div><div class="card chart-card p-5 border border-emerald-200 bg-emerald-50/20"><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'สถานะการตอบกลับ':'Response Status'}</h3><div id="responseChart" class="chart-container"></div></div></div>
     <div class="card p-5 mt-5 border-2 border-slate-200 bg-slate-50/50"><h3 class="font-extrabold text-brand-navy mb-4">${state.lang==='th'?'สรุปตามชั้นเรียนและครูประจำชั้น':'Summary by Class and Homeroom Teacher'}</h3>${dashboardTable(data.table)}<p class="text-xs text-slate-400 mt-3">${state.lang==='th'?'อัปเดตล่าสุด':'Last updated'}: ${escapeHtml(data.generatedAt)}</p></div>
@@ -2173,6 +2245,8 @@ function dashboardTable(rows) {
   return `<div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('teacher')}</th><th>${tr('className')}</th><th>${tr('total')}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${tr('continue')}</th><th>${tr('withdraw')}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${escapeHtml(r.teacher)}</td><td class="font-bold">${escapeHtml(r.className)}</td><td>${r.total}</td><td>${r.responded} <small class="text-slate-500">(${r.responsePercent}%)</small></td><td>${r.pending} <small class="text-slate-500">(${r.pendingPercent}%)</small></td><td>${r.continueCount} <small class="text-slate-500">(${r.continuePercent}%)</small></td><td>${r.withdrawCount} <small class="text-slate-500">(${r.withdrawPercent}%)</small></td></tr>`).join('')||`<tr><td colspan="7" class="text-center text-slate-500">No data</td></tr>`}</tbody></table></div>`;
 }
 
+async function changeDashboardFormFilter(value){ state.dashboardFormType=value||'ALL'; showBusy(state.lang==='th'?'กำลังกรองข้อมูล Dashboard...':'Filtering dashboard...'); try{await loadDashboard();Swal.close();}catch(error){Swal.close();Swal.fire({icon:'error',title:state.lang==='th'?'กรองข้อมูลไม่สำเร็จ':'Unable to filter',text:error.message});}}
+
 function nextSchoolsTable(rows){
   return `<div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${state.lang==='th'?'ลำดับ':'No.'}</th><th>${state.lang==='th'?'ชื่อโรงเรียน':'School Name'}</th><th>${state.lang==='th'?'จำนวนนักเรียน':'Students'}</th><th>%</th></tr></thead><tbody>${rows.map((r,i)=>`<tr><td class="text-center font-bold">${i+1}</td><td class="font-semibold">${escapeHtml(r.schoolName||'-')}</td><td>${r.count}</td><td>${r.percent}%</td></tr>`).join('')||`<tr><td colspan="4" class="text-center text-slate-500 py-8">${state.lang==='th'?'ยังไม่มีข้อมูลโรงเรียนปลายทาง':'No next-school data'}</td></tr>`}</tbody></table></div>`;
 }
@@ -2190,7 +2264,7 @@ async function loadResponses() {
       </button>`
     ) +
     `<div class="card p-4 mb-5">
-      <div class="grid md:grid-cols-4 gap-3">
+      <div class="grid md:grid-cols-5 gap-3">
         <input id="responseSearch" class="input" placeholder="${tr('search')}...">
         <select id="responseStatus" class="input">
           <option value="">${tr('status')}: ${state.lang==='th'?'ทั้งหมด':'All'}</option>
@@ -2202,6 +2276,11 @@ async function loadResponses() {
         <select id="responseFormType" class="input">
           <option value="">Form: ${state.lang==='th'?'ทั้งหมด':'All'}</option>
           <option value="P1">Year 1</option><option value="M1">Year 7</option><option value="M4">Year 10</option>
+        </select>
+        <select id="responseIntention" class="input">
+          <option value="">${state.lang==='th'?'ความประสงค์: ทั้งหมด':'Intention: All'}</option>
+          <option value="CONTINUE">${tr('continue')}</option>
+          <option value="WITHDRAW">${tr('withdraw')}</option>
         </select>
         <button onclick="refreshResponsesTable()" class="btn-primary">
           <i class="fa-solid fa-magnifying-glass mr-2"></i>${tr('search')}
@@ -2240,7 +2319,8 @@ async function refreshResponsesTable() {
   const filters={
     search:value('responseSearch'),
     status:value('responseStatus'),
-    formType:value('responseFormType')
+    formType:value('responseFormType'),
+    intention:value('responseIntention')
   };
 
   const data=await gas('getSubmissions',filters);
@@ -2341,6 +2421,14 @@ async function refreshResponsesTable() {
   }
 }
 
+function historyAttachmentLinks(raw){
+  if(!raw)return'-';
+  let files=[];
+  try{files=Array.isArray(raw)?raw:JSON.parse(raw);}catch(ignore){files=[];}
+  if(!files.length)return'-';
+  return files.map(f=>`<a href="${escapeAttr(f.url||'#')}" target="_blank" class="inline-flex items-center gap-1 mr-2 mb-1 text-blue-700 underline"><i class="fa-solid fa-paperclip"></i>${escapeHtml(f.name||'Attachment')}</a>`).join('');
+}
+
 async function refreshSubmissionEditHistory() {
   const container=document.getElementById('submissionEditHistory');
   if(!container) return;
@@ -2376,12 +2464,13 @@ async function refreshSubmissionEditHistory() {
       <td class="min-w-[220px] whitespace-pre-line align-top">
         ${escapeHtml(row.Reason||'-')}
       </td>
+      <td class="min-w-[220px] align-top">${historyAttachmentLinks(row.Attachments)}</td>
       <td class="min-w-[180px]">
         <p class="font-bold">${escapeHtml(row.EditorName||row.EditorEmail||'-')}</p>
         ${row.EditorEmail?`<p class="text-xs text-slate-500">${escapeHtml(row.EditorEmail)}</p>`:''}
       </td>
     </tr>`).join('')||
-    `<tr><td colspan="9" class="text-center text-slate-500 py-8">
+    `<tr><td colspan="10" class="text-center text-slate-500 py-8">
       ${state.lang==='th'?'ยังไม่มีประวัติการแก้ไข':'No edit history'}
     </td></tr>`;
 
@@ -2395,7 +2484,7 @@ async function refreshSubmissionEditHistory() {
         </p>
       </div>
       <div class="table-wrap enhanced-table-wrap">
-        <table class="enhanced-table min-w-[1750px]">
+        <table class="enhanced-table min-w-[1950px]">
           <thead>
             <tr>
               <th>วันที่ดำเนินการ</th>
@@ -2406,6 +2495,7 @@ async function refreshSubmissionEditHistory() {
               <th>ข้อมูลเดิม</th>
               <th>ข้อมูลใหม่</th>
               <th>รายละเอียดเหตุผล</th>
+              <th>คำร้อง/เอกสารแนบ</th>
               <th>ชื่อผู้ใช้งานที่แก้ไข</th>
             </tr>
           </thead>
@@ -2683,6 +2773,11 @@ async function editSubmissionById(submissionId) {
       <p class="text-xs text-rose-700 mt-2">
         ระบบจะบันทึกข้อมูลเดิม ข้อมูลใหม่ เหตุผล และชื่อผู้แก้ไขไว้ในประวัติ
       </p>
+    </div>`,
+    `<div class="rounded-2xl border-2 border-blue-200 bg-blue-50/40 p-5">
+      <label class="label text-brand-navy">แนบไฟล์คำร้องและเอกสารแนบ <span class="text-slate-400 font-normal">(ไม่บังคับ)</span></label>
+      <input id="editAttachmentFiles" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" class="input bg-white">
+      <p class="text-xs text-slate-500 mt-2">รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมไม่เกิน 15 MB</p>
     </div>`
   ].join('<div class="h-4"></div>');
 
@@ -2697,7 +2792,7 @@ async function editSubmissionById(submissionId) {
     didOpen:()=>{
       syncSubmissionEditFields(r.FormType||'P1');
     },
-    preConfirm:()=>{
+    preConfirm:async()=>{
       const intention=value('editIntention');
       const thirdLanguage=value('editThirdLanguage');
       const studyPlan=value('editStudyPlan');
@@ -2750,6 +2845,13 @@ async function editSubmissionById(submissionId) {
 
       }
 
+      const editInput=document.getElementById('editAttachmentFiles');
+      const editFiles=[...(editInput?.files||[])];
+      let editTotal=0;
+      if(editFiles.length>6){Swal.showValidationMessage('แนบไฟล์คำร้อง/เอกสารประกอบได้ไม่เกิน 6 ไฟล์');return false;}
+      for(const file of editFiles){editTotal+=file.size;if(file.size>5*1024*1024){Swal.showValidationMessage(`${file.name} มีขนาดเกิน 5 MB`);return false;}if(!['application/pdf','image/jpeg','image/png'].includes(file.type)){Swal.showValidationMessage(`${file.name} เป็นชนิดไฟล์ที่ไม่รองรับ`);return false;}}
+      if(editTotal>15*1024*1024){Swal.showValidationMessage('ขนาดไฟล์คำร้อง/เอกสารแนบรวมต้องไม่เกิน 15 MB');return false;}
+      const editPayload=await filesToPayload('editAttachmentFiles');
       return {
         SubmissionId:r.SubmissionId,
         Intention:intention,
@@ -2757,7 +2859,8 @@ async function editSubmissionById(submissionId) {
         StudyPlan:studyPlan,
         NextSchool:nextSchool,
         WithdrawalReason:withdrawalReason,
-        EditReason:editReason
+        EditReason:editReason,
+        EditFiles:editPayload
       };
     }
     });
@@ -2857,12 +2960,13 @@ async function loadStudentReview() {
   document.getElementById('adminContent').innerHTML=adminHeader(tr('reviewStudents'),'fa-clipboard-user',`<button onclick="refreshAdminSection('studentReview')" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
     `${noAssigned?`<div class="card p-5 mb-5 border-l-4 border-amber-500"><h3 class="font-extrabold text-amber-800">${state.lang==='th'?'ยังไม่ได้กำหนดชั้นเรียนสำหรับบัญชีครู':'No classes assigned to this teacher account'}</h3><p class="text-sm text-slate-600 mt-1">${state.lang==='th'?'ให้ SuperAdmin ระบุห้องในช่อง AssignedClasses ของเมนูผู้ใช้งาน เช่น Y.6A,Y.6B':'Ask a SuperAdmin to set AssignedClasses, for example Y.6A,Y.6B.'}</p></div>`:''}
     <div class="card p-5 border-2 border-blue-200 bg-blue-50/30"><div class="flex flex-wrap items-center justify-between gap-3 mb-4"><div><h3 class="font-extrabold text-brand-navy">${state.lang==='th'?'ตารางที่ 1: สรุปจำนวนแต่ละชั้น':'Table 1: Class Summary'}</h3><p class="text-sm text-slate-500">${state.lang==='th'?'ตรวจสอบสถานะการกรอกแบบฟอร์มของนักเรียนแต่ละห้อง':'Review form completion by class'}</p></div><span class="text-xs text-slate-400">${state.lang==='th'?'อัปเดตล่าสุด':'Last updated'}: ${escapeHtml(data.generatedAt||'')}</span></div>
-    <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('className')}</th><th>${tr('teacher')}</th><th>${state.lang==='th'?'จำนวนนักเรียนทั้งหมด':'Total Students'}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${state.lang==='th'?'ตรวจสอบรายชื่อ':'Review Names'}</th></tr></thead><tbody>${data.rows.map(row=>`<tr><td class="font-extrabold text-brand-navy">${escapeHtml(row.className)}</td><td>${escapeHtml(row.teacher||'-')}</td><td>${row.total}</td><td><span class="font-bold text-emerald-700">${row.responded}</span> <small class="text-slate-400">(${row.respondedPercent}%)</small></td><td><span class="font-bold text-amber-700">${row.pending}</span> <small class="text-slate-400">(${row.pendingPercent}%)</small></td><td><button onclick="openStudentReviewClass('${escapeAttr(row.className)}')" class="btn-primary !py-2 !px-3 text-sm"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>${state.lang==='th'?'ตรวจสอบรายชื่อ':'Review'}</button></td></tr>`).join('')||`<tr><td colspan="6" class="text-center text-slate-500 py-8">${state.lang==='th'?'ไม่พบข้อมูลชั้นเรียน':'No class data'}</td></tr>`}</tbody></table></div></div>`;
+    <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('className')}</th><th>${tr('teacher')}</th><th>${state.lang==='th'?'จำนวนนักเรียนทั้งหมด':'Total Students'}</th><th>${tr('responded')}</th><th>${tr('pending')}</th><th>${state.lang==='th'?'ตรวจสอบรายชื่อ':'Review Names'}</th></tr></thead><tbody>${data.rows.map(row=>`<tr><td class="font-extrabold text-brand-navy">${escapeHtml(row.className)}</td><td>${escapeHtml(row.teacher||'-')}</td><td>${row.total}</td><td><div><span class="font-bold text-emerald-700">${row.responded}</span> <small class="text-slate-400">(${row.respondedPercent}%)</small></div><div class="mt-2 flex flex-col gap-1"><span class="text-xs font-semibold text-indigo-700">${tr('continue')} ${row.continueCount||0} (${row.continuePercent||0}%)</span><span class="text-xs font-semibold text-rose-700">${tr('withdraw')} ${row.withdrawCount||0} (${row.withdrawPercent||0}%)</span></div></td><td><span class="font-bold text-amber-700">${row.pending}</span> <small class="text-slate-400">(${row.pendingPercent}%)</small></td><td><button onclick="openStudentReviewClass('${escapeAttr(row.className)}')" class="btn-primary !py-2 !px-3 text-sm"><i class="fa-solid fa-magnifying-glass mr-1.5"></i>${state.lang==='th'?'ตรวจสอบรายชื่อ':'Review'}</button></td></tr>`).join('')||`<tr><td colspan="6" class="text-center text-slate-500 py-8">${state.lang==='th'?'ไม่พบข้อมูลชั้นเรียน':'No class data'}</td></tr>`}</tbody></table></div></div>`;
 }
 
 async function openStudentReviewClass(className) {
   state.reviewClass=className;
-  await refreshStudentReviewDetail();
+  showBusy(state.lang==='th'?'กำลังโหลดข้อมูลรายชื่อนักเรียน...':'Loading student list...');
+  try{await refreshStudentReviewDetail();Swal.close();}catch(error){Swal.close();await Swal.fire({icon:'error',title:state.lang==='th'?'โหลดข้อมูลไม่สำเร็จ':'Unable to load data',text:error.message});}
 }
 
 async function refreshStudentReviewDetail() {
@@ -2870,7 +2974,7 @@ async function refreshStudentReviewDetail() {
   const data=await gas('getStudentReviewDetails',state.reviewClass);
   const tableRows=(rows,isResponded)=>rows.map(row=>`<tr><td class="font-bold">${escapeHtml(row.studentId)}</td><td>${escapeHtml(row.studentNameTH||'-')}</td><td>${reviewStatusBadge(row.status)}</td><td class="whitespace-nowrap">${isResponded?formatDate(row.submittedAt):'-'}</td></tr>`).join('')||`<tr><td colspan="4" class="text-center text-slate-500 py-8">${state.lang==='th'?'ไม่มีรายชื่อ':'No students'}</td></tr>`;
   document.getElementById('adminContent').innerHTML=adminHeader(`${tr('reviewStudents')} · ${data.className}`,'fa-clipboard-user',`<button onclick="refreshAdminSection('studentReview')" class="btn-light"><i class="fa-solid fa-arrow-left mr-2"></i>${state.lang==='th'?'กลับตารางสรุป':'Back'}</button><button onclick="refreshStudentReviewDetail()" class="btn-primary"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`) +
-    `<div class="card p-5 mb-5"><div class="flex flex-wrap items-center justify-between gap-4"><div><p class="text-sm text-slate-500">${tr('teacher')}</p><h3 class="text-xl font-extrabold text-brand-navy">${escapeHtml(data.teacher||'-')}</h3></div><div class="flex flex-wrap gap-3"><span class="badge bg-blue-100 text-blue-700">${tr('total')} ${data.total}</span><span class="badge bg-emerald-100 text-emerald-700">${tr('responded')} ${data.respondedCount} (${data.respondedPercent}%)</span><span class="badge bg-amber-100 text-amber-700">${tr('pending')} ${data.pendingCount} (${data.pendingPercent}%)</span></div></div></div>
+    `<div class="card p-5 mb-5"><div class="flex flex-wrap items-center justify-between gap-4"><div><p class="text-sm text-slate-500">${tr('teacher')}</p><h3 class="text-xl font-extrabold text-brand-navy">${escapeHtml(data.teacher||'-')}</h3></div><div class="flex flex-wrap gap-3"><span class="badge bg-blue-100 text-blue-700">${tr('total')} ${data.total}</span><span class="badge bg-emerald-100 text-emerald-700">${tr('responded')} ${data.respondedCount} (${data.respondedPercent}%)</span><span class="badge bg-amber-100 text-amber-700">${tr('pending')} ${data.pendingCount} (${data.pendingPercent}%)</span><span class="badge bg-indigo-100 text-indigo-700">${tr('continue')} ${data.continueCount||0} (${data.continuePercent||0}%)</span><span class="badge bg-rose-100 text-rose-700">${tr('withdraw')} ${data.withdrawCount||0} (${data.withdrawPercent||0}%)</span></div></div></div>
     <div class="grid lg:grid-cols-2 gap-5">
       <div class="card overflow-hidden border-2 border-emerald-300 bg-emerald-50/20"><div class="p-5 bg-emerald-50 border-b border-emerald-100"><h3 class="font-extrabold text-emerald-800"><i class="fa-solid fa-circle-check mr-2"></i>${state.lang==='th'?'กรอกแบบฟอร์มแล้ว':'Form Completed'} · ${data.respondedCount}</h3></div><div class="p-4"><div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุล ภาษาไทย':'Thai Full Name'}</th><th>${tr('status')}</th><th>${tr('submittedDate')}</th></tr></thead><tbody>${tableRows(data.responded,true)}</tbody></table></div></div></div>
       <div class="card overflow-hidden border-2 border-amber-300 bg-amber-50/20"><div class="p-5 bg-amber-50 border-b border-amber-100"><h3 class="font-extrabold text-amber-800"><i class="fa-solid fa-hourglass-half mr-2"></i>${state.lang==='th'?'ยังไม่กรอกแบบฟอร์ม':'Form Pending'} · ${data.pendingCount}</h3></div><div class="p-4"><div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุล ภาษาไทย':'Thai Full Name'}</th><th>${tr('status')}</th><th>${tr('submittedDate')}</th></tr></thead><tbody>${tableRows(data.pending,false)}</tbody></table></div></div></div>
@@ -2884,6 +2988,56 @@ function reviewStatusBadge(status) {
   return `<span class="badge bg-emerald-100 text-emerald-700">${escapeHtml(status||tr('responded'))}</span>`;
 }
 
+
+
+async function loadSummerDiscount(mode='summer') {
+  const role=state.bootstrap.user.role;
+  if(!['SuperAdmin','Admin'].includes(role)) {
+    document.getElementById('adminContent').innerHTML=`<div class="card p-8 text-center"><i class="fa-solid fa-lock text-4xl text-rose-500"></i><h3 class="mt-3 font-extrabold text-xl">${state.lang==='th'?'ไม่มีสิทธิ์ใช้งานเมนูนี้':'No access'}</h3></div>`;
+    return;
+  }
+  state.summerMode=mode;
+  const title=tr('summerDiscount');
+  document.getElementById('adminContent').innerHTML=adminHeader(title,'fa-tags',`<button onclick="refreshSummerDiscountTable()" class="btn-light"><i class="fa-solid fa-rotate mr-2"></i>${tr('refresh')}</button>`)+`
+    <div class="card p-4 mb-5 border-2 border-amber-200 bg-amber-50/30">
+      <div class="grid md:grid-cols-4 gap-3">
+        <input id="summerSearch" class="input" placeholder="${tr('search')}...">
+        <select id="summerFormType" class="input"><option value="">Form: ${state.lang==='th'?'ทั้งหมด':'All'}</option><option value="P1">Year 1</option><option value="M1">Year 7</option><option value="M4">Year 10</option></select>
+        <select id="summerIntention" class="input"><option value="">${state.lang==='th'?'ความประสงค์: ทั้งหมด':'Intention: All'}</option><option value="CONTINUE">${tr('continue')}</option><option value="WITHDRAW">${tr('withdraw')}</option></select>
+        <button onclick="refreshSummerDiscountTable()" class="btn-primary"><i class="fa-solid fa-filter mr-2"></i>${state.lang==='th'?'กรองข้อมูล':'Filter'}</button>
+      </div>
+    </div>
+    <div id="summerDiscountTable" class="card p-5">${adminLoading()}</div>`;
+  await refreshSummerDiscountTable();
+}
+
+async function refreshSummerDiscountTable(){
+  const holder=document.getElementById('summerDiscountTable'); if(!holder)return;
+  holder.innerHTML=adminLoading();
+  const data=await gas('getSummerDiscountData',{search:value('summerSearch'),formType:value('summerFormType'),intention:value('summerIntention')});
+  window.__summerRows=data.rows||[];
+  const rows=(data.rows||[]).map((r,i)=>`<tr>
+    <td class="whitespace-nowrap">${formatDate(r.SubmittedAt)}</td>
+    <td>${r.PaymentStatus==='PAID'?'<span class="badge bg-emerald-100 text-emerald-700">ชำระค่าเทอมแล้ว</span>':'<span class="badge bg-amber-100 text-amber-700">รอตรวจสอบการชำระ</span>'}</td>
+    <td class="font-bold text-brand-navy">${escapeHtml(r.StudentId)}</td>
+    <td>${escapeHtml(r.StudentNameTH||'-')}</td>
+    <td><span class="badge bg-blue-50 text-blue-800">${escapeHtml(r.CurrentClass||'-')}</span></td>
+    <td>${intentionBadge(r.IntentionCode||r.Intention)}</td>
+    <td><button onclick="openSummerManage(${i})" class="btn-primary !py-2 !px-3 text-sm"><i class="fa-solid fa-pen-to-square mr-1"></i>${state.lang==='th'?'จัดการ':'Manage'}</button></td>
+  </tr>`).join('')||`<tr><td colspan="7" class="text-center text-slate-500 py-8">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`;
+  holder.innerHTML=`<div class="flex flex-wrap justify-between gap-3 mb-4"><h3 class="font-extrabold text-brand-navy">${tr('total')}: ${data.total}</h3><span class="text-xs text-slate-400">${escapeHtml(data.generatedAt||'')}</span></div><div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>${state.lang==='th'?'วันที่กรอก':'Submitted Date'}</th><th>${tr('status')}</th><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name'}</th><th>${tr('className')}</th><th>${state.lang==='th'?'ความประสงค์':'Intention'}</th><th>${tr('actions')}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+async function openSummerManage(index){
+  const r=(window.__summerRows||[])[index]; if(!r)return;
+  const paidDate=inputDateValue(r.TuitionPaidDate), summerDate=inputDateValue(r.SummerPaidDate);
+  const studentCard=`<div class="rounded-2xl border-2 border-blue-200 bg-blue-50/40 p-4"><h3 class="font-extrabold text-brand-navy mb-3">ส่วนที่ 1: ข้อมูลนักเรียน</h3><div class="grid sm:grid-cols-2 gap-3 text-sm"><div><b>วันที่กรอก:</b> ${escapeHtml(formatDate(r.SubmittedAt))}</div><div><b>สถานะ:</b> ${r.PaymentStatus==='PAID'?'ชำระค่าเทอมแล้ว':'รอตรวจสอบการชำระ'}</div><div><b>รหัสนักเรียน:</b> ${escapeHtml(r.StudentId)}</div><div><b>ชื่อ-นามสกุล:</b> ${escapeHtml(r.StudentNameTH||'-')}</div><div><b>ชั้นเรียน:</b> ${escapeHtml(r.CurrentClass||'-')}</div><div><b>ความประสงค์:</b> ${escapeHtml(r.Intention||'-')}</div></div></div>`;
+  await Swal.fire({width:920,title:`${tr('summerDiscount')} · ${escapeHtml(r.StudentId)}`,html:`<div class="text-left space-y-4">${studentCard}<div class="rounded-2xl border-2 border-emerald-200 bg-emerald-50/30 p-4"><h3 class="font-extrabold text-emerald-800 mb-3">ส่วนที่ 2: ตรวจสอบการชำระค่าเทอม</h3><div class="grid sm:grid-cols-2 gap-3"><div><label class="label">วันที่ชำระค่าเทอมครบ</label><input id="summerTuitionPaidDate" type="date" class="input" value="${escapeAttr(paidDate)}"></div><div><label class="label">เลขที่ใบเสร็จค่าเทอม</label><input id="summerReceiptNo" class="input" value="${escapeAttr(r.TuitionReceiptNo||'')}"></div></div><label class="mt-4 flex items-center gap-2 font-semibold"><input id="summerEligible" type="checkbox" class="w-5 h-5" ${r.SummerDiscountEligible?'checked':''}> ได้รับส่วนลด Summer 1,500 บาท</label><button type="button" onclick="saveSummerTuitionFromDialog('${escapeAttr(r.StudentId)}')" class="btn-primary mt-4"><i class="fa-solid fa-floppy-disk mr-2"></i>บันทึกการตรวจสอบค่าเทอม</button></div><div class="rounded-2xl border-2 border-amber-200 bg-amber-50/30 p-4"><h3 class="font-extrabold text-amber-800 mb-3">ส่วนที่ 3: บันทึกการใช้ส่วนลด Summer</h3><label class="flex items-center gap-2 font-semibold"><input id="summerUsed" type="checkbox" class="w-5 h-5" ${r.SummerDiscountUsed?'checked':''}> ใช้ส่วนลด Summer 1,500 บาท แล้ว</label><div class="mt-3"><label class="label">วันที่ชำระค่า Summer</label><input id="summerPaidDate" type="date" class="input" value="${escapeAttr(summerDate)}"></div><button type="button" onclick="saveSummerUsageFromDialog('${escapeAttr(r.StudentId)}')" class="btn-gold mt-4"><i class="fa-solid fa-tags mr-2"></i>บันทึกการใช้ส่วนลด Summer</button></div></div>`,showConfirmButton:false,showCloseButton:true});
+}
+
+function inputDateValue(v){if(!v)return'';const d=new Date(v);if(Number.isNaN(d.getTime()))return String(v).slice(0,10);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;}
+async function saveSummerTuitionFromDialog(studentId){const payload={StudentId:studentId,TuitionPaidDate:value('summerTuitionPaidDate'),TuitionReceiptNo:value('summerReceiptNo'),SummerDiscountEligible:Boolean(document.getElementById('summerEligible')?.checked)};showBusy('กำลังบันทึกข้อมูลการชำระค่าเทอม...');try{await gas('saveSummerTuitionCheck',payload);Swal.close();await Swal.fire({icon:'success',title:'บันทึกข้อมูลการชำระค่าเทอมเรียบร้อยแล้ว',timer:1500,showConfirmButton:false});await loadSummerDiscount(state.summerMode||'summer');}catch(error){Swal.close();await Swal.fire({icon:'error',title:'บันทึกไม่สำเร็จ',text:error.message});}}
+async function saveSummerUsageFromDialog(studentId){const payload={StudentId:studentId,SummerDiscountUsed:Boolean(document.getElementById('summerUsed')?.checked),SummerPaidDate:value('summerPaidDate')};showBusy('กำลังบันทึกการใช้ส่วนลด Summer...');try{await gas('saveSummerDiscountUsage',payload);Swal.close();await Swal.fire({icon:'success',title:'บันทึกการใช้ส่วนลด Summer เรียบร้อยแล้ว',timer:1500,showConfirmButton:false});await loadSummerDiscount(state.summerMode||'summer');}catch(error){Swal.close();await Swal.fire({icon:'error',title:'บันทึกไม่สำเร็จ',text:error.message});}}
 
 async function loadReports() {
   const role=state.bootstrap.user.role;
@@ -2953,8 +3107,16 @@ async function refreshReports() {
       <td><span class="badge bg-blue-50 text-blue-800 border border-blue-200">${escapeHtml(r.className||'-')}</span></td>
       <td>${reportResponseStatusBadge(r.responseStatusCode)}</td>
       <td>${intentionBadge(r.intentionCode||r.intention)}</td>
+      <td>${escapeHtml(r.studyPlan||'-')}</td>
+      <td>${escapeHtml(r.thirdLanguage||'-')}</td>
       <td>${escapeHtml(r.nextSchool||'-')}</td>
+      <td>${escapeHtml(r.withdrawalReason||'-')}</td>
       <td>${r.historyCount?`<button onclick="showReportHistory(${i})" class="btn-light !py-1.5 !px-3 text-xs"><i class="fa-solid fa-clock-rotate-left mr-1"></i>${state.lang==='th'?'ดูประวัติ':'History'} (${r.historyCount})</button>`:'-'}</td>
+      <td class="whitespace-nowrap">${escapeHtml(r.tuitionPaidDate||'-')}</td>
+      <td>${escapeHtml(r.tuitionReceiptNo||'-')}</td>
+      <td>${r.summerDiscountEligible?'<span class="badge bg-emerald-100 text-emerald-700">ได้รับสิทธิ์</span>':'-'}</td>
+      <td>${r.summerDiscountUsed?'<span class="badge bg-amber-100 text-amber-700">ใช้สิทธิ์แล้ว</span>':'-'}</td>
+      <td class="whitespace-nowrap">${escapeHtml(r.summerPaidDate||'-')}</td>
     </tr>`).join('');
     holder.innerHTML=`
       <div class="card p-5 border-2 border-blue-200 bg-blue-50/20">
@@ -2968,7 +3130,24 @@ async function refreshReports() {
       </div>
       <div class="card p-5 mt-5 border-2 border-emerald-200 bg-emerald-50/20">
         <div class="flex flex-wrap items-center justify-between gap-3 mb-4"><h3 class="text-xl font-extrabold text-brand-navy">3. ${state.lang==='th'?'รายงานข้อมูลการแจ้งความจำนง':'Intention Report'}</h3><span class="badge bg-white border text-brand-navy">${tr('total')} ${(data.intentionRows||[]).length}</span></div>
-        <div class="table-wrap enhanced-table-wrap"><table class="enhanced-table"><thead><tr><th>Sequence</th><th>${tr('studentId')}</th><th>${state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name'}</th><th>${tr('className')}</th><th>${state.lang==='th'?'สถานะ':'Status'}</th><th>${state.lang==='th'?'ความประสงค์':'Intention'}</th><th>${state.lang==='th'?'โรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next School'}</th><th>${state.lang==='th'?'ประวัติการแก้ไข':'Edit History'}</th></tr></thead><tbody>${intentionRows||`<tr><td colspan="8" class="text-center py-6">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`}</tbody></table></div>
+        <div class="table-wrap enhanced-table-wrap intention-report-wrap"><table class="enhanced-table intention-report-table"><thead><tr>
+          <th>Sequence</th>
+          <th>${tr('studentId')}</th>
+          <th>${state.lang==='th'?'ชื่อ-นามสกุลนักเรียน':'Student Name'}</th>
+          <th>${tr('className')}</th>
+          <th>${state.lang==='th'?'สถานะ':'Status'}</th>
+          <th>${state.lang==='th'?'ความประสงค์':'Intention'}</th>
+          <th>${state.lang==='th'?'แผนการเรียน':'Study Plan'}</th>
+          <th>${state.lang==='th'?'ภาษาที่สาม':'Third Language'}</th>
+          <th>${state.lang==='th'?'โรงเรียนที่นักเรียนจะไปศึกษาต่อ':'Next School'}</th>
+          <th>${state.lang==='th'?'สาเหตุสำคัญที่ตัดสินใจลาออก':'Main Reason for Withdrawal'}</th>
+          <th>${state.lang==='th'?'ประวัติการแก้ไข':'Edit History'}</th>
+          <th>${state.lang==='th'?'วันที่ชำระค่าเทอมครบ':'Tuition Paid Date'}</th>
+          <th>${state.lang==='th'?'เลขที่ใบเสร็จค่าเทอม':'Tuition Receipt No.'}</th>
+          <th>${state.lang==='th'?'ได้รับส่วนลด Summer 1,500 บาท':'Summer Discount 1,500 THB Eligible'}</th>
+          <th>${state.lang==='th'?'ใช้ส่วนลด Summer 1,500 บาท แล้ว':'Summer Discount 1,500 THB Used'}</th>
+          <th>${state.lang==='th'?'วันที่ชำระค่า Summer':'Summer Payment Date'}</th>
+        </tr></thead><tbody>${intentionRows||`<tr><td colspan="16" class="text-center py-6">${state.lang==='th'?'ไม่พบข้อมูล':'No data'}</td></tr>`}</tbody></table></div>
       </div>`;
   } catch(error) {
     holder.innerHTML=`<div class="card p-8 text-center"><i class="fa-solid fa-triangle-exclamation text-4xl text-rose-500"></i><h3 class="mt-3 font-extrabold text-xl">${state.lang==='th'?'ไม่สามารถเรียกรายงานได้':'Unable to load report'}</h3><p class="text-slate-500 mt-2">${escapeHtml(error.message)}</p></div>`;
@@ -3200,7 +3379,7 @@ async function studentDialog(index) {
       const el=document.getElementById('stClass');
       el?.addEventListener('change',()=>syncStudentClassFields(el.value));
     },
-    preConfirm:()=>{
+    preConfirm:async()=>{
       const requiredIds=[
         ['stId',state.lang==='th'?'รหัสนักเรียน':'Student ID'],
         ['stBirthDate',tr('birthDate')],
