@@ -362,12 +362,7 @@
             </div>
             <div class="rounded-2xl border border-blue-100 bg-blue-50/50 p-4 sm:p-6">
               <div id="noticeText" class="notice-html text-slate-700"></div>
-              <div class="mt-5 rounded-2xl border-2 border-amber-300 bg-amber-50 px-4 py-4 text-amber-950">
-                <div class="flex items-start gap-3">
-                  <i class="fa-solid fa-folder-open text-xl text-amber-700 mt-0.5"></i>
-                  <p class="font-semibold leading-relaxed" data-i18n="documentPreparationNotice">กรณีผู้ปกครองประสงค์ให้นักเรียนศึกษาต่อที่โรงเรียนสารสาสน์เอกตรา กรุณาจัดเตรียมไฟล์เอกสารตามรายการด้านล่าง เพื่อแนบไฟล์ในระบบ จึงจะสามารถส่งแบบฟอร์มแจ้งความจำนงได้</p>
-                </div>
-              </div>
+              <div id="requiredDocumentsCardStep1" class="mt-5"></div>
               <div class="mt-5 flex flex-wrap items-center gap-2 text-base sm:text-lg font-extrabold text-rose-800 bg-rose-50 border-2 border-rose-200 rounded-xl px-4 py-3">
                 <i class="fa-regular fa-calendar-days text-xl"></i>
                 <span data-i18n="deadlineLabel">กำหนดส่ง:</span>
@@ -572,11 +567,11 @@
               <div>
                 <p class="text-sm font-bold text-brand-gold" data-i18n="page5">หน้าที่ 5</p>
                 <h3 class="text-xl sm:text-2xl font-extrabold text-brand-navy" data-i18n="uploadEvidence">แนบหลักฐานสำหรับการมอบตัวนักเรียน</h3>
-                <div class="upload-warning-card mt-3">
-                  <div class="upload-warning-line"><i class="fa-solid fa-circle-exclamation upload-warning-icon"></i><div data-i18n="uploadHelp">รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB</div></div>
-                  <div class="upload-warning-line"><i class="fa-solid fa-paperclip upload-warning-icon"></i><div data-i18n-html="uploadHelpMultiPage">หลักฐานแต่ละประเภทสามารถแนบได้มากกว่า 1 ไฟล์ โดยหากต้องการเลือกหลายไฟล์พร้อมกันจากเครื่องคอมพิวเตอร์ ให้กดปุ่ม <strong>Ctrl</strong> บนแป้นพิมพ์ค้างไว้ แล้วคลิกเลือกทุกไฟล์ที่ต้องการแนบ</div></div>
-                </div>
               </div>
+            </div>
+            <div class="upload-warning-card mt-3 mb-5">
+              <div class="upload-warning-line"><i class="fa-solid fa-circle-exclamation upload-warning-icon"></i><div data-i18n="uploadHelp">รองรับ PDF, JPG, PNG ขนาดไม่เกิน 5 MB ต่อไฟล์ และรวมทั้งหมดไม่เกิน 15 MB</div></div>
+              <div class="upload-warning-line"><i class="fa-solid fa-paperclip upload-warning-icon"></i><div data-i18n-html="uploadHelpMultiPage">หลักฐานแต่ละประเภทสามารถแนบได้มากกว่า 1 ไฟล์ โดยหากต้องการเลือกหลายไฟล์พร้อมกันจากเครื่องคอมพิวเตอร์ ให้กดปุ่ม <strong>Ctrl</strong> บนแป้นพิมพ์ค้างไว้ แล้วคลิกเลือกทุกไฟล์ที่ต้องการแนบ</div></div>
             </div>
             <div id="uploadSkip" class="hidden rounded-2xl bg-slate-50 border p-6 text-center text-slate-600">
               <i class="fa-solid fa-circle-check text-3xl text-slate-400"></i>
@@ -731,10 +726,10 @@ const I18N = {
         selectForm: 'Select a Form by Level', selectFormHelp: 'Choose one form to begin', resumeTitle: 'Resume a Saved Draft', resumeHelp: 'Enter the same student ID and parent email used to save the draft', resumeButton: 'Resume Draft',
         studentId: 'Student ID', parentEmail: 'Parent Email', backHome: 'Back to Home', selectedForm: 'Selected Form',
         page1: 'Page 1', importantInfo: 'Important Information', documentPreparationNotice: "Parents wishing to continue their child's education at Sarasas Ektra School are required to prepare and upload the digital copies of the documents listed below in order to successfully submit the Intention to Continue Education Form.", deadlineLabel: 'Deadline:', deadlineWarningTitle: 'Please submit the form by the deadline.', deadlineWarningText: ' If the form is not submitted by the specified date, the School will proceed in accordance with the policy stated in the document entitled Regulations for Continuing Enrollment, Section 6: Important Note, as shown below.', studentDocsTitle: 'Student Documents', studentDoc1: 'Birth certificate, national ID card, or current passport', studentDoc2: 'Name-change document, if applicable', parentDocsTitle: 'Father, Mother, or Guardian Documents', parentDoc1: 'National ID card or current passport', parentDoc2: 'Name-change document, if applicable',
-        page2: 'Page 2', parentInfo: 'Declarant Information', parentInfoHelp: 'The declarant must be the student’s father, mother, or legal guardian with full signing authority.', parentPrefix: 'Title', otherPrefix: 'Specify title', choose: '-- Select --', parentName: 'Declarant’s Full Name', parentId: 'National ID / Passport Number', identityHelp: 'Used for identity verification only', phone: 'Phone Number', emailDuplicateHelp: 'This email is used for contact and to reopen saved drafts. The same parent email may be used for more than one child.', relationship: 'Relationship to Student', father: 'Father', mother: 'Mother', guardian: 'Other Guardian', relationshipOther: 'Relationship to Student', guardianDefinition: '"Parent/Guardian" shall mean the individual who is fully responsible for the student in all respects and who agrees to accept and comply with all conditions and regulations of Sarasas Ektra School, as specified in the attached documents, with effect from the date of enrolment.',
+        page2: 'Page 2', parentInfo: 'Declarant Information', parentInfoHelp: 'The declarant must be the student’s father, mother, or legal guardian with full signing authority.', parentPrefix: 'Title', otherPrefix: 'Specify title', choose: '-- Select --', parentName: 'Declarant’s Full Name', parentId: 'National ID / Passport Number', identityHelp: 'Used for identity verification only', phone: 'Phone Number', emailDuplicateHelp: 'This email is used for contact and to reopen saved drafts. The same parent email may be used for more than one child.', relationship: 'Relationship to Student', father: 'Father', mother: 'Mother', guardian: 'Other Guardian', relationshipOther: 'Relationship to Student', guardianDefinition: '"Parent/Guardian" shall mean the individual who is fully responsible for the student in all respects and who agrees to accept and comply with all conditions and regulations of Sarasas Ektra School, as specified in the attached documents, with effect from the date of enrollment.',
         page3: 'Page 3', studentInfo: 'Student Information', studentLookupHelp: 'Enter the student ID and date of birth to verify the student against the school database', studentIdHelp: 'This is not the classroom roll number', birthDate: 'Student Date of Birth', birthDateHelp: '<ul class="list-disc pl-5 space-y-1.5"><li>This information is used to verify the student\'s identity before displaying student details.</li><li>Please select the student\'s date of birth using the calendar button.</li><li>On some mobile devices, the calendar may display the Buddhist Era according to the device language/region settings. The system will normalize the selected date automatically for student lookup.</li></ul>', birthDateVerified: 'Verified against the school database', verifyStudent: 'Verify Student', studentVerified: 'Student verified', studentResultWaiting: 'Student details will appear after the ID and date of birth are verified', thaiFullName: 'Thai Full Name', englishFullName: 'English Full Name', currentClass: 'Current Class', homeroom: 'Homeroom Teacher',
         page4: 'Page 4', tuitionInformation: 'Tuition Fee Information', currentTuition: 'Current Tuition Fee', continueFeeCase: 'If the student continues studying', returnFeeCase: 'If the student withdraws and later wishes to return', feeItem: 'Item', feeLevel: 'Level', tuitionPerSemester: 'Tuition per semester (THB)', feeNote: 'Note', feeDataMissing: 'Complete tuition fee information is not available for this student. Please contact the Administration Office.', selectIntentionAfterFee: 'Please review the tuition information before selecting an intention', selectIntentionAfterFeeHelp: 'After confirming the information, select Continue or Withdraw below.', continueHelp: 'The student will continue at Sarasas Ektra School', withdrawHelp: 'Confirm withdrawal after completing the current level', thirdLanguageM1: 'Third-Language Selection for Years 7–9', thirdLanguageM1Help: 'Students may choose a third language based on their interests and continue studying it through Year 9', chinese: 'Chinese', japanese: 'Japanese', english: 'English', ackLanguageM1: 'I acknowledge that the selected language must be studied continuously through Year 9 without change.', studyPlanTitle: 'Study Plan Selection for Years 10–12', gacEligibilityHelp: 'For students who have applied for and passed the entrance examination for the GAC Program only.', thirdLanguage: 'Third Language', ackLanguageM4: 'I acknowledge that the selected language must be studied continuously through Year 12 without change.', nextSchool: 'Next School', statisticsOnly: 'Used only for school statistical records', withdrawalReason: 'Main Reason for Withdrawal',
-        page5: 'Page 5', uploadEvidence: 'Upload Enrolment Documents', uploadHelp: 'Supported file formats: PDF, JPG, and PNG. Each file must not exceed 5 MB, and the total size of all uploaded files must not exceed 15 MB.', uploadHelpMultiPage: 'You may attach more than one file for each type of supporting document. To select multiple files at the same time on a computer, hold down the <strong>Ctrl</strong> key on your keyboard and click each file you wish to upload.', withdrawNoUpload: 'No enrolment documents are required for withdrawal', studentDocuments: 'Student Documents', studentFileHelp: 'Birth certificate / ID card / Passport, and name-change certificate (if applicable).', fatherDocuments: 'Father’s Documents', fatherFileHelp: '<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', motherDocuments: 'Mother’s Documents', motherFileHelp: '<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', missingEvidenceHelp: 'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments: 'Other Guardian’s Documents', guardianFileHelp: '<ul class="list-disc pl-5 space-y-1"><li>Required when the declarant is an Other Guardian</li><li>ID card / Passport, and name-change certificate (if applicable).</li></ul>',
+        page5: 'Page 5', uploadEvidence: 'Upload Enrollment Documents', uploadHelp: 'Supported file formats: PDF, JPG, and PNG. Each file must not exceed 5 MB, and the total size of all uploaded files must not exceed 15 MB.', uploadHelpMultiPage: 'You may attach more than one file for each type of supporting document. To select multiple files at the same time on a computer, hold down the <strong>Ctrl</strong> key on your keyboard and click each file you wish to upload.', withdrawNoUpload: 'No enrollment documents are required for withdrawal', studentDocuments: 'Student Documents', studentFileHelp: 'Birth certificate / ID card / Passport, and name-change certificate (if applicable).', fatherDocuments: 'Father’s Documents', fatherFileHelp: '<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', motherDocuments: 'Mother’s Documents', motherFileHelp: '<ul class="list-disc pl-5 space-y-1"><li>ID card / Passport, and name-change certificate (if applicable).</li><li>If no evidence is available, attach a note stating “No evidence” with an explanation.</li></ul>', missingEvidenceHelp: 'When unavailable, upload a note stating “No evidence” and briefly explain why', guardianDocuments: 'Other Guardian’s Documents', guardianFileHelp: '<ul class="list-disc pl-5 space-y-1"><li>Required when the declarant is an Other Guardian</li><li>ID card / Passport, and name-change certificate (if applicable).</li></ul>',
         page6: 'Page 6', practiceTitle: 'Rules and Regulations', practiceHelp: 'Please read the attached Sarasas Ektra School rules and regulations carefully.', practiceAck: 'I have read and well understood the terms and conditions in document',
         page7: 'Page 7', paymentTitle: 'Tuition Payment Channels', continuePaymentExplanation: 'The tuition fee for Academic Year 2027 must be paid in full by Friday, 19 February 2027, OR before the collection of any educational documents or student status certificates, whether originals or copies.', withdrawPaymentExplanation: 'Students who have submitted a notice of withdrawal may collect academic documents and student certificates, including both original documents and copies, only after all types of fees through Semester 2/2026 have been fully paid.', paymentPending: 'Please check the school announcement or contact the Administration Office for payment channels.',
         page8: 'Page 8', reviewTitle: 'Review and Confirm', finalWarning: 'After clicking “Submit Form,” the information cannot be edited and the form cannot be submitted again. Please verify everything carefully.', previous: 'Previous', saveDraft: 'Save Draft', next: 'Next', submitForm: 'Submit Form',
@@ -1152,6 +1147,7 @@ function renderFormMetadata() {
     const paymentItems = toImageItems(setting('PAYMENT_IMAGE_URL'), state.lang === 'th' ? 'ช่องทางการชำระค่าธรรมเนียม' : 'Payment channel');
     renderImageGallery('paymentGallery', paymentItems, 'stack');
     document.getElementById('paymentEmpty').classList.toggle('hidden', paymentItems.length > 0);
+    renderRequiredDocumentsCards();
     renderExampleImages();
 }
 function renderRequiredDocumentsCards() {
@@ -1163,35 +1159,64 @@ function renderRequiredDocumentsCards() {
             'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)'
         ],
         parentTitle: 'เอกสารของบิดาและมารดา หรือ',
-        guardianTitle: 'เอกสารของผู้ปกครอง',
-        parentNote: 'กรณีผู้ปกครองไม่ใช่บิดา/มารดา',
+        guardianTitle: 'เอกสารของผู้ปกครอง (กรณีผู้ปกครองไม่ใช่บิดา/มารดา)',
         parentItems: [
             'สำเนาบัตรประจำตัวประชาชน หรือ Passport เล่มปัจจุบัน (เฉพาะชาวต่างชาติ)',
             'สำเนาใบเปลี่ยนชื่อ-นามสกุล (ถ้ามี)'
+        ],
+        noteTitle: 'หมายเหตุ',
+        noteItems: [
+            'เอกสารทุกฉบับ ต้องลงลายมือชื่อรับรองสำเนาถูกต้อง',
+            'เอกสารทุกฉบับ ให้ขีดคร่อมและระบุข้อความ “สำหรับมอบตัวนักเรียนปีการศึกษา 2570 เท่านั้น”'
         ]
     };
     const en = {
         intro: "Parents wishing to continue their child's education at Sarasas Ektra School are required to prepare and upload the digital copies of the documents listed below in order to successfully submit the Intention to Continue Education Form.",
-        studentTitle: 'Student documents',
+        studentTitle: 'Student Documents',
         studentItems: [
-            'Copy of the current birth certificate, national identification card, or current passport for a foreign national',
-            'Copy of the name or surname change certificate, if applicable'
+            'Copy of the student’s birth certificate or national ID card, or a copy of the current passport (for foreign students only)',
+            'Copy of name/surname change certificate, if applicable'
         ],
-        parentTitle: "Father's and Mother's documents (Both Required) or",
-        guardianTitle: "Legal Guardian's documents",
-        parentNote: "If the student's legal guardian is not the father or mother, please upload the legal guardian's documents.",
+        parentTitle: 'Documents of the Father and Mother',
+        guardianTitle: 'or Documents of the Guardian (if the guardian is not the student’s father or mother)',
         parentItems: [
-            'Copy of the current national identification card, or current passport for a foreign national',
-            'Copy of the name or surname change certificate, if applicable'
+            'Copy of national ID card or current passport (for foreigners only)',
+            'Copy of name/surname change certificate, if applicable'
+        ],
+        noteTitle: 'Note',
+        noteItems: [
+            'All copies must be signed and certified as true copies.',
+            'All documents must be crossed out and marked with the following statement: “For student enrollment for Academic Year 2027 (B.E. 2570) only.”'
         ]
     };
     const content = state.lang === 'th' ? th : en;
-    const list = items => items.map(item => "\n    <li class=\"flex items-start gap-2\">\n      <i class=\"fa-solid fa-circle-check text-emerald-600 mt-1 shrink-0\"></i>\n      <span>" + escapeHtml(item) + "</span>\n    </li>\n  ").join('');
-    const html = "\n    <section class=\"rounded-2xl overflow-hidden border border-amber-200 bg-white shadow-sm\">\n      <div class=\"bg-gradient-to-r from-amber-50 to-yellow-50 px-4 sm:px-5 py-4 border-b border-amber-200\">\n        <div class=\"flex items-start gap-3\">\n          <div class=\"w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0\">\n            <i class=\"fa-solid fa-folder-open\"></i>\n          </div>\n          <p class=\"font-bold leading-relaxed text-slate-700\">" + escapeHtml(content.intro) + "</p>\n        </div>\n      </div>\n\n      <div class=\"grid lg:grid-cols-2 gap-4 p-4 sm:p-5\">\n        <article class=\"rounded-xl border border-blue-100 bg-blue-50/60 p-4\">\n          <h4 class=\"font-extrabold text-brand-navy flex items-center gap-2\">\n            <i class=\"fa-solid fa-user-graduate\"></i>\n            " + escapeHtml(content.studentTitle) + "\n          </h4>\n          <ul class=\"mt-3 space-y-2 text-sm leading-relaxed text-slate-700\">\n            " + list(content.studentItems) + "\n          </ul>\n        </article>\n\n        <article class=\"rounded-xl border border-emerald-100 bg-emerald-50/60 p-4\">\n          <div class=\"flex items-start gap-2 text-emerald-800\">\n            <i class=\"fa-solid fa-people-roof mt-1\"></i>\n            <div>\n              <h4 class=\"font-extrabold\">" + escapeHtml(content.parentTitle) + "</h4>\n              <p class=\"mt-1 font-extrabold\">\n                " + escapeHtml(content.guardianTitle) + "\n                <span class=\"font-semibold text-sm\">\n                  (" + escapeHtml(content.parentNote) + ")\n                </span>\n              </p>\n            </div>\n          </div>\n          <ul class=\"mt-3 space-y-2 text-sm leading-relaxed text-slate-700\">\n            " + list(content.parentItems) + "\n          </ul>\n        </article>\n      </div>\n    </section>\n  ";
-    ['requiredDocumentsCardStep1', 'requiredDocumentsCardStep5'].forEach(id => {
+    const list = (items, iconClass) => items.map(function(item) {
+        return '<li class="flex items-start gap-2"><i class="' + iconClass + ' mt-1 shrink-0"></i><span>' + escapeHtml(item) + '</span></li>';
+    }).join('');
+    const html = '<section class="rounded-2xl border-2 border-amber-300 bg-amber-50 px-4 sm:px-5 py-5 text-amber-950 shadow-sm">' +
+      '<div class="flex items-start gap-3">' +
+        '<div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center shrink-0"><i class="fa-solid fa-folder-open"></i></div>' +
+        '<p class="font-semibold leading-relaxed text-slate-800">' + escapeHtml(content.intro) + '</p>' +
+      '</div>' +
+      '<div class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">' +
+        '<article class="rounded-xl border border-amber-200 bg-white/80 p-4">' +
+          '<h4 class="font-extrabold text-brand-navy">' + escapeHtml(content.studentTitle) + '</h4>' +
+          '<ul class="mt-3 space-y-2 text-sm sm:text-base leading-relaxed text-slate-700">' + list(content.studentItems, 'fa-solid fa-square-check text-emerald-600') + '</ul>' +
+        '</article>' +
+        '<article class="rounded-xl border border-amber-200 bg-white/80 p-4">' +
+          '<h4 class="font-extrabold text-brand-navy">' + escapeHtml(content.parentTitle) + '</h4>' +
+          '<h4 class="font-extrabold text-brand-navy mt-1">' + escapeHtml(content.guardianTitle) + '</h4>' +
+          '<ul class="mt-3 space-y-2 text-sm sm:text-base leading-relaxed text-slate-700">' + list(content.parentItems, 'fa-solid fa-square-check text-emerald-600') + '</ul>' +
+        '</article>' +
+        '<article class="md:col-span-2 rounded-xl border border-rose-200 bg-rose-50/80 p-4">' +
+          '<h4 class="font-extrabold text-rose-800"><i class="fa-solid fa-triangle-exclamation mr-2"></i>' + escapeHtml(content.noteTitle) + '</h4>' +
+          '<ul class="mt-3 space-y-2 text-sm sm:text-base leading-relaxed text-slate-700">' + list(content.noteItems, 'fa-solid fa-circle-exclamation text-rose-600') + '</ul>' +
+        '</article>' +
+      '</div>' +
+    '</section>';
+    ['requiredDocumentsCardStep1', 'requiredDocumentsCardStep5'].forEach(function(id) {
         const container = document.getElementById(id);
-        if (container)
-            container.innerHTML = html;
+        if (container) container.innerHTML = html;
     });
 }
 function highResImageUrl(rawUrl) {
@@ -1265,10 +1290,11 @@ function renderPracticeDocument() {
 }
 function renderExampleImages() {
     const data = [
-        { url: highResImageUrl(setting('EXAMPLE_STUDENT_DOC_URL')), label: state.lang === 'th' ? 'ตัวอย่างบัตรประชาชน' : 'ID Card Example' },
+        { url: highResImageUrl(setting('EXAMPLE_BIRTH_CERT_URL')), label: state.lang === 'th' ? 'ตัวอย่างสำเนาสูติบัตร' : 'Birth Certificate Example' },
+        { url: highResImageUrl(setting('EXAMPLE_STUDENT_DOC_URL')), label: state.lang === 'th' ? 'ตัวอย่างสำเนาบัตรประจำตัวประชาชน' : 'National ID Card Example' },
         { url: highResImageUrl(setting('EXAMPLE_PASSPORT_URL')), label: state.lang === 'th' ? 'ตัวอย่าง Passport' : 'Passport Example' },
-        { url: highResImageUrl(setting('EXAMPLE_NAME_CHANGE_URL')), label: state.lang === 'th' ? 'ตัวอย่างใบเปลี่ยนชื่อ' : 'Name-change Document Example' }
-    ].filter(item => item.url);
+        { url: highResImageUrl(setting('EXAMPLE_NAME_CHANGE_URL')), label: state.lang === 'th' ? 'ตัวอย่างสำเนาใบเปลี่ยนชื่อ-นามสกุล' : 'Name/Surname Change Certificate Example' }
+    ].filter(function(item) { return item.url; });
     renderImageGallery('exampleImages', data, 'row');
 }
 function openImageViewer(items, startIndex = 0) {
@@ -1400,8 +1426,8 @@ async function nextStep() {
             setTimeout(scrollFormToTop_, 260);
             return;
         }
-        // Withdrawal does not require enrolment documents or the continuing-
-        // enrolment rules acknowledgement. Skip Pages 5 and 6 completely.
+        // Withdrawal does not require enrollment documents or the continuing-
+        // enrollment rules acknowledgement. Skip Pages 5 and 6 completely.
         if (state.currentStep === 4 && radioValue('intention') === 'WITHDRAW')
             return showStep(7);
         showStep(state.currentStep + 1);
@@ -2061,7 +2087,7 @@ async function submitFinal() {
 function reviewAttachmentsHtml() {
     const intention = radioValue('intention');
     if (intention !== 'CONTINUE') {
-        return "<section class=\"rounded-2xl border-2 border-slate-200 bg-slate-50 p-4 sm:p-5\">\n      <div class=\"flex items-center gap-2 font-extrabold text-brand-navy text-lg\"><i class=\"fa-solid fa-paperclip\"></i>" + (state.lang === 'th' ? 'เอกสารแนบ' : 'Attachments') + "</div>\n      <div class=\"mt-3 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600\">" + (state.lang === 'th' ? 'กรณีลาออก ไม่ต้องแนบเอกสารสำหรับการมอบตัว' : 'No enrolment documents are required for withdrawal.') + "</div>\n    </section>";
+        return "<section class=\"rounded-2xl border-2 border-slate-200 bg-slate-50 p-4 sm:p-5\">\n      <div class=\"flex items-center gap-2 font-extrabold text-brand-navy text-lg\"><i class=\"fa-solid fa-paperclip\"></i>" + (state.lang === 'th' ? 'เอกสารแนบ' : 'Attachments') + "</div>\n      <div class=\"mt-3 rounded-xl border border-slate-200 bg-white p-4 text-sm text-slate-600\">" + (state.lang === 'th' ? 'กรณีลาออก ไม่ต้องแนบเอกสารสำหรับการมอบตัว' : 'No enrollment documents are required for withdrawal.') + "</div>\n    </section>";
     }
     const groups = [
         ['studentFiles', state.lang === 'th' ? 'เอกสารของนักเรียน' : 'Student Documents'],
